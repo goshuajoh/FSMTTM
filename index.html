@@ -1,0 +1,1640 @@
+<title>Process Schematic Workbench</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+<style>
+/* Layout: an engineering drawing set. Sheet index rail on the left, one drawing sheet at a time with a title block; the rail becomes a tab strip on phones. */
+:root{
+  --paper:#EDF1EE; --sheet:#FAFCFA; --sheet-2:#F2F6F3; --ink:#15202A; --ink-2:#4A5865; --ink-3:#6F7D87;
+  --rule:#C8D2CC; --rule-2:#DEE5E0; --grid:rgba(30,95,75,.065);
+  --accent:#0B6E69; --accent-ink:#FFFFFF; --accent-soft:rgba(11,110,105,.10);
+  --hot:#C2410C; --hot-soft:rgba(194,65,12,.09); --ok:#2E7D32; --warn:#9A6206;
+  --ch-manual:#B45309; --ch-system:#0E7490; --ch-decision:#A21CAF; --ch-wait:#64748B; --ch-handoff:#1D4ED8;
+  --f-display:"Barlow Condensed","Arial Narrow","Roboto Condensed",Arial,sans-serif;
+  --f-body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --s-1:4px; --s-2:8px; --s-3:12px; --s-4:16px; --s-5:24px; --s-6:32px; --s-7:48px; --r:3px;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --paper:#0C1214; --sheet:#131B1E; --sheet-2:#182326; --ink:#E1E9E5; --ink-2:#A2B0AB; --ink-3:#7D8C87;
+  --rule:#2D3B3E; --rule-2:#223034; --grid:rgba(120,210,180,.045);
+  --accent:#4CC9BE; --accent-ink:#06201E; --accent-soft:rgba(76,201,190,.13);
+  --hot:#FB8B4B; --hot-soft:rgba(251,139,75,.13); --ok:#6CC070; --warn:#E3B341;
+  --ch-manual:#F5B33F; --ch-system:#38C6E0; --ch-decision:#E07BEA; --ch-wait:#9AA9B8; --ch-handoff:#6FA3F7;
+  color-scheme:dark }}
+:root[data-theme="dark"]{
+  --paper:#0C1214; --sheet:#131B1E; --sheet-2:#182326; --ink:#E1E9E5; --ink-2:#A2B0AB; --ink-3:#7D8C87;
+  --rule:#2D3B3E; --rule-2:#223034; --grid:rgba(120,210,180,.045);
+  --accent:#4CC9BE; --accent-ink:#06201E; --accent-soft:rgba(76,201,190,.13);
+  --hot:#FB8B4B; --hot-soft:rgba(251,139,75,.13); --ok:#6CC070; --warn:#E3B341;
+  --ch-manual:#F5B33F; --ch-system:#38C6E0; --ch-decision:#E07BEA; --ch-wait:#9AA9B8; --ch-handoff:#6FA3F7;
+  color-scheme:dark }
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{background-color:var(--paper);background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:24px 24px;color:var(--ink);font:14px/1.55 var(--f-body)}
+.app{display:grid;grid-template-columns:216px minmax(0,1fr);gap:var(--s-5);max-width:1480px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:var(--s-4) var(--s-7)}
+.rail{position:sticky;top:calc(env(safe-area-inset-top,0px) + 16px);align-self:start;display:flex;flex-direction:column;gap:var(--s-3)}
+.brand{border:1px solid var(--ink);background:var(--sheet);padding:10px 12px}
+.b-name{font:700 23px/1 var(--f-display);letter-spacing:.03em;text-transform:uppercase}
+.b-sub{font:11px/1.4 var(--f-mono);color:var(--ink-2);margin-top:6px}
+.nav{display:flex;flex-direction:column;border:1px solid var(--rule);background:var(--sheet)}
+.nav a{display:grid;grid-template-columns:24px minmax(0,1fr) auto;align-items:center;gap:8px;padding:7px 10px;color:var(--ink);text-decoration:none;border-bottom:1px solid var(--rule-2);font-size:13px}
+.nav a:last-child{border-bottom:0}
+.nav a:hover{background:var(--sheet-2)}
+.nav .no{font:500 11px var(--f-mono);color:var(--ink-3)}
+.nav a[aria-current="page"]{background:var(--ink);color:var(--sheet)}
+.nav a[aria-current="page"] .no{color:var(--sheet)}
+.nav .st{display:flex;align-items:center;gap:6px}
+.meter{width:30px;height:4px;background:var(--rule-2);position:relative;overflow:hidden}
+.meter i{position:absolute;inset:0 auto 0 0;background:var(--accent)}
+.nav .badge{font:600 10px var(--f-mono);color:var(--hot);min-width:2ch;text-align:right}
+.nav a[aria-current="page"] .badge{color:var(--sheet)}
+.rail-note{font:11px/1.5 var(--f-mono);color:var(--ink-2);margin:0;padding:0 2px}
+.main{min-width:0;display:flex;flex-direction:column;gap:var(--s-4)}
+.topbar{display:flex;flex-wrap:wrap;gap:var(--s-3);align-items:flex-end;justify-content:space-between;border:1px solid var(--rule);background:var(--sheet);padding:10px 12px}
+.topbar .proj{display:flex;flex-wrap:wrap;gap:var(--s-3);flex:1 1 440px;min-width:0}
+.proj .f-name{flex:3 1 240px}.proj .f-team{flex:2 1 180px}.proj .f-rev{flex:0 1 72px}
+.actions{display:flex;flex-wrap:wrap;gap:6px}
+.panel{flex:1 1 100%;border-top:1px solid var(--rule);padding-top:12px;display:flex;flex-direction:column;gap:8px}
+.io-row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.flag{font:12px/1.4 var(--f-mono);color:var(--warn);border:1px dashed var(--warn);padding:6px 10px;background:var(--sheet)}
+.sheet{border:1px solid var(--ink);background:var(--sheet);min-width:0}
+.sheet-head{display:grid;grid-template-columns:minmax(0,1fr) auto;border-bottom:1px solid var(--ink)}
+.sheet-title{padding:14px 16px;min-width:0}
+.sheet-title h2{font:600 32px/1.02 var(--f-display);letter-spacing:.015em;text-transform:uppercase;margin:0;text-wrap:balance}
+.sheet-title p{margin:6px 0 0;color:var(--ink-2);max-width:70ch}
+.tblock{display:grid;grid-template-columns:repeat(2,minmax(84px,auto));border-left:1px solid var(--ink);font:12px/1.25 var(--f-mono);font-variant-numeric:tabular-nums}
+.tblock>div{padding:6px 10px;border-bottom:1px solid var(--rule);border-left:1px solid var(--rule);min-width:0}
+.tblock>div:nth-child(odd){border-left:0}
+.tblock>div:nth-last-child(-n+2){border-bottom:0}
+.tblock span{display:block;color:var(--ink-3);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase}
+.tblock b{font-weight:500}
+.sheet-body{padding:16px;display:flex;flex-direction:column;gap:var(--s-5)}
+.block{display:flex;flex-direction:column;gap:var(--s-2);min-width:0}
+h3{font:600 15px/1.3 var(--f-body);margin:0;display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px}
+h3 .tag{font:500 10.5px var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3)}
+.hint{color:var(--ink-2);font-size:13px;max-width:78ch;margin:0}
+.note{display:grid;grid-template-columns:auto minmax(0,1fr);gap:6px 14px;font-size:13px;color:var(--ink-2);padding:10px 12px;background:var(--sheet-2);border:1px dashed var(--rule)}
+.note b{font:600 10.5px/1.9 var(--f-mono);letter-spacing:.1em;color:var(--ink);text-transform:uppercase}
+.note span{max-width:86ch}
+.fields{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:var(--s-3) var(--s-4)}
+.field{display:flex;flex-direction:column;gap:4px;min-width:0}
+.field.wide{grid-column:1/-1}
+.field label,.lbl{font:500 10.5px var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2)}
+.field small{color:var(--ink-3);font-size:12px}
+input,select,textarea{font:inherit;font-size:13.5px;color:var(--ink);background:var(--sheet-2);border:1px solid var(--rule);border-radius:var(--r);padding:6px 8px;min-width:0;width:100%}
+textarea{min-height:60px;resize:vertical;line-height:1.5}
+input::placeholder,textarea::placeholder{color:var(--ink-3)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.tbl-wrap{position:relative;overflow-x:auto;border:1px solid var(--rule);background:var(--sheet)}
+table{border-collapse:collapse;width:100%;font-size:13px}
+th{font:500 10.5px var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2);text-align:left;padding:6px 8px;background:var(--sheet-2);border-bottom:1px solid var(--rule);white-space:nowrap}
+tr.grp th{color:var(--ink);text-align:center;border-bottom:1px solid var(--rule-2);border-left:1px solid var(--rule)}
+tr.grp th:first-child{border-left:0}
+td{border-bottom:1px solid var(--rule-2);padding:0;vertical-align:middle}
+tbody tr:last-child td{border-bottom:0}
+table.ed input,table.ed select{border:0;border-radius:0;background:transparent;padding:7px 8px;width:100%;font-size:13px}
+table.ed input[type=number]{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+table.ed input:focus,table.ed select:focus{background:var(--accent-soft);outline:none;box-shadow:inset 0 0 0 1.5px var(--accent)}
+table.ed td.key input{font-family:var(--f-mono);font-weight:500}
+td.act{white-space:nowrap;padding:0 4px;text-align:right}
+table.ro td{padding:7px 8px;vertical-align:top}
+.num{font-family:var(--f-mono);font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
+.mono{font-family:var(--f-mono)}
+.muted{color:var(--ink-3)}
+.ib{font:14px/1 var(--f-mono);width:26px;height:26px;border:1px solid transparent;background:transparent;color:var(--ink-2);cursor:pointer;border-radius:var(--r)}
+.ib:hover{border-color:var(--rule);color:var(--ink)}
+.ib.del:hover{color:var(--hot);border-color:var(--hot)}
+.btn{font:500 13px/1.3 var(--f-body);padding:6px 12px;border:1px solid var(--ink);background:var(--sheet);color:var(--ink);border-radius:var(--r);cursor:pointer;white-space:nowrap;display:inline-flex;align-items:center;gap:6px}
+.btn:hover{background:var(--sheet-2)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.btn.primary:hover{filter:brightness(1.08)}
+.btn.sm{font-size:12px;padding:4px 10px}
+.btn.armed{border-color:var(--hot);color:var(--hot);background:var(--hot-soft)}
+.btn-row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.pill{display:inline-flex;align-items:center;font:600 10.5px/1 var(--f-mono);letter-spacing:.04em;padding:4px 6px;border-radius:2px;border:1px solid currentColor;white-space:nowrap}
+.pill.err,.pill.hot{color:var(--hot);background:var(--hot-soft)}
+.pill.warn{color:var(--warn)}
+.pill.ok{color:var(--ok)}
+.pill.info{color:var(--accent)}
+.pill.mute{color:var(--ink-3)}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(168px,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule)}
+.kpi{background:var(--sheet);padding:12px 14px;display:flex;flex-direction:column;gap:2px;min-width:0}
+.kpi .l{font:500 10.5px var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2)}
+.kpi .v{font:600 32px/1.05 var(--f-display);font-variant-numeric:tabular-nums}
+.kpi .v.hot{color:var(--hot)}
+.kpi .s{font-size:12px;color:var(--ink-3)}
+.fig{position:relative;border:1px solid var(--rule);background:var(--sheet);overflow-x:auto}
+.fig svg{display:block;max-width:none}
+.fig .empty{padding:28px 16px;color:var(--ink-3);font-size:13px;text-align:center}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:12px;color:var(--ink-2)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{display:inline-block;width:12px;height:12px}
+.legend i.ln{height:0;border-top:2px solid var(--ink-2)}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:var(--s-5)}
+.cols>*{min-width:0}
+.chain{display:grid;grid-template-columns:repeat(auto-fill,minmax(148px,1fr));gap:8px}
+.chain a{border:1px solid var(--rule);padding:8px 10px;text-decoration:none;color:var(--ink);display:flex;flex-direction:column;gap:3px;background:var(--sheet);min-width:0}
+.chain a:hover{border-color:var(--ink)}
+.c-no{font:500 11px var(--f-mono);color:var(--ink-3);display:flex;justify-content:space-between;gap:6px}
+.c-t{font:600 18px/1.1 var(--f-display);text-transform:uppercase;letter-spacing:.02em}
+.c-d{font-size:12px;color:var(--ink-2);line-height:1.4}
+.drc{list-style:none;margin:0;padding:0;border:1px solid var(--rule)}
+.drc li{display:grid;grid-template-columns:62px minmax(0,1fr);gap:4px 10px;padding:8px 10px;border-bottom:1px solid var(--rule-2);font-size:13px}
+.drc li:last-child{border-bottom:0}
+.drc .src{font:500 10.5px var(--f-mono);color:var(--ink-3);text-transform:uppercase;letter-spacing:.06em}
+.drc .qq{grid-column:2;color:var(--ink-2);font-style:italic}
+.drc.clean li{grid-template-columns:1fr;color:var(--ok)}
+.opp{list-style:none;margin:0;padding:0;border:1px solid var(--rule)}
+.opp li{display:grid;grid-template-columns:44px minmax(0,1fr) auto;gap:4px 10px;align-items:baseline;padding:8px 10px;border-bottom:1px solid var(--rule-2)}
+.opp li:last-child{border-bottom:0}
+.opp .k{font:600 12px var(--f-mono)}
+.qlist{list-style:none;margin:0;padding:0;border-top:1px solid var(--rule-2)}
+.q{display:grid;grid-template-columns:auto minmax(0,1fr);gap:2px 10px;padding:10px 0;border-bottom:1px solid var(--rule-2)}
+.q input[type=checkbox]{width:16px;height:16px;margin:3px 0 0;accent-color:var(--accent)}
+.q .qt{font-size:14px;line-height:1.45}
+.q.done .qt{color:var(--ink-3)}
+.q .qw{grid-column:2;font:11px/1.4 var(--f-mono);color:var(--ink-3)}
+.q .qn{grid-column:2;margin-top:4px;font-size:12.5px;padding:4px 8px}
+.seg{display:flex;flex-wrap:wrap;border:1px solid var(--ink);width:fit-content;max-width:100%}
+.seg button{font:500 12.5px var(--f-body);padding:7px 12px;background:var(--sheet);color:var(--ink);border:0;border-right:1px solid var(--rule);cursor:pointer}
+.seg button:last-child{border-right:0}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--sheet)}
+.stage-head{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule)}
+.stage-head>div{background:var(--sheet-2);padding:10px 12px;font-size:13px}
+.sw{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;padding:10px 12px;border:1px dashed var(--rule);background:var(--sheet-2)}
+.sw select{width:auto;max-width:100%;flex:1 1 220px}
+.clock{font:600 26px/1 var(--f-mono);font-variant-numeric:tabular-nums;min-width:5.5ch}
+.clock.run{color:var(--hot)}
+.sw .stats{font:12px var(--f-mono);color:var(--ink-2);flex:1 1 100%}
+.brief{border:1px solid var(--rule);padding:22px 26px;background:var(--sheet);max-width:980px}
+.brief h1{font:600 30px/1.08 var(--f-display);text-transform:uppercase;letter-spacing:.015em;margin:0 0 4px;text-wrap:balance}
+.brief .bm{font:12px var(--f-mono);color:var(--ink-3);margin:0 0 6px}
+.brief h2{font:600 11px var(--f-mono);letter-spacing:.1em;text-transform:uppercase;margin:20px 0 6px;color:var(--ink-2);border-bottom:1px solid var(--rule-2);padding-bottom:4px}
+.brief p,.brief li{max-width:74ch;margin:0 0 6px}
+.brief ul{margin:0;padding-left:18px}
+.brief table{margin-top:6px;max-width:100%}
+.brief td,.brief th{padding:5px 8px;border-bottom:1px solid var(--rule-2)}
+.say{font-size:15px;line-height:1.6;border:1px solid var(--accent);background:var(--accent-soft);padding:12px 14px;max-width:860px}
+pre.code{font:12px/1.5 var(--f-mono);background:var(--sheet-2);border:1px solid var(--rule);padding:10px 12px;overflow-x:auto;margin:0;max-height:260px}
+.vh{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.toast{position:fixed;bottom:calc(16px + env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%);background:var(--ink);color:var(--sheet);padding:8px 14px;font-size:13px;border-radius:var(--r);opacity:0;transition:opacity .2s;pointer-events:none;z-index:20;max-width:calc(100% - 32px)}
+.toast.show{opacity:1}
+svg text{font-family:var(--f-body);font-size:12px;fill:var(--ink)}
+svg .mono{font-family:var(--f-mono)}
+svg .t-mute{fill:var(--ink-2)} svg .t-faint{fill:var(--ink-3)} svg .t-hot{fill:var(--hot)} svg .t-acc{fill:var(--accent)} svg .t-warn{fill:var(--warn)}
+svg .halo{paint-order:stroke;stroke:var(--sheet);stroke-width:4px;stroke-linejoin:round}
+svg .box{fill:var(--sheet);stroke:var(--ink-2);stroke-width:1.1}
+svg .box.cp{stroke:var(--accent);stroke-width:1.8}
+svg .box.exc{stroke:var(--hot);stroke-dasharray:5 3}
+svg .box2{fill:var(--sheet-2);stroke:var(--rule)}
+svg .wire{fill:none;stroke:var(--ink-2);stroke-width:1.3}
+svg .wire.acc{stroke:var(--accent);stroke-width:2.2}
+svg .wire.hot{stroke:var(--hot);stroke-dasharray:5 4}
+svg .wire.man{stroke:var(--ch-manual);stroke-width:1.6}
+svg .wire.sys{stroke:var(--ch-system);stroke-width:1.6}
+svg .wire.thin{stroke-width:1}
+svg .wire.dash{stroke-dasharray:3 3}
+svg .grid{stroke:var(--rule-2);stroke-width:1}
+svg .axis{stroke:var(--ink-3);stroke-width:1}
+svg .lane{fill:var(--sheet-2)}
+svg .lane-line{stroke:var(--rule);stroke-width:1}
+svg .mk{fill:var(--ink-2)} svg .mk.acc{fill:var(--accent)} svg .mk.hot{fill:var(--hot)} svg .mk.man{fill:var(--ch-manual)} svg .mk.sys{fill:var(--ch-system)}
+svg .f-manual{fill:var(--ch-manual)} svg .f-system{fill:var(--ch-system)} svg .f-decision{fill:var(--ch-decision)} svg .f-wait{fill:var(--ch-wait)} svg .f-handoff{fill:var(--ch-handoff)}
+svg .s-manual{stroke:var(--ch-manual)} svg .s-system{stroke:var(--ch-system)} svg .s-decision{stroke:var(--ch-decision)} svg .s-wait{stroke:var(--ch-wait)} svg .s-handoff{stroke:var(--ch-handoff)}
+svg .f-acc{fill:var(--accent)} svg .f-hot{fill:var(--hot)} svg .f-ink{fill:var(--ink)} svg .f-ink2{fill:var(--ink-2)} svg .f-ink3{fill:var(--ink-3)} svg .f-ok{fill:var(--ok)} svg .f-warn{fill:var(--warn)} svg .f-sheet{fill:var(--sheet)}
+svg .soft-acc{fill:var(--accent-soft)} svg .soft-hot{fill:var(--hot-soft)}
+svg .pulse{fill-opacity:.16}
+svg .ring-hot{fill:none;stroke:var(--hot);stroke-width:2}
+svg .bar{fill:var(--ink-3)} svg .bar.hot{fill:var(--hot)}
+svg .line-acc{fill:none;stroke:var(--accent);stroke-width:2}
+svg .chip{fill:var(--sheet);stroke:var(--rule)}
+svg .chip.automate{stroke:var(--accent);stroke-width:1.5}
+svg .chip.assist{stroke:var(--accent);stroke-dasharray:4 2}
+svg .chip.handoff{stroke:var(--ch-handoff)}
+svg .chip.system{fill:var(--sheet-2)}
+a{color:var(--accent);text-underline-offset:2px}
+.fig-tools{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;justify-content:space-between}
+.fig.fit svg{width:100%;height:auto}
+.legend i.ln{width:18px}
+.drc a.src{text-decoration:none;margin-left:6px}
+.drc a.src:hover{text-decoration:underline}
+.chips{display:flex;flex-wrap:wrap;gap:4px}
+.chips span{font:500 11px var(--f-mono);border:1px solid var(--rule);padding:2px 6px;background:var(--sheet-2)}
+.barcell{display:flex;align-items:center;gap:8px;min-width:150px}
+.barcell i{display:block;height:8px;background:var(--accent);min-width:2px}
+table.ro th[scope=row]{text-transform:none;letter-spacing:0;font:500 12.5px var(--f-body);color:var(--ink-2);white-space:normal;min-width:16ch}
+.brief dl{display:grid;grid-template-columns:max-content minmax(0,1fr);gap:6px 16px;margin:0}
+.brief dt{font:600 10.5px/1.9 var(--f-mono);text-transform:uppercase;letter-spacing:.06em;color:var(--ink-2)}
+.brief dd{margin:0;max-width:70ch}
+.cf{position:fixed;inset:0;background:rgba(6,12,14,.55);display:flex;align-items:center;justify-content:center;z-index:30;padding:max(16px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(16px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
+.cf-in{background:var(--sheet);border:1px solid var(--ink);padding:14px;width:min(720px,100%);display:flex;flex-direction:column;gap:8px}
+.cf-in textarea{min-height:240px;font:12px/1.5 var(--f-mono)}
+@media (max-width:880px){
+  .app{grid-template-columns:minmax(0,1fr);gap:var(--s-3)}
+  .rail{position:static}
+  .nav{flex-direction:row;overflow-x:auto;scrollbar-width:thin}
+  .nav a{grid-template-columns:auto auto;border-bottom:0;border-right:1px solid var(--rule-2);white-space:nowrap}
+  .nav .st{display:none}
+  .rail-note{display:none}
+}
+@media (max-width:640px){
+  .sheet-head{grid-template-columns:minmax(0,1fr)}
+  .tblock{border-left:0;border-top:1px solid var(--ink);grid-template-columns:repeat(4,minmax(0,1fr))}
+  .tblock>div{border-bottom:0;border-left:1px solid var(--rule)}
+  .tblock>div:first-child{border-left:0}
+  .sheet-title h2{font-size:26px}
+  .sheet-body{padding:12px}
+  .note{grid-template-columns:minmax(0,1fr)}
+  .brief{padding:14px}
+  .brief dl{grid-template-columns:minmax(0,1fr)}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<div class="app">
+  <aside class="rail">
+    <div class="brand">
+      <div class="b-name">Process Schematic</div>
+      <div class="b-sub">shadow &rarr; model &rarr; analyse &rarr; propose</div>
+    </div>
+    <nav class="nav" id="nav" aria-label="Sheets"></nav>
+    <p class="rail-note">Saved in this browser only. Nothing is uploaded. Describe the process; keep client names, account and trade identifiers out.</p>
+  </aside>
+  <main class="main">
+    <div class="topbar">
+      <div class="proj">
+        <div class="field f-name"><label for="m-name">Process</label><input id="m-name" data-bind="meta.name" placeholder="e.g. Trade confirmation break management"></div>
+        <div class="field f-team"><label for="m-team">Team</label><input id="m-team" data-bind="meta.team" placeholder="e.g. IB Operations, Confirmations"></div>
+        <div class="field f-rev"><label for="m-rev">Rev</label><input id="m-rev" data-bind="meta.rev"></div>
+      </div>
+      <div class="actions">
+        <button class="btn" id="b-sample" type="button">Load sample</button>
+        <button class="btn" id="b-blank" type="button">Start blank</button>
+        <button class="btn primary" id="b-io" type="button" aria-expanded="false" aria-controls="io">Export / import</button>
+      </div>
+      <div class="panel" id="io" hidden>
+        <div class="io-row">
+          <button class="btn sm" id="b-copyjson" type="button">Copy project JSON</button>
+          <span class="hint">Paste it into a .json file to keep a version or move it to another machine.</span>
+        </div>
+        <label class="lbl" for="io-text">Import: paste project JSON</label>
+        <textarea id="io-text" rows="4" placeholder='{"meta":{"name":"..."}, "steps":[...]}'></textarea>
+        <div class="io-row">
+          <button class="btn sm" id="b-import" type="button">Import pasted JSON</button>
+          <label class="btn sm" for="io-file">Open .json file</label>
+          <input type="file" id="io-file" accept=".json,application/json" class="vh">
+          <span class="hint" id="io-msg"></span>
+        </div>
+      </div>
+    </div>
+    <div class="flag" id="sample-flag" hidden>Sample project: an illustrative confirmations process with invented figures. Replace it with what you observe, or press Start blank.</div>
+    <div id="views"></div>
+  </main>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script>
+'use strict';
+/* ============ utilities ============ */
+const $=(s,r=document)=>r.querySelector(s);
+const $$=(s,r=document)=>Array.from(r.querySelectorAll(s));
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const num=v=>{const n=parseFloat(v);return Number.isFinite(n)?n:0};
+const has=v=>v!==undefined&&v!==null&&String(v).trim()!=='';
+const tr=v=>String(v??'').trim();
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+const sum=(a,f=x=>x)=>a.reduce((t,x)=>t+f(x),0);
+const today=()=>{const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')};
+const fmtMin=m=>{m=Math.round(m);if(m<0)return '-'+fmtMin(-m);if(m<60)return m+'m';const h=Math.floor(m/60),r=m%60;return h+'h'+String(r).padStart(2,'0')};
+const fmtN=v=>Math.round(v).toLocaleString('en-US');
+const hrs=m=>(m/60).toFixed(1)+' h';
+const toMin=t=>{if(!has(t))return null;const m=String(t).trim().match(/^(\d{1,2}):?(\d{2})$/);if(!m)return null;const v=(+m[1])*60+(+m[2]);return v>=0&&v<=1440?v:null};
+const hhmm=m=>String(Math.floor(m/60)).padStart(2,'0')+':'+String(Math.round(m%60)).padStart(2,'0');
+const trunc=(s,n)=>{s=String(s??'');return s.length>n?s.slice(0,n-1)+'…':s};
+const wrap=(s,max,lines)=>{const w=String(s??'').split(/\s+/).filter(Boolean),out=[];let cur='';
+  for(const x of w){if(!cur)cur=x;else if((cur+' '+x).length<=max)cur+=' '+x;else{out.push(cur);cur=x}}
+  if(cur)out.push(cur);if(out.length>lines){const k=out.slice(0,lines);k[lines-1]=trunc(k[lines-1]+' '+out.slice(lines).join(' '),max);return k}
+  return out.map(l=>trunc(l,max+2))};
+const median=a=>{if(!a.length)return 0;const s=[...a].sort((x,y)=>x-y),m=Math.floor(s.length/2);return s.length%2?s[m]:(s[m-1]+s[m])/2};
+const niceMax=v=>{if(!(v>0))return 1;const p=Math.pow(10,Math.floor(Math.log10(v))),m=v/p;const n=[1,1.2,1.5,2,2.5,3,4,5,6,8,10].find(x=>x>=m-1e-9)||10;return n*p};
+const FTE_MIN=450, MONTH_DAYS=21;
+
+/* ============ vocabularies ============ */
+const OPT={
+  type:['Manual','System','Decision','Wait','Handoff'],
+  rules:['?','Rules','Partly','Judgment'],
+  data:['?','Structured','Semi','Unstructured'],
+  access:['?','API / file','UI only','None'],
+  stability:['?','Rarely','Sometimes','Often'],
+  module:['Auto','Trigger','Ingest','Validate','Transform','Decide','Act','Report','Human'],
+  icom:['Input','Control','Output','Mechanism'],
+  format:['?','System feed','Excel / CSV','Email','PDF','SWIFT / message','Portal','Paper','Verbal'],
+  stateKind:['Normal','Start','Exception','End'],
+  owner:['Manual','System'],
+  tkind:['Arrival','Window','Cut-off','Output'],
+  pol:['+','-']
+};
+const typeCls=t=>({Manual:'manual',System:'system',Decision:'decision',Wait:'wait',Handoff:'handoff'}[t]||'manual');
+
+/* ============ model ============ */
+function blankState(){return{v:1,
+  meta:{name:'',team:'',rev:'A',date:today(),sample:false},
+  charter:{trigger:'',frequency:'',objective:'',pain:'',stakeholders:'',metric:'',constraints:'',notes:''},
+  icom:[],steps:[],fsm:{item:'',states:[],trans:[]},timing:[],cld:{vars:[],links:[]},
+  poc:{name:'',scope:'',success:'',out:'',controls:'',data:'',timebox:'',asks:''},
+  asked:{},qnotes:{},samples:{},ui:{stage:'kickoff'}}}
+const blankStep=n=>({id:'S'+n,name:'',lane:'',type:'Manual',system:'',mins:'',vol:'',wait:'',rework:'',pain:'',rules:'?',data:'?',access:'?',stability:'?',next:'',module:'Auto'});
+
+function sampleState(){
+  const s=blankState();
+  Object.assign(s.meta,{name:'Trade confirmation break management',team:'IB Operations, Confirmations (sample)',rev:'A',sample:true});
+  Object.assign(s.charter,{
+    trigger:'Unmatched confirmations report lands from the matching platform at about 07:30',
+    frequency:'Daily on business days; peaks at month-end and after volatile sessions',
+    objective:'Clear confirmation breaks before settlement cut-off with less manual lookup and earlier escalation',
+    pain:'Analysts spend most of the morning copying trade details between the booking system, counterparty PDFs and the tracker. Chasing is manual and ad hoc, so aged breaks surface late.',
+    stakeholders:'Ops analysts (do the work), team lead (process owner), front office (amendments), settlements (consumer), compliance (controls)',
+    metric:'Manual minutes per break; breaks older than T+2; cut-off misses per month',
+    constraints:'Client data stays in approved systems; maker-checker on booking amendments; bots run under a service account with read access first',
+    notes:''});
+  s.icom=[
+    {kind:'Input',name:'Unmatched confirmations report',party:'Matching platform',format:'Excel / CSV'},
+    {kind:'Input',name:'Counterparty confirmations',party:'Counterparties',format:'PDF'},
+    {kind:'Input',name:'Trade economics',party:'Booking system',format:'System feed'},
+    {kind:'Control',name:'Settlement cut-offs',party:'Settlements',format:'?'},
+    {kind:'Control',name:'Escalation policy (T+2)',party:'Ops procedures',format:'PDF'},
+    {kind:'Control',name:'Maker-checker on amendments',party:'',format:'?'},
+    {kind:'Output',name:'Matched or amended trades',party:'Settlements team',format:'System feed'},
+    {kind:'Output',name:'Break tracker',party:'Ops team',format:'Excel / CSV'},
+    {kind:'Output',name:'Daily MI pack',party:'',format:'Excel / CSV'},
+    {kind:'Mechanism',name:'3 analysts, 1 team lead',party:'Ops',format:'?'},
+    {kind:'Mechanism',name:'Matching platform, booking system, shared mailbox, Excel',party:'IT',format:'?'}];
+  const st=(id,name,lane,type,system,mins,vol,wait,rework,pain,rules,data,access,stability,next='')=>({id,name,lane,type,system,mins,vol,wait,rework,pain,rules,data,access,stability,next,module:'Auto'});
+  s.steps=[
+    st('S1','Download unmatched confirmations report','Ops analyst','Manual','Matching platform',5,1,0,0,2,'Rules','Structured','UI only','Rarely'),
+    st('S2','Filter and categorise breaks by desk and age','Ops analyst','Manual','Excel',1.5,120,0,5,3,'Rules','Structured','API / file','Rarely'),
+    st('S3','Look up trade economics in booking system','Ops analyst','Manual','Booking system',3,120,0,3,4,'Rules','Structured','UI only','Rarely'),
+    st('S4','Compare against counterparty confirmation','Ops analyst','Manual','Shared mailbox (PDF)',4,120,20,8,5,'Partly','Semi','UI only','Sometimes'),
+    st('S5','Classify break cause','Ops analyst','Decision','',1,120,0,10,3,'Partly','Semi','?','Sometimes','S6, S7'),
+    st('S6','Request booking amendment','Front office','Handoff','Email',4,30,90,5,4,'Rules','Semi','API / file','Rarely','S4'),
+    st('S7','Chase counterparty for confirmation','Ops analyst','Manual','Email',3,55,240,5,4,'Rules','Structured','API / file','Rarely','S8'),
+    st('S8','Update break tracker','Ops analyst','Manual','Excel tracker',1,120,0,4,3,'Rules','Structured','API / file','Rarely'),
+    st('S9','Escalate breaks older than T+2','Team lead','Decision','Email',10,4,30,0,2,'Partly','Structured','API / file','Rarely'),
+    st('S10','Compile daily MI for management','Team lead','Manual','Excel, PowerPoint',45,1,0,10,4,'Rules','Structured','API / file','Sometimes','END')];
+  s.fsm.item='trade confirmation';
+  s.fsm.states=[
+    {name:'Booked',kind:'Start'},{name:'Awaiting confirmation',kind:'Normal'},{name:'Matched',kind:'End'},
+    {name:'Unmatched',kind:'Exception'},{name:'Investigating',kind:'Exception'},{name:'Amendment requested',kind:'Exception'},
+    {name:'Chasing counterparty',kind:'Exception'},{name:'Escalated',kind:'Exception'}];
+  const t=(from,to,event,guard,owner)=>({from,to,event,guard,owner});
+  s.fsm.trans=[
+    t('Booked','Awaiting confirmation','Confirmation issued','','System'),
+    t('Awaiting confirmation','Matched','Counterparty confirm matches','','System'),
+    t('Awaiting confirmation','Unmatched','Mismatch or no confirm','by T+0 EOD','System'),
+    t('Unmatched','Investigating','Analyst picks up break','','Manual'),
+    t('Investigating','Amendment requested','Internal booking error','','Manual'),
+    t('Investigating','Chasing counterparty','Counterparty error or missing','','Manual'),
+    t('Amendment requested','Awaiting confirmation','FO amends booking','','Manual'),
+    t('Chasing counterparty','Matched','Corrected confirm received','','Manual'),
+    t('Chasing counterparty','Escalated','Break ages','older than T+2','Manual')];
+  s.timing=[
+    {name:'Unmatched report available',kind:'Arrival',start:'07:30',end:''},
+    {name:'Investigate and classify',kind:'Window',start:'08:00',end:'12:30'},
+    {name:'Chase counterparties',kind:'Window',start:'10:00',end:'15:30'},
+    {name:'Asia counterparty chase cut-off',kind:'Cut-off',start:'15:00',end:''},
+    {name:'Settlement instruction cut-off',kind:'Cut-off',start:'16:00',end:''},
+    {name:'Compile MI',kind:'Window',start:'16:30',end:'17:15'},
+    {name:'MI pack to management',kind:'Output',start:'17:30',end:''}];
+  s.cld.vars=['Break backlog','Overtime and pressure','Manual error rate','New breaks','Automation coverage','Manual effort per break','Management support','Escalations'].map(name=>({name}));
+  const l=(from,to,pol)=>({from,to,pol});
+  s.cld.links=[
+    l('Break backlog','Overtime and pressure','+'),l('Overtime and pressure','Manual error rate','+'),
+    l('Manual error rate','New breaks','+'),l('New breaks','Break backlog','+'),
+    l('Break backlog','Escalations','+'),l('Escalations','Management support','+'),l('Management support','Break backlog','-'),
+    l('Overtime and pressure','Automation coverage','-'),l('Automation coverage','Manual effort per break','-'),l('Manual effort per break','Break backlog','+')];
+  Object.assign(s.poc,{
+    name:'Break enrichment bot (S1 to S3)',
+    scope:'Ingest the unmatched report, enrich each break with booking-system economics, write pre-filled tracker rows. One product type; happy path plus the "no confirmation received" route.',
+    success:'At least 80% of breaks enriched without manual lookup; tracker ready by 08:15; zero data mismatches over a 2-week parallel run',
+    out:'Booking amendments, counterparty emails, MI pack',
+    controls:'Read-only system access; analyst reviews output before use; run log with row counts and exceptions',
+    data:'Synthetic data with the production schema for build; UAT data for testing',
+    timebox:'3 weeks build + 2 weeks parallel run',
+    asks:'Read access to a booking-system extract; one anonymised sample report; two 30-minute analyst sessions for playback'});
+  return s;
+}
+
+function normalize(x){
+  const b=blankState(),arr=v=>Array.isArray(v)?v.filter(r=>r&&typeof r==='object'):[];
+  if(!x||typeof x!=='object')return b;
+  for(const k of Object.keys(b)){
+    if(x[k]===undefined||x[k]===null)continue;
+    if(Array.isArray(b[k]))b[k]=arr(x[k]);
+    else if(typeof b[k]==='object')b[k]=Object.assign(b[k],typeof x[k]==='object'?x[k]:{});
+    else b[k]=x[k];
+  }
+  b.fsm.states=arr(b.fsm.states);b.fsm.trans=arr(b.fsm.trans);b.cld.vars=arr(b.cld.vars);b.cld.links=arr(b.cld.links);
+  if(!OPT||!b.ui.stage)b.ui.stage='kickoff';
+  return b;
+}
+
+/* ============ storage (this browser only) ============ */
+const KEY='process-schematic-workbench-v1';
+function saveLocal(){try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){}}
+function loadLocal(){try{const s=localStorage.getItem(KEY);return s?JSON.parse(s):null}catch(e){return null}}
+
+let state=(()=>{const s=loadLocal();return s?normalize(s):sampleState()})();
+let A=null;
+let saveT=0, refT=0;
+function changed(){clearTimeout(saveT);saveT=setTimeout(saveLocal,300);clearTimeout(refT);refT=setTimeout(refresh,160)}
+
+/* ============ form binding ============ */
+const getPath=p=>p.split('.').reduce((o,k)=>o==null?undefined:o[k],state);
+function setPath(p,v){const ks=p.split('.');let o=state;ks.slice(0,-1).forEach(k=>{if(o[k]==null||typeof o[k]!=='object')o[k]={};o=o[k]});o[ks[ks.length-1]]=v}
+document.addEventListener('input',e=>{const p=e.target&&e.target.dataset&&e.target.dataset.bind;if(!p)return;setPath(p,e.target.value);changed()});
+function fillBinds(){$$('[data-bind]').forEach(el=>{const v=getPath(el.dataset.bind);el.value=v==null?'':v})}
+
+/* ============ generic table editor ============ */
+const editors=[];
+function tableEditor(host,cfg){
+  const rows=()=>cfg.get();
+  const cell=(c,v,i)=>{
+    const id=host.id+'-'+i+'-'+c.k;
+    const a=`id="${id}" data-i="${i}" data-k="${c.k}" aria-label="${esc(c.label)}, row ${i+1}" style="min-width:${c.w||'10ch'}"`;
+    if(c.t==='sel')return `<select ${a}>${c.o.map(o=>`<option value="${esc(o)}"${o===v?' selected':''}>${esc(o==='-'?'−':o)}</option>`).join('')}</select>`;
+    if(c.t==='num')return `<input ${a} type="number" step="any" min="0" inputmode="decimal" value="${esc(v)}">`;
+    if(c.t==='time')return `<input ${a} type="time" value="${esc(v)}">`;
+    return `<input ${a} type="text" value="${esc(v)}"${c.ph?` placeholder="${esc(c.ph)}"`:''}${c.list?` list="${c.list}"`:''}>`;
+  };
+  const render=()=>{
+    const R=rows();
+    let h='<div class="tbl-wrap"><table class="ed"><thead>';
+    if(cfg.groups)h+='<tr class="grp">'+cfg.groups.map(g=>`<th colspan="${g.span}">${esc(g.label)}</th>`).join('')+'<th></th></tr>';
+    h+='<tr>'+cfg.cols.map(c=>`<th style="min-width:${c.w||'10ch'}"${c.tip?` title="${esc(c.tip)}"`:''}>${esc(c.label)}</th>`).join('')+'<th><span class="vh">Row actions</span></th></tr></thead><tbody>';
+    if(!R.length)h+=`<tr><td colspan="${cfg.cols.length+1}" class="muted" style="padding:10px 8px">${esc(cfg.empty||'No rows yet.')}</td></tr>`;
+    R.forEach((r,i)=>{
+      h+='<tr>'+cfg.cols.map(c=>`<td${c.key?' class="key"':''}>${cell(c,r[c.k],i)}</td>`).join('')+
+        `<td class="act"><button type="button" class="ib" data-mv="-1" data-i="${i}" aria-label="Move row ${i+1} up">&uarr;</button><button type="button" class="ib" data-mv="1" data-i="${i}" aria-label="Move row ${i+1} down">&darr;</button><button type="button" class="ib del" data-del="${i}" aria-label="Delete row ${i+1}">&times;</button></td></tr>`;
+    });
+    h+=`</tbody></table></div><div class="btn-row"><button type="button" class="btn sm add">+ ${esc(cfg.addLabel||'Add row')}</button>${cfg.extra||''}</div>`;
+    host.innerHTML=h;
+  };
+  host.addEventListener('input',e=>{const t=e.target;if(!t.dataset||t.dataset.k===undefined)return;const r=rows()[+t.dataset.i];if(!r)return;r[t.dataset.k]=t.value;changed()});
+  host.addEventListener('click',e=>{
+    const b=e.target.closest('button');if(!b||!host.contains(b))return;
+    const R=rows();
+    if(b.classList.contains('add')){R.push(cfg.blank(R));render();changed();const f=host.querySelector(`tbody tr:last-child input,tbody tr:last-child select`);if(f)f.focus();return}
+    if(b.dataset.del!==undefined){R.splice(+b.dataset.del,1);render();changed();return}
+    if(b.dataset.mv){const i=+b.dataset.i,j=i+(+b.dataset.mv);if(j<0||j>=R.length)return;const x=R[i];R[i]=R[j];R[j]=x;render();changed();const f=host.querySelector(`[data-mv="${b.dataset.mv}"][data-i="${j}"]`);if(f)f.focus()}
+  });
+  render();
+  const ed={render};editors.push(ed);return ed;
+}
+
+/* ============ analysis engine ============ */
+const W={
+  rules:{Rules:1,Partly:.5,Judgment:0,'?':.5},
+  data:{Structured:1,Semi:.6,Unstructured:.2,'?':.5},
+  access:{'API / file':1,'UI only':.6,None:.1,'?':.5},
+  stability:{Rarely:1,Sometimes:.55,Often:.15,'?':.5}};
+const REC={
+  automate:{label:'Automate',f:.8,cls:'ok'},
+  assist:{label:'Assist, human in loop',f:.45,cls:'info'},
+  simplify:{label:'Simplify first',f:.15,cls:'warn'},
+  manual:{label:'Keep manual',f:0,cls:'mute'},
+  eliminate:{label:'Remove or shorten wait',f:0,cls:'hot'},
+  handoff:{label:'Template the handoff',f:.5,cls:'info'},
+  combine:{label:'Combine or remove handoff',f:.2,cls:'warn'},
+  system:{label:'Already system',f:0,cls:'mute'}};
+const fitScore=s=>Math.round(100*(.35*(W.rules[s.rules]??.5)+.25*(W.data[s.data]??.5)+.2*(W.access[s.access]??.5)+.2*(W.stability[s.stability]??.5)));
+function recFor(s){
+  if(s.type==='System')return 'system';
+  if(s.type==='Wait')return 'eliminate';
+  if(s.type==='Handoff')return s.fit>=70?'handoff':'combine';
+  const r=s.fit>=70?'automate':s.fit>=45?'assist':s.fit>=25?'simplify':'manual';
+  return s.type==='Decision'&&s.rules!=='Rules'&&r==='automate'?'assist':r;
+}
+function suggestModule(s){
+  const n=String(s.name||'').toLowerCase();
+  if(s.type==='Decision')return 'Decide';
+  if(s.type==='Handoff')return 'Act';
+  const R=[['Ingest',/download|extract|receiv|collect|retriev|pull|import|\bload|open (the )?(file|report|mail)/],
+    ['Report',/\bmi\b|report|summary|dashboard|kpi|pack\b|metrics|tracker|\blog\b/],
+    ['Validate',/check|validat|compar|match|verif|reconcil|review|tie.?out/],
+    ['Decide',/decid|determin|classif|approv|assess|triage|prioriti/],
+    ['Act',/email|send|chase|amend|request|book\b|submit|escalat|update|notify|post|upload|instruct/],
+    ['Transform',/filter|categor|format|map|transform|clean|merge|calculat|look ?up|enrich|sort|pivot|consolidat|prepar/]];
+  for(const [m,re] of R)if(re.test(n))return m;
+  return 'Transform';
+}
+
+function analyse(){
+  const S=state.steps.map((s,i)=>Object.assign({},s,{i}));
+  const byKey=new Map(), dup=new Set();
+  S.forEach((s,i)=>{
+    s.key=tr(s.id)||('#'+(i+1));
+    if(byKey.has(s.key))dup.add(s.key);else byKey.set(s.key,s);
+    s.laneName=tr(s.lane)||'Unassigned';
+    if(!OPT.type.includes(s.type))s.type='Manual';
+  });
+  S.forEach((s,i)=>{
+    s.t=num(s.mins);s.n=num(s.vol);s.w=num(s.wait);s.e=num(s.rework);
+    s.human=!['System','Wait'].includes(s.type);
+    s.load=s.human?s.t*s.n*(1+s.e/100):0;
+    s.fit=fitScore(s);s.rec=recFor(s);s.save=s.load*REC[s.rec].f;
+    const raw=String(s.next??'').split(/[,;\s]+/).map(x=>x.trim()).filter(Boolean);
+    const isEnd=raw.some(x=>/^(end|-)$/i.test(x));
+    const real=raw.filter(x=>!/^(end|-)$/i.test(x));
+    s.badNext=real.filter(x=>!byKey.has(x));
+    s.nextIds=real.length?[...new Set(real.filter(x=>byKey.has(x)))]:(isEnd||i===S.length-1?[]:[S[i+1].key]);
+    s.mod=s.module&&s.module!=='Auto'?s.module:suggestModule(s);
+  });
+  // back edges (rework loops) via DFS
+  const adj=new Map(S.map(s=>[s.key,s.nextIds]));
+  const indeg0=new Map(S.map(s=>[s.key,0]));
+  S.forEach(s=>s.nextIds.forEach(k=>indeg0.set(k,(indeg0.get(k)||0)+1)));
+  const roots=S.filter(s=>!indeg0.get(s.key)).map(s=>s.key);
+  if(!roots.length&&S.length)roots.push(S[0].key);
+  const col=new Map(), back=new Set();
+  const dfs=u=>{col.set(u,1);for(const v of adj.get(u)||[]){const c=col.get(v);if(c===1)back.add(u+'>'+v);else if(!c)dfs(v)}col.set(u,2)};
+  roots.forEach(r=>{if(!col.get(r))dfs(r)});S.forEach(s=>{if(!col.get(s.key))dfs(s.key)});
+  const fwd=new Map(S.map(s=>[s.key,s.nextIds.filter(k=>!back.has(s.key+'>'+k))]));
+  // rank (column) = longest hop distance on the forward DAG
+  const indeg=new Map(S.map(s=>[s.key,0]));fwd.forEach(v=>v.forEach(k=>indeg.set(k,indeg.get(k)+1)));
+  const rk=new Map(),order=[],q=S.filter(s=>!indeg.get(s.key)).map(s=>s.key);
+  q.forEach(k=>rk.set(k,0));
+  while(q.length){const u=q.shift();order.push(u);for(const v of fwd.get(u)||[]){rk.set(v,Math.max(rk.get(v)??0,(rk.get(u)??0)+1));indeg.set(v,indeg.get(v)-1);if(indeg.get(v)===0)q.push(v)}}
+  S.forEach(s=>{s.rank=rk.get(s.key)??0});
+  // critical path = longest touch + wait path
+  const best=new Map();
+  [...order].reverse().forEach(u=>{const s=byKey.get(u);const own=s.t+s.w;let b={len:own,path:[u]};
+    for(const v of fwd.get(u)||[]){const c=best.get(v);if(c&&own+c.len>b.len)b={len:own+c.len,path:[u,...c.path]}}best.set(u,b)});
+  let cp={len:0,path:[]};best.forEach(b=>{if(b.len>cp.len||(b.len===cp.len&&b.path.length>cp.path.length))cp=b});
+  const cpEdges=new Set();cp.path.forEach((k,i)=>{if(i)cpEdges.add(cp.path[i-1]+'>'+k)});
+  S.forEach(s=>{s.onCP=cp.path.includes(s.key)});
+  const cpS=cp.path.map(k=>byKey.get(k));
+  const cpTouch=sum(cpS,s=>s.t),cpWait=sum(cpS,s=>s.w);
+  const lanes=[];S.forEach(s=>{if(!lanes.includes(s.laneName))lanes.push(s.laneName)});
+  const humanS=S.filter(s=>s.human);
+  const hot=humanS.filter(s=>s.load>0).sort((a,b)=>b.load-a.load)[0]||null;
+  const slow=S.filter(s=>s.w>0).sort((a,b)=>b.w-a.w)[0]||null;
+  const totLoad=sum(S,s=>s.load),totSave=sum(S,s=>s.save);
+  const res={steps:S,byKey,dup,back,cp,cpEdges,cpTouch,cpWait,eff:cpTouch+cpWait>0?cpTouch/(cpTouch+cpWait):0,
+    lanes,hot,slow,totLoad,totSave,nHuman:humanS.length,maxLoad:Math.max(1,...S.map(s=>s.load)),
+    pareto:S.filter(s=>s.load>0).sort((a,b)=>b.load-a.load)};
+  res.F=fsmCheck(state.fsm);
+  res.T=timingCheck(state.timing);
+  res.L=findLoops(state.cld.vars,state.cld.links);
+  res.drc=drc(res);
+  return res;
+}
+
+function fsmCheck(f){
+  const states=f.states.map(s=>Object.assign({},s,{nm:tr(s.name)})).filter(s=>s.nm);
+  const names=new Set(states.map(s=>s.nm));
+  const T=f.trans.map(t=>Object.assign({},t,{a:tr(t.from),b:tr(t.to),ev:tr(t.event),g:tr(t.guard)}));
+  const out=new Map(states.map(s=>[s.nm,[]])),inn=new Map(states.map(s=>[s.nm,[]]));
+  const bad=[];
+  T.forEach(t=>{if(!names.has(t.a)||!names.has(t.b)){if(t.a||t.b)bad.push(t);return}out.get(t.a).push(t);inn.get(t.b).push(t)});
+  const start=states.filter(s=>s.kind==='Start'),ends=states.filter(s=>s.kind==='End');
+  const reach=new Set(),st=start.map(s=>s.nm);
+  while(st.length){const u=st.pop();if(reach.has(u))continue;reach.add(u);out.get(u).forEach(t=>st.push(t.b))}
+  const canEnd=new Set(),st2=ends.map(s=>s.nm);
+  while(st2.length){const u=st2.pop();if(canEnd.has(u))continue;canEnd.add(u);inn.get(u).forEach(t=>st2.push(t.a))}
+  const dead=states.filter(s=>s.kind!=='End'&&!out.get(s.nm).length);
+  const unreach=start.length?states.filter(s=>!reach.has(s.nm)):[];
+  const trapped=ends.length?states.filter(s=>s.kind!=='End'&&out.get(s.nm).length&&!canEnd.has(s.nm)):[];
+  const noEvent=T.filter(t=>names.has(t.a)&&names.has(t.b)&&!t.ev);
+  const nd=[],seen=new Map();
+  T.forEach(t=>{if(!t.ev||t.g||!names.has(t.a))return;const k=t.a+'|'+t.ev.toLowerCase();const p=seen.get(k);if(p&&p.b!==t.b)nd.push([p,t]);else if(!p)seen.set(k,t)});
+  const valid=T.filter(t=>names.has(t.a)&&names.has(t.b));
+  return{item:tr(f.item)||'work item',states,tr:valid,bad,start,ends,dead,unreach,trapped,noEvent,nd,
+    manual:valid.filter(t=>t.owner!=='System').length,out,deadSet:new Set(dead.map(s=>s.nm))};
+}
+
+function timingCheck(list){
+  const ev=list.map(e=>Object.assign({},e,{s:toMin(e.start),f:e.kind==='Window'?toMin(e.end):null}));
+  const invalid=ev.filter(e=>e.s==null||(e.kind==='Window'&&(e.f==null||e.f<=e.s)));
+  const wins=ev.filter(e=>e.kind==='Window'&&e.s!=null&&e.f!=null&&e.f>e.s);
+  const cuts=ev.filter(e=>(e.kind==='Cut-off'||e.kind==='Output')&&e.s!=null);
+  const res=[];
+  cuts.forEach(c=>{
+    const cross=wins.filter(w=>w.s<c.s&&w.f>c.s);
+    cross.forEach(w=>res.push({cut:c,win:w,slack:c.s-w.f,cross:true}));
+    if(!cross.length){const before=wins.filter(w=>w.f<=c.s).sort((a,b)=>b.f-a.f)[0];if(before)res.push({cut:c,win:before,slack:c.s-before.f,cross:false})}
+  });
+  return{ev,invalid,res,cuts,wins};
+}
+
+function findLoops(vars,links){
+  const names=vars.map(v=>tr(v.name)).filter(Boolean);
+  const idx=new Map(names.map((n,i)=>[n,i]));
+  const adj=names.map(()=>[]);
+  links.forEach(l=>{const a=idx.get(tr(l.from)),b=idx.get(tr(l.to));if(a!=null&&b!=null)adj[a].push({b,pol:l.pol==='-'||l.pol==='−'?'-':'+'})});
+  const loops=[];
+  for(let s=0;s<names.length;s++){
+    const path=[s],pols=[],on=new Set([s]);
+    const go=u=>{if(loops.length>=30)return;for(const e of adj[u]){
+      if(e.b===s)loops.push({nodes:path.slice(),pols:[...pols,e.pol]});
+      else if(e.b>s&&!on.has(e.b)){on.add(e.b);path.push(e.b);pols.push(e.pol);go(e.b);path.pop();pols.pop();on.delete(e.b)}}};
+    go(s);
+  }
+  let r=0,b=0;
+  loops.forEach(L=>{const neg=L.pols.filter(p=>p==='-').length;L.type=neg%2?'B':'R';L.label=L.type==='R'?'R'+(++r):'B'+(++b);L.names=L.nodes.map(i=>names[i])});
+  const linked=new Set();links.forEach(l=>{if(idx.has(tr(l.from))&&idx.has(tr(l.to))){linked.add(tr(l.from));linked.add(tr(l.to))}});
+  const orphan=names.filter(n=>!linked.has(n));
+  const badLinks=links.filter(l=>(tr(l.from)||tr(l.to))&&(!idx.has(tr(l.from))||!idx.has(tr(l.to))));
+  return{names,loops,orphan,badLinks};
+}
+
+/* ============ design rule check: gaps become questions ============ */
+function drc(R){
+  const D=[],c=state.charter,item=R.F.item;
+  const add=(sev,sheet,msg,q,stage)=>D.push({sev,sheet,msg,q:q||'',stage:stage||'deep'});
+  if(!has(c.pain))add('warn','charter','No pain statement','Which part of this process would you most like to stop doing, and why?','kickoff');
+  if(!has(c.trigger))add('warn','charter','No trigger defined','What starts this work each day: a time, a file, an email or a request?','kickoff');
+  if(!has(c.metric))add('warn','charter','No success metric','What number would prove an automation worked: minutes, errors, aged items or cut-off misses?','kickoff');
+  if(!has(c.stakeholders))add('info','charter','Stakeholders not listed','Who does the work, who owns the process, and who consumes the output?','kickoff');
+  if(!has(c.constraints))add('info','charter','No constraints recorded','Which controls, approvals or data restrictions must any solution respect?','kickoff');
+  const I=state.icom,by=k=>I.filter(x=>x.kind===k&&has(x.name));
+  if(!by('Input').length)add('err','context','No inputs defined','What does the team receive to start this work, and from whom?','kickoff');
+  if(!by('Output').length)add('err','context','No outputs defined','What does this process produce, and who uses it?','kickoff');
+  if(!by('Control').length)add('info','context','No controls defined','Which policies, cut-offs or approvals govern this process?','kickoff');
+  by('Input').forEach(x=>{if(!has(x.party))add('warn','context',`Input "${x.name}" has no source`,`Who or what provides "${x.name}"?`,'kickoff');
+    if(!has(x.format)||x.format==='?')add('info','context',`Format of "${x.name}" unknown`,`How does "${x.name}" arrive: system feed, spreadsheet, email or PDF?`,'deep')});
+  by('Output').forEach(x=>{if(!has(x.party))add('warn','context',`Output "${x.name}" has no consumer`,`Who uses "${x.name}", and what do they do with it?`,'kickoff')});
+  by('Control').forEach(x=>{if(!has(x.party))add('info','context',`Control "${x.name}" has no owner`,`Who owns "${x.name}", and where is it written down?`,'deep')});
+  const S=R.steps;
+  if(!S.length)add('err','flow','No steps recorded','Can you walk through the process from the first input to the last output?','shadow');
+  R.dup.forEach(k=>add('err','flow',`Duplicate step ID ${k}`,'','shadow'));
+  S.forEach(s=>{
+    const nm=s.name||s.key;
+    s.badNext.forEach(x=>add('err','flow',`${s.key} points to unknown step "${x}"`,'','shadow'));
+    if(!has(s.name))add('warn','flow',`${s.key} has no name`,'','shadow');
+    if(s.human&&!has(s.mins))add('warn','flow',`${s.key}: no time per item`,`How long does "${nm}" take per item on a typical day, and on a bad day?`,'shadow');
+    if(s.human&&!has(s.vol))add('warn','flow',`${s.key}: no volume`,`How many items go through "${nm}" per day, and what does a peak day look like?`,'shadow');
+    if(s.human&&s.rules==='?')add('info','flow',`${s.key}: rules unknown`,`Does "${nm}" follow fixed rules or need judgment? Could the rules be written down?`,'shadow');
+    if(s.human&&s.data==='?')add('info','flow',`${s.key}: input format unknown`,`What does the input to "${nm}" look like: system fields, Excel, PDF or free-text email?`,'shadow');
+    if(s.human&&s.access==='?')add('info','flow',`${s.key}: system access unknown`,has(s.system)?`Does ${s.system} offer an export, report or API, or is the screen the only way in?`:`Which system is used for "${nm}", and can data be exported from it?`,'deep');
+    if(s.human&&s.stability==='?')add('info','flow',`${s.key}: stability unknown`,`How often do the rules, templates or screens in "${nm}" change?`,'deep');
+    if(s.access==='UI only'&&s.fit>=45&&s.load>=60)add('info','flow',`${s.key}: screen-only access on a heavy step`,`Is there a report or extract from ${s.system||'the system'} that could replace screen lookups in "${nm}"?`,'deep');
+    if(s.type==='Decision'&&s.rules!=='Rules')add('warn','flow',`${s.key}: decision criteria not fixed`,`What are the criteria for "${nm}", and who decides when a case does not fit?`,'deep');
+    if(s.w>=60)add('warn','flow',`${s.key}: waits ${fmtMin(s.w)} per item`,`What does "${nm}" wait on, and could that input arrive earlier or automatically?`,'deep');
+    if(s.type==='Handoff'){const prev=S[s.i-1];add('info','flow',`${s.key}: handoff to ${s.laneName}`,`What information moves ${prev?'from '+prev.laneName+' ':''}to ${s.laneName} at "${nm}", and what gets lost or asked again?`,'deep')}
+    if(s.e>=8)add('warn','flow',`${s.key}: ${s.e}% rework`,`Where does the rework in "${nm}" come from: upstream data or the step itself?`,'deep');
+    if(s.stability==='Often')add('info','flow',`${s.key}: changes often`,`What changes in "${nm}", how often, and who announces it?`,'deep');
+  });
+  const F=R.F;
+  if(state.fsm.states.length||state.fsm.trans.length){
+    if(!F.start.length)add('err','states','No start state',`Where does a ${item}'s life begin?`,'deep');
+    if(!F.ends.length)add('err','states','No end state',`When is a ${item} considered done?`,'deep');
+    F.dead.forEach(s=>add('err','states',`"${s.nm}" has no exit`,`When a ${item} is "${s.nm}", what moves it forward, and who owns it?`,'deep'));
+    F.unreach.forEach(s=>add('warn','states',`"${s.nm}" is unreachable`,`How does a ${item} enter "${s.nm}"?`,'deep'));
+    F.trapped.forEach(s=>add('warn','states',`"${s.nm}" never reaches an end state`,`Which route takes a ${item} from "${s.nm}" to a resolved state?`,'deep'));
+    F.noEvent.forEach(t=>add('warn','states',`${t.a} → ${t.b} has no trigger`,`What event moves a ${item} from "${t.a}" to "${t.b}"?`,'deep'));
+    F.nd.forEach(([p,t])=>add('warn','states',`"${t.ev}" in "${t.a}" has two targets`,`When "${t.ev}" happens in "${t.a}", what decides between "${p.b}" and "${t.b}"?`,'deep'));
+    F.bad.forEach(t=>add('err','states',`Transition ${t.a||'?'} → ${t.b||'?'} uses an unknown state`,'','deep'));
+  }else add('info','states','No state machine yet',`Which statuses does a work item pass through from receipt to done?`,'deep');
+  const T=R.T;
+  T.invalid.forEach(e=>add('err','timing',`"${e.name||'event'}" has an invalid time`,'','deep'));
+  if(state.timing.length&&!T.cuts.length)add('info','timing','No cut-offs or deadlines','Which deadlines or cut-offs does this process feed, and what happens if one is missed?','deep');
+  if(!state.timing.length)add('info','timing','No timing captured','What time does each input arrive, and which cut-offs does the work feed?','deep');
+  T.res.forEach(r=>{
+    if(r.cross)add('err','timing',`"${r.win.name}" runs ${fmtMin(-r.slack)} past "${r.cut.name}"`,`"${r.win.name}" runs past the ${hhmm(r.cut.s)} cut-off. What happens to items that miss it?`,'deep');
+    else if(r.slack<30)add('warn','timing',`Only ${fmtMin(r.slack)} slack before "${r.cut.name}"`,`There is ${fmtMin(r.slack)} between "${r.win.name}" ending and "${r.cut.name}". What happens on a peak day?`,'deep');
+  });
+  const L=R.L;
+  if(L.names.length>=2&&!L.loops.length)add('info','loops','No feedback loops found','When the backlog grows, what does the team do differently, and what does that cause next?','review');
+  if(!L.names.length)add('info','loops','No causal map yet','When things go wrong here, what makes them worse over time, and what pushes back?','review');
+  L.orphan.forEach(n=>add('info','loops',`"${n}" is not linked`,`How does "${n}" affect the rest of the process?`,'review'));
+  L.badLinks.forEach(l=>add('err','loops',`Link ${l.from||'?'} → ${l.to||'?'} uses an unknown variable`,'','review'));
+  const tp=S.filter(s=>s.human&&num(s.pain)>0).sort((a,b)=>num(b.pain)-num(a.pain)||b.load-a.load)[0];
+  if(tp&&R.hot&&tp.key!==R.hot.key&&num(tp.pain)>num(R.hot.pain))add('info','analysis',`Pain peak ${tp.key} differs from load peak ${R.hot.key}`,`The numbers put the most time in "${R.hot.name||R.hot.key}", but the team rates "${tp.name||tp.key}" as most painful. Which should the first automation target?`,'review');
+  const p=state.poc;
+  if(S.length&&!has(p.success))add('info','solution','PoC has no success criteria','What result in 2 to 4 weeks would count as success?','signoff');
+  if(S.length&&!has(p.asks))add('info','solution','PoC asks not listed','What access or approvals are needed, and who grants them?','signoff');
+  const rank={err:0,warn:1,info:2};
+  return D.sort((a,b)=>rank[a.sev]-rank[b.sev]);
+}
+
+/* ============ SVG drawing ============ */
+const emptyFig=msg=>`<div class="empty">${esc(msg)}</div>`;
+const svgOpen=(w,h,label)=>`<svg viewBox="0 0 ${Math.round(w)} ${Math.round(h)}" width="${Math.round(w)}" height="${Math.round(h)}" role="img" aria-label="${esc(label)}" xmlns="http://www.w3.org/2000/svg">`;
+const markers=id=>'<defs>'+['','acc','hot','man','sys'].map(c=>`<marker id="${id}-m${c}" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="mk ${c}"/></marker>`).join('')+'</defs>';
+const mref=(id,c='')=>`url(#${id}-m${c})`;
+const r1=v=>Math.round(v*10)/10;
+
+/* Context diagram, IDEF0 / ICOM style */
+function svgIDEF0(){
+  const I=state.icom.filter(x=>has(x.name)),g=k=>I.filter(x=>x.kind===k);
+  const ins=g('Input'),outs=g('Output'),ctl=g('Control'),mech=g('Mechanism');
+  if(!I.length)return emptyFig('Add inputs, controls, outputs and mechanisms below to draw the system boundary.');
+  const Wd=880,BX=290,BW=Wd-2*BX,n=Math.max(ins.length,outs.length,2),BH=Math.max(150,n*52+16);
+  const BY=ctl.length?92:30,H=BY+BH+(mech.length?92:30),id='cx';
+  let o=svgOpen(Wd,H,'Context diagram')+markers(id);
+  o+=`<rect x="${BX}" y="${BY}" width="${BW}" height="${BH}" class="box" style="stroke:var(--ink);stroke-width:1.6"/>`;
+  o+=`<text x="${BX+8}" y="${BY+BH-8}" class="mono t-faint" font-size="11">A0</text>`;
+  const title=wrap(state.meta.name||'Process',28,3);
+  title.forEach((t,i)=>o+=`<text x="${BX+BW/2}" y="${BY+BH/2-(title.length-1)*9+i*18}" text-anchor="middle" font-size="15" font-weight="600">${esc(t)}</text>`);
+  if(has(state.meta.team))o+=`<text x="${BX+BW/2}" y="${BY+BH/2+(title.length+1)*9+4}" text-anchor="middle" class="t-mute" font-size="11.5">${esc(trunc(state.meta.team,42))}</text>`;
+  const sub=(x,miss)=>{const t=[x.party,x.format&&x.format!=='?'?x.format:''].filter(Boolean).join(' · ');return t?{t,c:'t-faint'}:{t:miss,c:'t-hot'}};
+  ins.forEach((x,k)=>{const y=r1(BY+(k+1)*BH/(ins.length+1)),s=sub(x,'source ?');
+    o+=`<path d="M8,${y} H${BX-1}" class="wire" marker-end="${mref(id)}"/><text x="10" y="${y-7}" font-size="12.5">${esc(trunc(x.name,38))}</text><text x="10" y="${y+15}" class="mono ${s.c}" font-size="10.5">${esc(trunc(s.t,42))}</text>`});
+  outs.forEach((x,k)=>{const y=r1(BY+(k+1)*BH/(outs.length+1)),s=sub(x,'consumer ?');
+    o+=`<path d="M${BX+BW},${y} H${Wd-8}" class="wire" marker-end="${mref(id)}"/><text x="${Wd-10}" y="${y-7}" text-anchor="end" font-size="12.5">${esc(trunc(x.name,38))}</text><text x="${Wd-10}" y="${y+15}" text-anchor="end" class="mono ${s.c}" font-size="10.5">${esc(trunc(s.t,42))}</text>`});
+  const spread=(arr,i)=>arr.length===1?Wd/2:130+i*(Wd-260)/(arr.length-1);
+  ctl.forEach((x,k)=>{const lx=r1(spread(ctl,k)),tx=r1(BX+(k+1)*BW/(ctl.length+1)),ly=k%2?40:18,hy=BY-14-(k%3)*7;
+    o+=`<text x="${lx}" y="${ly}" text-anchor="middle" font-size="12">${esc(trunc(x.name,30))}</text>`;
+    o+=`<path d="M${lx},${ly+6} V${hy} H${tx} V${BY-1}" class="wire" marker-end="${mref(id)}"/>`});
+  mech.forEach((x,k)=>{const lx=r1(spread(mech,k)),tx=r1(BX+(k+1)*BW/(mech.length+1)),ly=k%2?H-30:H-8,hy=BY+BH+14+(k%3)*7;
+    o+=`<text x="${lx}" y="${ly}" text-anchor="middle" font-size="12">${esc(trunc(x.name,34))}</text>`;
+    o+=`<path d="M${lx},${ly-14} V${hy} H${tx} V${BY+BH+1}" class="wire" marker-end="${mref(id)}"/>`});
+  return o+'</svg>';
+}
+
+/* Swimlane flow */
+function svgFlow(R,id){
+  const S=R.steps;if(!S.length)return emptyFig('No steps yet. Add steps on sheet 03 Flow.');
+  const BW=136,BH=70,CW=166,LW=126,VG=28,TOP=26;
+  const cell=new Map();
+  S.forEach(s=>{const k=s.laneName+'\u0000'+s.rank;const a=cell.get(k)||[];s.stack=a.length;a.push(s);cell.set(k,a)});
+  const laneMax=new Map(R.lanes.map(l=>[l,1]));
+  cell.forEach((a,k)=>{const l=k.split('\u0000')[0];laneMax.set(l,Math.max(laneMax.get(l)||1,a.length))});
+  let y=TOP;const LY=new Map();
+  R.lanes.forEach(l=>{const h=laneMax.get(l)*(BH+VG)+18;LY.set(l,{y,h});y+=h});
+  const maxRank=Math.max(0,...S.map(s=>s.rank)),Wd=LW+22+(maxRank+1)*CW+24,H=y+10;
+  S.forEach(s=>{const L=LY.get(s.laneName);s.x=LW+22+s.rank*CW;s.y=L.y+VG-4+s.stack*(BH+VG)});
+  let o=svgOpen(Wd,H,'Swimlane flow')+markers(id);
+  o+=`<text x="${LW+22}" y="16" class="mono t-faint" font-size="10.5">SEQUENCE →</text>`;
+  R.lanes.forEach((l,i)=>{const L=LY.get(l);
+    o+=`<rect x="0" y="${L.y}" width="${Wd}" height="${L.h}" class="${i%2?'f-sheet':'lane'}"/><line x1="0" y1="${L.y}" x2="${Wd}" y2="${L.y}" class="lane-line"/>`;
+    wrap(l,16,3).forEach((t,j)=>o+=`<text x="10" y="${L.y+22+j*15}" font-weight="600" font-size="12.5">${esc(t)}</text>`);
+    const ld=sum(S.filter(s=>s.laneName===l),s=>s.load);
+    if(ld>0)o+=`<text x="10" y="${L.y+L.h-10}" class="mono t-faint" font-size="10.5">${fmtN(ld)} min/day</text>`});
+  o+=`<line x1="${LW}" y1="${TOP}" x2="${LW}" y2="${H-10}" class="lane-line"/><line x1="0" y1="${H-10}" x2="${Wd}" y2="${H-10}" class="lane-line"/>`;
+  S.forEach(s=>s.nextIds.forEach(k=>{const t=R.byKey.get(k);if(!t)return;
+    const key=s.key+'>'+k,back=R.back.has(key),cp=R.cpEdges.has(key);
+    const x1=s.x+BW,y1=s.y+BH/2,x2=t.x,y2=t.y+BH/2;let d;
+    if(!back&&t.rank===s.rank+1)d=Math.abs(y1-y2)<1?`M${x1},${y1} H${x2-1}`:`M${x1},${y1} H${x2-14} V${y2} H${x2-1}`;
+    else if(!back&&t.x>s.x){const yb=s.y+BH+8;d=`M${x1},${y1} H${x1+8} V${yb} H${x2-14} V${y2} H${x2-1}`}
+    else{const yb=Math.max(s.y,t.y)+BH+16;d=`M${x1},${y1} H${x1+12} V${yb} H${x2-12} V${y2} H${x2-1}`}
+    o+=`<path d="${d}" class="wire${cp?' acc':''}${back?' hot':''}" marker-end="${mref(id,cp?'acc':back?'hot':'')}"/>`}));
+  S.forEach(s=>{const hot=R.hot&&s.key===R.hot.key,slow=R.slow&&s.key===R.slow.key;
+    o+=`<g><title>${esc(s.key+' · '+(s.name||'')+' · '+s.type+(s.load?' · '+fmtN(s.load)+' min/day':'')+(s.w?' · waits '+fmtMin(s.w):''))}</title>`;
+    if(hot)o+=`<rect x="${s.x-4}" y="${s.y-4}" width="${BW+8}" height="${BH+8}" class="ring-hot"/>`;
+    o+=`<rect x="${s.x}" y="${s.y}" width="${BW}" height="${BH}" class="box${s.onCP?' cp':''}"/><rect x="${s.x}" y="${s.y}" width="5" height="${BH}" class="f-${typeCls(s.type)}"/>`;
+    o+=`<text x="${s.x+12}" y="${s.y+14}" class="mono t-faint" font-size="10">${esc(trunc(s.key,7))} · ${esc(s.type.toUpperCase())}</text>`;
+    wrap(s.name||'(unnamed)',19,3).forEach((t,j)=>o+=`<text x="${s.x+12}" y="${s.y+29+j*13}" font-size="11.5">${esc(t)}</text>`);
+    if(s.load>0)o+=`<rect x="${s.x+12}" y="${s.y+BH-8}" width="${r1(Math.max(2,(BW-20)*s.load/R.maxLoad))}" height="3" class="${hot?'f-hot':'f-ink3'}"/>`;
+    if(s.w>0)o+=`<text x="${s.x}" y="${s.y-7}" class="mono ${slow?'t-hot':'t-mute'}" font-size="10">Δt ${fmtMin(s.w)}${slow&&!hot?' longest wait':''}</text>`;
+    if(hot)o+=`<text x="${s.x+BW+4}" y="${s.y-7}" text-anchor="end" class="mono t-hot" font-size="10" font-weight="600">HOT SPOT</text>`;
+    o+='</g>'});
+  return o+'</svg>';
+}
+
+/* State machine */
+function rectEdge(r,p){const dx=p.x-r.cx,dy=p.y-r.cy;if(!dx&&!dy)return{x:r.cx,y:r.cy};
+  const sx=dx?(r.w/2+3)/Math.abs(dx):Infinity,sy=dy?(r.h/2+3)/Math.abs(dy):Infinity,k=Math.min(sx,sy,1);return{x:r.cx+dx*k,y:r.cy+dy*k}}
+function svgFSM(R,id){
+  const F=R.F;if(!F.states.length)return emptyFig('Add states and transitions to draw the lifecycle.');
+  const main=F.states.filter(s=>s.kind!=='Exception'),exc=F.states.filter(s=>s.kind==='Exception');
+  const SW=148,SH=48,GX=54,cols=Math.max(main.length,exc.length,1),Wd=Math.max(600,cols*(SW+GX)+GX+40);
+  const two=main.length&&exc.length,y0=84,y1=272,H=two?392:200,pos=new Map();
+  const place=(arr,y)=>{const span=Wd-2*GX-40;arr.forEach((s,i)=>{const x=arr.length>1?GX+40+i*(span-SW)/(arr.length-1):(Wd-SW)/2;pos.set(s.nm,{x,y,w:SW,h:SH,s,cx:x+SW/2,cy:y+SH/2})})};
+  if(main.length)place(main,y0);if(exc.length)place(exc,main.length?y1:y0);
+  let o=svgOpen(Wd,H,'State machine')+markers(id),edges='',labels='',nodes='';
+  if(main.length)o+=`<text x="10" y="${y0-40}" class="mono t-faint" font-size="10.5">MAIN PATH</text>`;
+  if(two)o+=`<line x1="0" y1="${y1-48}" x2="${Wd}" y2="${y1-48}" class="grid"/><text x="10" y="${y1-30}" class="mono t-hot" font-size="10.5">EXCEPTION STATES</text>`;
+  const pairs=new Set(F.tr.map(t=>t.a+'\u0000'+t.b));
+  F.tr.forEach(t=>{const a=pos.get(t.a),b=pos.get(t.b);if(!a||!b)return;
+    const cls=t.owner==='System'?'sys':'man',lbl=trunc(t.ev+(t.g?` [${t.g}]`:''),34);
+    if(a===b){edges+=`<path d="M${a.cx-14},${a.y} C${a.cx-36},${a.y-46} ${a.cx+36},${a.y-46} ${a.cx+14},${a.y}" class="wire ${cls}" marker-end="${mref(id,cls)}"/>`;
+      labels+=`<text x="${a.cx}" y="${a.y-40}" text-anchor="middle" font-size="11" class="halo">${esc(lbl)}</text>`;return}
+    const dx=b.cx-a.cx,dy=b.cy-a.cy,len=Math.hypot(dx,dy)||1,nx=-dy/len,ny=dx/len;
+    const sameRow=Math.abs(dy)<1,between=sameRow?[...pos.values()].filter(q=>Math.abs(q.cy-a.cy)<1&&q.cx>Math.min(a.cx,b.cx)+1&&q.cx<Math.max(a.cx,b.cx)-1).length:0;
+    const rev=pairs.has(t.b+'\u0000'+t.a),bend=rev?28:(between?44+between*30:14);
+    let c,off=-1;
+    if(sameRow&&between&&!rev){off=two&&a.cy>(y0+y1)/2?1:-1;c={x:(a.cx+b.cx)/2,y:a.cy+off*bend}}
+    else c={x:(a.cx+b.cx)/2-nx*bend,y:(a.cy+b.cy)/2-ny*bend};
+    const p0=rectEdge(a,c),p2=rectEdge(b,c);
+    edges+=`<path d="M${r1(p0.x)},${r1(p0.y)} Q${r1(c.x)},${r1(c.y)} ${r1(p2.x)},${r1(p2.y)}" class="wire ${cls}" marker-end="${mref(id,cls)}"/>`;
+    const m={x:.25*p0.x+.5*c.x+.25*p2.x,y:.25*p0.y+.5*c.y+.25*p2.y};
+    const above=sameRow&&!between&&!rev&&lbl.length*6>Math.abs(dx)-SW-8;
+    labels+=`<text x="${r1(m.x)}" y="${r1(above?a.y-7:off>0?m.y+14:m.y-4)}" text-anchor="middle" font-size="11" class="halo">${esc(lbl)}</text>`});
+  pos.forEach(p=>{const s=p.s,isExc=s.kind==='Exception',dead=F.deadSet.has(s.nm);
+    if(dead)nodes+=`<rect x="${p.x-5}" y="${p.y-5}" width="${p.w+10}" height="${p.h+10}" rx="16" class="ring-hot"/><text x="${p.x+p.w}" y="${p.y+p.h+20}" text-anchor="end" class="mono t-hot" font-size="10" font-weight="600">NO EXIT</text>`;
+    nodes+=`<rect x="${p.x}" y="${p.y}" width="${p.w}" height="${p.h}" rx="12" class="box${isExc?' exc':''}"/>`;
+    if(s.kind==='End')nodes+=`<rect x="${p.x+4}" y="${p.y+4}" width="${p.w-8}" height="${p.h-8}" rx="9" class="box" style="fill:none"/>`;
+    if(s.kind==='Start')nodes+=`<circle cx="${p.x-28}" cy="${p.cy}" r="6" class="f-ink"/><path d="M${p.x-21},${p.cy} H${p.x-2}" class="wire" marker-end="${mref(id)}"/>`;
+    const ln=wrap(s.nm,19,2);ln.forEach((t,j)=>nodes+=`<text x="${p.cx}" y="${p.cy+4-(ln.length-1)*7+j*14}" text-anchor="middle" font-size="12" font-weight="500">${esc(t)}</text>`)});
+  return o+edges+nodes+labels+'</svg>';
+}
+
+/* Timing diagram, logic-analyser style */
+function svgTiming(R){
+  const T=R.T,ev=T.ev.filter(e=>e.s!=null&&!(e.kind==='Window'&&(e.f==null||e.f<=e.s)));
+  if(!ev.length)return emptyFig('Add arrivals, work windows and cut-offs to draw the day.');
+  let lo=Math.min(...ev.map(e=>e.s)),hi=Math.max(...ev.map(e=>e.f!=null?e.f:e.s));
+  lo=Math.max(0,Math.floor((lo-20)/60)*60);hi=Math.min(1440,Math.ceil((hi+20)/60)*60);if(hi-lo<180)hi=Math.min(1440,lo+180);
+  const LW=250,PW=Math.max(520,(hi-lo)/60*64),Wd=LW+PW+150,RH=44,TOP=40,H=TOP+ev.length*RH+12;
+  const X=m=>r1(LW+(m-lo)/(hi-lo)*PW);
+  let o=svgOpen(Wd,H,'Timing diagram');
+  for(let m=lo;m<=hi;m+=60)o+=`<line x1="${X(m)}" y1="${TOP-8}" x2="${X(m)}" y2="${H-6}" class="grid"/><text x="${X(m)}" y="${TOP-14}" text-anchor="middle" class="mono t-faint" font-size="10.5">${hhmm(m)}</text>`;
+  ev.forEach(e=>{if(e.kind==='Cut-off')o+=`<line x1="${X(e.s)}" y1="${TOP-6}" x2="${X(e.s)}" y2="${H-6}" class="wire hot thin"/>`;
+    if(e.kind==='Output')o+=`<line x1="${X(e.s)}" y1="${TOP-6}" x2="${X(e.s)}" y2="${H-6}" class="wire dash thin" style="stroke:var(--accent)"/>`});
+  ev.forEach((e,i)=>{const y=TOP+i*RH,hy=y+9,ly=y+27,x0=X(lo),x1=X(hi);
+    const tag={Arrival:'ARR',Window:'WIN','Cut-off':'CUT',Output:'OUT'}[e.kind]||'';
+    o+=`<line x1="0" y1="${y+RH}" x2="${Wd}" y2="${y+RH}" class="grid"/><text x="10" y="${y+22}" class="mono t-faint" font-size="10">${tag}</text><text x="44" y="${y+22}" font-size="12.5">${esc(trunc(e.name||'(unnamed)',30))}</text>`;
+    if(e.kind==='Window'){const a=X(e.s),b=X(e.f);
+      o+=`<rect x="${a}" y="${hy}" width="${r1(b-a)}" height="${ly-hy}" class="f-acc pulse"/><path d="M${x0},${ly} H${a} V${hy} H${b} V${ly} H${x1}" class="wire" style="stroke:var(--accent);stroke-width:1.8"/>`;
+      if(b-a>92)o+=`<text x="${r1((a+b)/2)}" y="${hy+13}" text-anchor="middle" class="mono t-acc" font-size="10">${hhmm(e.s)}–${hhmm(e.f)}</text>`}
+    else if(e.kind==='Arrival'){const a=X(e.s);
+      o+=`<path d="M${x0},${ly} H${a} V${hy} H${x1}" class="wire" style="stroke:var(--ch-system);stroke-width:1.8"/><text x="${a+6}" y="${hy+13}" class="mono" font-size="10" style="fill:var(--ch-system)">${hhmm(e.s)} ready</text>`}
+    else if(e.kind==='Cut-off'){const a=X(e.s);
+      o+=`<path d="M${a-6},${hy} L${a+6},${hy} L${a},${hy+10} z" class="f-hot"/><text x="${a+9}" y="${hy+10}" class="mono t-hot" font-size="10.5" font-weight="600">${hhmm(e.s)}</text>`}
+    else{const a=X(e.s);
+      o+=`<path d="M${a},${hy} L${a+6},${hy+7} L${a},${hy+14} L${a-6},${hy+7} z" class="f-acc"/><text x="${a+9}" y="${hy+11}" class="mono t-acc" font-size="10.5" font-weight="600">${hhmm(e.s)} due</text>`}});
+  const worst=new Map();
+  T.res.forEach(r=>{const w=worst.get(r.win);if(!w||(r.cross&&!w.cross)||(r.cross===w.cross&&r.slack<w.slack))worst.set(r.win,r)});
+  worst.forEach(r=>{const i=ev.indexOf(r.win);if(i<0)return;const y=TOP+i*RH+35;
+    const a=X(Math.min(r.win.f,r.cut.s)),b=X(Math.max(r.win.f,r.cut.s)),bad=r.cross,tight=!bad&&r.slack<30;
+    const col=bad?'hot':tight?'warn':'ink-3',cls=bad?'t-hot':tight?'t-warn':'t-mute';
+    const txt=(bad?'late '+fmtMin(-r.slack):'slack '+fmtMin(r.slack))+' to '+trunc(r.cut.name,22),tw=txt.length*6.1;
+    o+=`<path d="M${a},${y-3} V${y+3} M${a},${y} H${b} M${b},${y-3} V${y+3}" class="wire thin" style="stroke:var(--${col})"/>`;
+    o+=b+5+tw>Wd-6?`<text x="${a-5}" y="${y+4}" text-anchor="end" class="mono ${cls}" font-size="10">${esc(txt)}</text>`:`<text x="${b+5}" y="${y+4}" class="mono ${cls}" font-size="10">${esc(txt)}</text>`});
+  return o+'</svg>';
+}
+
+/* Causal loop diagram */
+function svgCLD(R,id){
+  const L=R.L,n=L.names.length;if(!n)return emptyFig('Add variables and causal links to draw the loops.');
+  const Wd=820,H=520,cx=Wd/2,cy=H/2+4,rx=Math.min(300,130+n*22),ry=Math.min(195,96+n*13);
+  const P=L.names.map((nm,i)=>{const a=-Math.PI/2+i*2*Math.PI/Math.max(n,1),lines=wrap(nm,18,2);
+    return{nm,lines,x:cx+rx*Math.cos(a),y:cy+ry*Math.sin(a),hw:Math.max(...lines.map(l=>l.length))*3.5+10,hh:lines.length*8+7}});
+  const idx=new Map(L.names.map((nm,i)=>[nm,i]));
+  const links=state.cld.links.filter(l=>idx.has(tr(l.from))&&idx.has(tr(l.to))&&tr(l.from)!==tr(l.to));
+  const pairSet=new Set(links.map(l=>tr(l.from)+'\u0000'+tr(l.to)));
+  let o=svgOpen(Wd,H,'Causal loop diagram')+markers(id),signs='';const curvePts=[];
+  links.forEach(l=>{const a=P[idx.get(tr(l.from))],b=P[idx.get(tr(l.to))];
+    const dx=b.x-a.x,dy=b.y-a.y,len=Math.hypot(dx,dy)||1,nx=-dy/len,ny=dx/len,mx=(a.x+b.x)/2,my=(a.y+b.y)/2;
+    const ia=idx.get(tr(l.from)),ib=idx.get(tr(l.to)),hop=Math.min((ia-ib+n)%n,(ib-ia+n)%n);
+    const inward=((cx-mx)*nx+(cy-my)*ny)>=0?1:-1,rev=pairSet.has(tr(l.to)+'\u0000'+tr(l.from));
+    const sg=rev?1:hop===1?-inward:inward,k=(rev?Math.min(60,len*.2):hop===1?len*.2:Math.min(40,len*.12))*sg,c={x:mx+nx*k,y:my+ny*k};
+    const B=t=>({x:(1-t)*(1-t)*a.x+2*(1-t)*t*c.x+t*t*b.x,y:(1-t)*(1-t)*a.y+2*(1-t)*t*c.y+t*t*b.y});
+    const inside=(p,q)=>((p.x-q.x)/q.hw)**2+((p.y-q.y)/q.hh)**2<1;
+    let t0=.45,t1=.55;
+    for(let t=0;t<=.45;t+=.01)if(!inside(B(t),a)){t0=t;break}
+    for(let t=1;t>=.55;t-=.01)if(!inside(B(t),b)){t1=t;break}
+    t0=Math.min(t0+.02,.45);t1=Math.max(t1-.03,.55);
+    const p0=B(t0),p2=B(t1),d0={x:2*(1-t0)*(c.x-a.x)+2*t0*(b.x-c.x),y:2*(1-t0)*(c.y-a.y)+2*t0*(b.y-c.y)};
+    const q={x:p0.x+(t1-t0)/2*d0.x,y:p0.y+(t1-t0)/2*d0.y},neg=l.pol==='-'||l.pol==='−';
+    o+=`<path d="M${r1(p0.x)},${r1(p0.y)} Q${r1(q.x)},${r1(q.y)} ${r1(p2.x)},${r1(p2.y)}" class="wire" marker-end="${mref(id)}"/>`;
+    for(let t=t0;t<=t1;t+=.04)curvePts.push(B(t));
+    const pp=B(Math.max(t0,t1-.09));
+    signs+=`<text x="${r1(pp.x+nx*13*sg)}" y="${r1(pp.y+ny*13*sg+5)}" text-anchor="middle" class="mono halo ${neg?'t-hot':'t-acc'}" font-size="15" font-weight="600">${neg?'−':'+'}</text>`});
+  const placed=[];
+  const clear=(x,y)=>{let d=1e9;curvePts.forEach(p=>{d=Math.min(d,Math.hypot(p.x-x,p.y-y))});P.forEach(p=>{d=Math.min(d,Math.max(Math.abs(p.x-x)-p.hw,Math.abs(p.y-y)-p.hh))});placed.forEach(p=>{d=Math.min(d,Math.hypot(p.x-x,p.y-y)-26)});return d};
+  L.loops.forEach(Lp=>{const pts=Lp.nodes.map(i=>P[i]);let bx=sum(pts,p=>p.x)/pts.length,by=sum(pts,p=>p.y)/pts.length;
+    bx=bx*.75+cx*.25;by=by*.75+cy*.25;
+    let mx=bx,my=by,best=clear(bx,by);
+    if(best<22)for(const rr of [22,36,50,64,80]){let rb=-1e9,qx=0,qy=0;
+      for(let k=0;k<12;k++){const x=bx+rr*Math.cos(k*Math.PI/6),y=by+rr*Math.sin(k*Math.PI/6);if(x<30||x>Wd-30||y<30||y>H-30)continue;const v=clear(x,y);if(v>rb){rb=v;qx=x;qy=y}}
+      if(rb>best){best=rb;mx=qx;my=qy}if(best>=22)break}
+    placed.push({x:mx,y:my});
+    let area=0;pts.forEach((p,i)=>{const q=pts[(i+1)%pts.length];area+=p.x*q.y-q.x*p.y});
+    const cw=area>0,r=16,a0=-Math.PI/2+(cw?.45:-.45),a1=a0+(cw?1:-1)*Math.PI*1.7;
+    const col=Lp.type==='R'?'hot':'acc';
+    o+=`<path d="M${r1(mx+r*Math.cos(a0))},${r1(my+r*Math.sin(a0))} A${r},${r} 0 1 ${cw?1:0} ${r1(mx+r*Math.cos(a1))},${r1(my+r*Math.sin(a1))}" class="wire" style="stroke:var(--${Lp.type==='R'?'hot':'accent'});stroke-width:1.6" marker-end="${mref(id,col)}"/>`;
+    o+=`<text x="${r1(mx)}" y="${r1(my+4)}" text-anchor="middle" class="mono ${Lp.type==='R'?'t-hot':'t-acc'}" font-size="11.5" font-weight="600">${Lp.label}</text>`});
+  P.forEach(p=>p.lines.forEach((t,j)=>o+=`<text x="${r1(p.x)}" y="${r1(p.y+4-(p.lines.length-1)*7+j*14)}" text-anchor="middle" font-size="12.5" font-weight="500" class="halo">${esc(t)}</text>`));
+  return o+signs+'</svg>';
+}
+
+/* Pareto of manual effort */
+function svgPareto(R){
+  const P=R.pareto;if(!P.length)return emptyFig('Add time per item and volume to steps to see where effort goes.');
+  const L=58,Rr=50,T=28,B=40,slot=Math.max(46,Math.min(74,600/P.length)),pw=slot*P.length,Wd=L+pw+Rr,H=300,ph=H-T-B;
+  const tot=sum(P,s=>s.load),mx=niceMax(P[0].load);
+  let o=svgOpen(Wd,H,'Pareto of manual effort by step');
+  for(let k=0;k<=4;k++){const y=r1(T+ph-ph*k/4);
+    o+=`<line x1="${L}" y1="${y}" x2="${L+pw}" y2="${y}" class="grid"/><text x="${L-6}" y="${y+4}" text-anchor="end" class="mono t-faint" font-size="10">${fmtN(mx*k/4)}</text><text x="${L+pw+6}" y="${y+4}" class="mono t-faint" font-size="10">${k*25}%</text>`}
+  o+=`<text x="${L-6}" y="${T-12}" text-anchor="end" class="mono t-faint" font-size="10">min/day</text><text x="${L+pw+6}" y="${T-12}" class="mono t-faint" font-size="10">cum.</text>`;
+  const y80=r1(T+ph*.2);
+  o+=`<line x1="${L}" y1="${y80}" x2="${L+pw}" y2="${y80}" class="wire dash thin" style="stroke:var(--accent)"/><text x="${L+pw-4}" y="${y80-5}" text-anchor="end" class="mono t-acc" font-size="10">80% of effort</text>`;
+  let cum=0;const pts=[];
+  P.forEach((s,i)=>{const bw=slot*.6,x=r1(L+i*slot+(slot-bw)/2),h=r1(ph*s.load/mx),y=r1(T+ph-h);cum+=s.load;
+    pts.push([r1(L+i*slot+slot/2),r1(T+ph-ph*cum/tot)]);
+    o+=`<g><title>${esc(s.key+' '+(s.name||'')+': '+fmtN(s.load)+' min/day')}</title><rect x="${x}" y="${y}" width="${r1(bw)}" height="${h}" class="bar${i===0?' hot':''}"/></g>`;
+    o+=`<text x="${r1(x+bw/2)}" y="${y-5}" text-anchor="middle" class="mono" font-size="10">${fmtN(s.load)}</text><text x="${r1(x+bw/2)}" y="${T+ph+16}" text-anchor="middle" class="mono t-mute" font-size="10.5">${esc(trunc(s.key,7))}</text>`});
+  o+=`<polyline points="${pts.map(p=>p.join(',')).join(' ')}" class="line-acc"/>`+pts.map(p=>`<circle cx="${p[0]}" cy="${p[1]}" r="3" class="f-acc"/>`).join('');
+  return o+'</svg>';
+}
+
+/* Fit vs load matrix */
+const recFill={ok:'f-ok',info:'f-acc',warn:'f-warn',mute:'f-ink3',hot:'f-hot'};
+function svgMatrix(R){
+  const P=R.steps.filter(s=>s.load>0);if(!P.length)return emptyFig('Fit and load appear once steps have time, volume and fit signals.');
+  const Wd=620,H=410,L=64,Rr=24,T=24,B=52,pw=Wd-L-Rr,ph=H-T-B;
+  const my=niceMax(Math.max(...P.map(s=>s.load))),X=f=>r1(L+pw*f/100),Y=v=>r1(T+ph-ph*v/my);
+  const sy=median(P.map(s=>s.load)),sx=60;
+  let o=svgOpen(Wd,H,'Automation fit against manual load');
+  o+=`<rect x="${X(sx)}" y="${T}" width="${r1(X(100)-X(sx))}" height="${r1(Y(sy)-T)}" class="soft-acc"/><rect x="${L}" y="${T}" width="${r1(X(sx)-L)}" height="${r1(Y(sy)-T)}" class="soft-hot"/>`;
+  [0,25,50,75,100].forEach(f=>o+=`<line x1="${X(f)}" y1="${T}" x2="${X(f)}" y2="${T+ph}" class="grid"/><text x="${X(f)}" y="${T+ph+16}" text-anchor="middle" class="mono t-faint" font-size="10">${f}</text>`);
+  for(let k=0;k<=4;k++){const v=my*k/4;o+=`<line x1="${L}" y1="${Y(v)}" x2="${L+pw}" y2="${Y(v)}" class="grid"/><text x="${L-6}" y="${Y(v)+4}" text-anchor="end" class="mono t-faint" font-size="10">${fmtN(v)}</text>`}
+  o+=`<line x1="${X(sx)}" y1="${T}" x2="${X(sx)}" y2="${T+ph}" class="wire dash thin"/><line x1="${L}" y1="${Y(sy)}" x2="${L+pw}" y2="${Y(sy)}" class="wire dash thin"/>`;
+  o+=`<text x="${X(100)-8}" y="${T+16}" text-anchor="end" class="mono t-acc" font-size="10.5" font-weight="600">QUICK WINS</text><text x="${L+8}" y="${T+16}" class="mono t-hot" font-size="10.5" font-weight="600">REDESIGN FIRST</text>`;
+  o+=`<text x="${X(100)-8}" y="${T+ph-8}" text-anchor="end" class="mono t-faint" font-size="10.5">EASY EXTRAS</text><text x="${L+8}" y="${T+ph-8}" class="mono t-faint" font-size="10.5">LEAVE FOR NOW</text>`;
+  o+=`<text x="${L+pw/2}" y="${H-10}" text-anchor="middle" class="t-mute" font-size="11.5">Automation fit (0–100)</text><text transform="translate(16 ${T+ph/2}) rotate(-90)" text-anchor="middle" class="t-mute" font-size="11.5">Manual load, min/day</text>`;
+  const pts=P.map(s=>({s,x:X(s.fit),y:Y(s.load)})).sort((a,b)=>a.y-b.y),placed=[];
+  pts.forEach(p=>{let lx=p.x+9,ly=p.y+4,anchor='start';if(p.x>X(100)-44){lx=p.x-9;anchor='end'}
+    for(let g=0;g<8&&placed.some(q=>Math.abs(q.y-ly)<12&&Math.abs(q.x-lx)<46);g++)ly+=12;
+    placed.push({x:lx,y:ly});
+    o+=`<g><title>${esc(p.s.key+' '+(p.s.name||'')+' · fit '+p.s.fit+' · '+fmtN(p.s.load)+' min/day · '+REC[p.s.rec].label)}</title><circle cx="${p.x}" cy="${p.y}" r="6" class="${recFill[REC[p.s.rec].cls]}" style="stroke:var(--sheet);stroke-width:1.5"/></g><text x="${r1(lx)}" y="${r1(ly)}" text-anchor="${anchor}" class="mono halo" font-size="10.5">${esc(trunc(p.s.key,7))}</text>`});
+  return o+'</svg>';
+}
+
+/* Solution architecture: encapsulated modules + human queue + audit log */
+function svgPipeline(R,id){
+  const S=R.steps;if(!S.length)return emptyFig('Add steps on sheet 03 to generate the module architecture.');
+  const MODS=['Trigger','Ingest','Validate','Transform','Decide','Act','Report'];
+  const box=new Map(MODS.map(m=>[m,[]])),human=[],removed=[];
+  S.forEach(s=>{if(s.rec==='eliminate'){removed.push(s);return}
+    if(s.mod==='Human'||['manual','simplify','combine'].includes(s.rec)){human.push(s);return}
+    (box.get(s.mod)||box.get('Transform')).push(s)});
+  const MW=122,GAP=22,X0=20,CH=24,Wd=X0*2+MODS.length*MW+(MODS.length-1)*GAP;
+  const maxChips=Math.max(1,...MODS.map(m=>box.get(m).length));
+  const reviews=S.filter(s=>s.rec==='assist'&&s.mod!=='Human');
+  const AY=14,AH=30,MY=AY+AH+34,MH=40+maxChips*(CH+6)+6,HY=MY+MH+60,chipsH=human.length?Math.ceil(human.length/3)*(CH+6):22,HH=34+chipsH+(reviews.length?22:0)+8,H=HY+HH+(removed.length?40:16);
+  const chipCls=s=>s.rec==='automate'?'automate':s.rec==='assist'?'assist':s.rec==='handoff'?'handoff':'system';
+  const chip=(s,x,y,w,n)=>`<g><title>${esc(s.key+' '+(s.name||'')+' · '+REC[s.rec].label)}</title><rect x="${r1(x)}" y="${y}" width="${r1(w)}" height="${CH}" class="chip ${chipCls(s)}"/><text x="${r1(x+6)}" y="${y+16}" font-size="11"><tspan class="mono" font-weight="600">${esc(trunc(s.key,6))}</tspan> ${esc(trunc(s.name,n))}</text></g>`;
+  let o=svgOpen(Wd,H,'Solution architecture')+markers(id);
+  o+=`<rect x="${X0}" y="${AY}" width="${Wd-2*X0}" height="${AH}" class="box2"/><text x="${X0+10}" y="${AY+19}" class="mono t-mute" font-size="11">AUDIT LOG · run id, inputs, row counts, decisions, exceptions, outputs</text>`;
+  const cxm=i=>X0+i*(MW+GAP)+MW/2;
+  MODS.forEach((m,i)=>{const x=X0+i*(MW+GAP);
+    o+=`<path d="M${x+MW/2},${MY} V${AY+AH+2}" class="wire thin dash" marker-end="${mref(id)}"/>`;
+    o+=`<rect x="${x}" y="${MY}" width="${MW}" height="${MH}" class="box" style="stroke:var(--ink)"/><text x="${x+10}" y="${MY+21}" font-weight="600" font-size="13">${m}</text><text x="${x+MW-8}" y="${MY+21}" text-anchor="end" class="mono t-faint" font-size="10">${String(i+1).padStart(2,'0')}</text>`;
+    if(i<MODS.length-1)o+=`<path d="M${x+MW},${MY+MH/2} H${x+MW+GAP-1}" class="wire" marker-end="${mref(id)}"/>`;
+    const items=box.get(m);
+    if(m==='Trigger'&&!items.length)o+=`<rect x="${x+8}" y="${MY+32}" width="${MW-16}" height="${CH}" class="chip system"/><text x="${x+14}" y="${MY+48}" font-size="11">${esc(trunc(state.charter.trigger||'Schedule or file arrival',15))}</text>`;
+    items.forEach((s,j)=>o+=chip(s,x+8,MY+32+j*(CH+6),MW-16,11))});
+  const hx=X0+2*(MW+GAP),hw=3*(MW+GAP)+MW;
+  o+=`<rect x="${hx}" y="${HY}" width="${hw}" height="${HH}" class="box exc"/><text x="${hx+10}" y="${HY+21}" font-weight="600" font-size="13">Human queue</text><text x="${hx+hw-10}" y="${HY+21}" text-anchor="end" class="mono t-faint" font-size="10">EXCEPTIONS AND JUDGMENT</text>`;
+  const cw=(hw-24)/3;
+  if(!human.length)o+=`<text x="${hx+10}" y="${HY+48}" class="t-faint" font-size="11.5">No fully manual steps.</text>`;
+  if(reviews.length)o+=`<text x="${hx+10}" y="${HY+34+chipsH+14}" class="mono t-mute" font-size="10.5">REVIEWS FROM ASSIST STEPS: ${esc(reviews.map(s=>s.key).join(' \u00b7 '))}</text>`;
+  human.forEach((s,j)=>o+=chip(s,hx+8+(j%3)*(cw+4),HY+32+Math.floor(j/3)*(CH+6),cw,20));
+  o+=`<path d="M${cxm(2)},${MY+MH} V${HY-1}" class="wire hot" marker-end="${mref(id,'hot')}"/><text x="${cxm(2)+6}" y="${MY+MH+22}" class="mono t-hot" font-size="10">exception</text>`;
+  o+=`<path d="M${cxm(4)-24},${MY+MH} V${HY-1}" class="wire hot" marker-end="${mref(id,'hot')}"/><text x="${cxm(4)-18}" y="${MY+MH+22}" class="mono t-hot" font-size="10">needs judgment</text>`;
+  o+=`<path d="M${cxm(5)+12},${HY} V${MY+MH+2}" class="wire acc" marker-end="${mref(id,'acc')}"/><text x="${cxm(5)+18}" y="${MY+MH+40}" class="mono t-acc" font-size="10">approved</text>`;
+  if(removed.length)o+=`<text x="${X0}" y="${H-14}" class="mono t-mute" font-size="10.5">REMOVE OR SHORTEN: ${esc(removed.map(s=>s.key+' '+trunc(s.name,22)).join(' · '))}</text>`;
+  return o+'</svg>';
+}
+
+/* ============ sheets, modules, meetings ============ */
+const SHEETS=[
+ {id:'overview',no:'00',name:'Overview',title:'Method and status',desc:'Model a team’s process the way a circuit is designed: draw the boundary, wire the flow, define the states, check the timing and the feedback, then run design-rule checks. Gaps turn into meeting questions; the model turns into the proposal.'},
+ {id:'charter',no:'01',name:'Charter',meter:1,title:'Problem charter',sum:'Trigger, pain, stakeholders, success metric',desc:'Frame the problem before mapping it: what starts the work, what hurts, who is involved and how success will be measured.'},
+ {id:'context',no:'02',name:'Context',meter:1,title:'System boundary',sum:'Inputs, controls, outputs, mechanisms',desc:'An IDEF0 context diagram. Inputs enter from the left and outputs leave on the right; controls constrain the work from above and mechanisms (people and systems) perform it from below.'},
+ {id:'flow',no:'03',name:'Flow',meter:1,title:'Process flow',sum:'Steps, owners, times, waits, fit signals',desc:'Every step the team performs, wired in sequence across the people who do it. Shadow the work to fill in time, volume and wait, and rate how well each step suits automation.'},
+ {id:'states',no:'04',name:'States',meter:1,title:'Work item state machine',sum:'Lifecycle of one work item',desc:'The lifecycle of one work item as a finite state machine. Each status is a state and each event moves the item on. Manual transitions are where people push items along by hand.'},
+ {id:'timing',no:'05',name:'Timing',meter:1,title:'Timing and cut-offs',sum:'Arrivals, work windows, cut-offs, slack',desc:'The working day as a timing diagram. Inputs arrive, work windows run and cut-offs fall; slack is the margin between finishing the work and the deadline edge.'},
+ {id:'loops',no:'06',name:'Loops',meter:1,title:'Causal loops',sum:'What reinforces or balances the pain',desc:'What makes the process better or worse over time. A + link moves the next variable the same way, a − link the opposite way. A loop with an odd number of − links balances; any other loop reinforces.'},
+ {id:'analysis',no:'07',name:'Analysis',title:'Bottleneck analysis',sum:'Hot spot, critical path, fit, checks',desc:'Computed from sheets 01 to 06: where manual time goes, which steps suit automation, what sits on the critical path, and which gaps are still open.'},
+ {id:'solution',no:'08',name:'Solution',meter:1,title:'Solution architecture',sum:'Modules, increments, PoC definition',desc:'Divide and conquer. Each step is assigned to a module with one job and a clean interface; modules are built and tested separately, then wired together. Exceptions and judgment calls route to a person.'},
+ {id:'meeting',no:'09',name:'Meeting kit',title:'Meeting kit',sum:'Questions for each meeting, from the gaps',desc:'Questions for each meeting in the engagement, including questions generated from the gaps in this model. Tick them off and note the answers as you go.'},
+ {id:'brief',no:'10',name:'Brief',title:'Proposal brief',sum:'One-page proposal and 30-second pitch',desc:'A one-page proposal generated from the model, ready to paste into an email, a Teams post or a document.'}
+];
+const sheetById=id=>SHEETS.find(s=>s.id===id);
+const sheetNo=id=>(sheetById(id)||{}).no||'';
+const sheetName=id=>(sheetById(id)||{}).name||id;
+const MODS7=['Trigger','Ingest','Validate','Transform','Decide','Act','Report'];
+const MODINFO={
+ Trigger:{job:'Start a run on a schedule, a file arrival or a mailbox rule',io:'event → run id',tools:'Power Automate schedule or flow trigger; A360 scheduler; file watcher'},
+ Ingest:{job:'Read files, mail and system extracts into one typed table',io:'files, reports → typed table',tools:'Python (pandas, openpyxl); Fabric pipeline; A360 Excel and Email packages'},
+ Validate:{job:'Check schema, completeness and matches; split out exceptions',io:'table → clean rows + exceptions',tools:'Python rule checks against a data contract per input'},
+ Transform:{job:'Filter, map, enrich and calculate',io:'clean rows → enriched rows',tools:'Python; Fabric notebook; Power Query'},
+ Decide:{job:'Apply written rules; send judgment cases to a person',io:'rows → decision + reason code',tools:'Rules table in Python, or a maintained Excel or SharePoint list'},
+ Act:{job:'Update systems, send templated messages, raise requests',io:'decisions → actions + confirmations',tools:'A360 for screen-only systems; Power Automate for Outlook and Teams; Python for APIs'},
+ Report:{job:'Write tracker rows, MI and the run summary',io:'results → tracker, MI, run log',tools:'Excel or SharePoint tracker; Power BI on Fabric'},
+ Human:{job:'Hold exceptions and reviews with context, an owner and a due time',io:'cases → approved or corrected cases',tools:'SharePoint list, Teams approvals or the existing tracker'}
+};
+const procName=()=>{const n=tr(state.meta.name);return n?lcFirst(n):'this process'};
+const lcFirst=s=>s&&/^[A-Z][a-z]/.test(s)?s[0].toLowerCase()+s.slice(1):s;
+const stripDot=s=>String(s).replace(/[.\s]+$/,'');
+const dot=s=>{s=String(s).trim();return /[.!?]$/.test(s)?s:s+'.'};
+const hrsW=m=>(m/60).toFixed(1)+' hours';
+const listJoin=a=>a.length<=1?a.join(''):a.slice(0,-1).join(', ')+' and '+a[a.length-1];
+const hash=s=>{let h=5381;for(let i=0;i<s.length;i++)h=((h<<5)+h+s.charCodeAt(i))|0;return (h>>>0).toString(36)};
+
+const STAGES=[
+ {id:'kickoff',name:'Kickoff',dur:'30 min',who:'Process owner and team lead',goal:'Agree the problem, the boundary and how success is measured.',fills:['charter','context'],out:'A problem statement, the inputs and outputs, and a date to shadow',
+  open:p=>`Thanks for the time. The aim today is to understand how ${p} works end to end and where it hurts, before proposing anything. By the end I’d like a shared problem statement and a rough map you can correct. Nothing in your process changes yet.`,
+  close:'Agree who to shadow, when, and on which kind of day: a normal one and, if possible, a peak one.',
+  qs:[{t:'Walk me through what starts this work and what “done” looks like.',w:'trigger and end of the boundary'},
+   {t:'Which part would you most like to stop doing, and why?',w:'pain, in their words'},
+   {t:'How many items come through on a normal day, and what does a peak day look like?',w:'volume and peaks'},
+   {t:'Who sends you the inputs, and who uses what you produce?',w:'sources and consumers'},
+   {t:'What goes wrong most often, and how do you find out?',w:'exceptions and detection'},
+   {t:'Which deadlines, approvals or controls does this work have to respect?',w:'controls and cut-offs'},
+   {t:'If this worked perfectly in three months, what would be different?',w:'success metric'},
+   {t:'Has anything been tried before to fix this? What happened?',w:'history and constraints'}]},
+ {id:'shadow',name:'Shadow',dur:'1 to 2 h at the desk',who:'The analysts who do the work',goal:'Watch real items being processed, time each step and catch the exceptions.',fills:['flow'],out:'A step list with times, volumes, waits and systems',
+  open:()=>`I’ll watch you work through a few real items and time each step. Please work as you normally would and talk me through what you’re looking at. I’m assessing the process, not you.`,
+  close:'Ask for an anonymised sample of each input and a copy of any procedure document.',
+  qs:[{t:'Can you process a few real items while I watch, and talk me through each screen?',w:'observed flow'},
+   {t:'What are you looking for on this screen?',w:'hidden rules'},
+   {t:'Where did you copy that from, and where does it go next?',w:'data lineage'},
+   {t:'What would make you handle an item differently?',w:'exception routes'},
+   {t:'What do you check before you move on?',w:'validation rules'},
+   {t:'Is this a typical item? Can we look at a hard one?',w:'variation'},
+   {t:'Who do you contact when it doesn’t match, and how?',w:'handoffs'},
+   {t:'Do you keep personal trackers, macros or notes for this?',w:'side tools and tacit knowledge'}]},
+ {id:'deep',name:'Deep dive',dur:'45 min',who:'Senior analyst, process owner, system owner',goal:'Pin down the rules, data, systems, statuses and cut-offs behind each step.',fills:['states','timing','flow'],out:'Decision rules, data sources, the state machine and the timing of the day',
+  open:p=>`Last session I mapped the steps of ${p}. Today I’d like to pin down what sits behind them: the rules that decide each route, where the data comes from, and the cut-offs the work feeds.`,
+  close:'Confirm who can grant system access and provide sample data.',
+  qs:[{t:'Can each decision be written as if/then rules? Who signs them off?',w:'rule completeness'},
+   {t:'Which systems hold this data? Do they offer an export, a report or an API?',w:'access route'},
+   {t:'Which fields are often missing or wrong?',w:'data quality'},
+   {t:'What statuses does an item pass through, and who moves it between them?',w:'state machine'},
+   {t:'When does each input arrive, and which cut-offs does the output feed?',w:'timing'},
+   {t:'How often do templates, rules or screens change, and who tells you?',w:'stability'},
+   {t:'What evidence or audit trail do the controls need today?',w:'control evidence'},
+   {t:'Which cases should never be automated, and why?',w:'human boundary'}]},
+ {id:'review',name:'Playback',dur:'30 min',who:'Team lead and analysts',goal:'Play the model back and confirm the bottleneck and the feedback loops.',fills:['loops','analysis'],out:'A corrected map, an agreed bottleneck and a candidate scope',
+  open:(p,R)=>R.steps.length&&R.totLoad?`Here is ${p} as I understood it: ${R.steps.length} steps across ${R.lanes.length} roles and about ${hrsW(R.totLoad)} of manual work a day, with the most time spent on “${R.hot?R.hot.name:''}”. Please correct anything that’s wrong before we look at options.`:`Here is ${p} as I understood it. Please correct anything that’s wrong before we look at options.`,
+  close:'Agree the candidate scope for a proof of concept and who should be at the sign-off.',
+  qs:[{t:'Is this flow right? What’s missing or in the wrong order?',w:'model validation'},
+   {t:'Does the hot spot match where you feel the pain?',w:'bottleneck agreement'},
+   {t:'When the backlog grows, what do you do differently, and what happens next?',w:'feedback loops'},
+   {t:'Which exception routes are rare, and which happen every day?',w:'route frequency'},
+   {t:'Are these numbers typical, low or high?',w:'estimate quality'},
+   {t:'Who else should see this map before options are discussed?',w:'stakeholders'}]},
+ {id:'signoff',name:'Sign-off',dur:'30 min',who:'Process owner, team lead, control owner',goal:'Agree the PoC scope, success criteria, controls and access.',fills:['solution','brief'],out:'A signed-off PoC scope, success criteria and asks',
+  open:()=>{const inc=increments()[0],poc=tr(state.poc.name)||(inc?`automating ${inc.label}`:'');return poc?`Based on the map, the proposal is a small proof of concept: ${poc}. I’d like to agree the scope, how success will be measured, and the access needed to start.`:`Based on the map, I’d like to agree the scope of a small proof of concept, how success will be measured, and the access needed to start.`},
+  close:'Set the PoC start date and the date of the first playback of results.',
+  qs:[{t:'Does this scope cover the most valuable part, and is it small enough for a few weeks?',w:'scope'},
+   {t:'What result would count as success, and how will it be measured?',w:'acceptance criteria'},
+   {t:'Who checks the bot’s output during the parallel run?',w:'control during the PoC'},
+   {t:'What access, data and approvals are needed, and who grants them?',w:'dependencies'},
+   {t:'What must stay manual, and how will exceptions reach a person?',w:'human queue'},
+   {t:'What would make you pause or stop the PoC?',w:'risk tolerance'}]}
+];
+const curStage=()=>STAGES.find(s=>s.id===(state.ui&&state.ui.stage))||STAGES[0];
+
+/* ============ view templates ============ */
+const fld=(path,label,o={})=>{const id='f-'+path.replace(/\./g,'-');
+  return `<div class="field${o.wide?' wide':''}"><label for="${id}">${esc(label)}</label>${o.ta?`<textarea id="${id}" data-bind="${path}" rows="${o.rows||3}" placeholder="${esc(o.ph||'')}"></textarea>`:`<input id="${id}" data-bind="${path}" placeholder="${esc(o.ph||'')}">`}${o.help?`<small>${esc(o.help)}</small>`:''}</div>`};
+const fitBtn=f=>`<button type="button" class="btn sm" data-fit="${f}" aria-pressed="false">Fit to width</button>`;
+const swc=c=>`<i style="background:var(--${c})"></i>`;
+const lnc=(c,dash)=>`<i class="ln" style="border-top-color:var(--${c})${dash?';border-top-style:dashed':''}"></i>`;
+const boxc=(c,dash)=>`<i style="border:1.5px ${dash?'dashed':'solid'} var(--${c})"></i>`;
+const legend=items=>'<div class="legend">'+items.map(([k,t])=>`<span>${k}${esc(t)}</span>`).join('')+'</div>';
+const checks=sh=>`<div class="block"><h3>Checks on this sheet <span class="tag">gaps become meeting questions</span></h3><div data-drc="${sh}"></div></div>`;
+const figBlock=(name,title,tag,leg)=>`<div class="block"><div class="fig-tools"><h3>${esc(title)}${tag?` <span class="tag">${esc(tag)}</span>`:''}</h3>${fitBtn(name)}</div>${leg||''}<div class="fig" data-fig="${name}"></div></div>`;
+
+const BODIES={
+ overview:()=>`
+  <div data-out="ov-kpis"></div>
+  <div class="block"><h3>The drawing set <span class="tag">fill in order, revisit any time</span></h3><div class="chain" data-out="chain"></div></div>
+  <div class="block"><h3>From engineering to process <span class="tag">what each sheet borrows</span></h3>
+   <div class="tbl-wrap"><table class="ro"><thead><tr><th>Engineering idea</th><th>In this workbench</th><th>Sheet</th><th>Question it answers</th></tr></thead><tbody>
+   ${[['Block diagram, system boundary','IDEF0 context: inputs, controls, outputs, mechanisms','02','What crosses the boundary, and what governs it?'],
+      ['Netlist, signal flow','Steps wired by Next across swimlanes','03','Where does the work go, and who touches it?'],
+      ['Throughput bottleneck','Hot spot: largest manual load (time × volume × rework)','07','Where does the team’s time actually go?'],
+      ['Critical path, propagation delay','Longest touch-plus-wait path and flow efficiency','07','Why does one item take so long end to end?'],
+      ['Finite state machine','Status lifecycle with events, guards and owners','04','Can every item reach done, and who pushes it?'],
+      ['Timing diagram, setup margin','Arrivals, work windows, cut-offs and slack','05','Does the work finish before the deadline edge?'],
+      ['Positive and negative feedback','Causal loops: reinforcing (R) and balancing (B)','06','What makes it worse over time, and what pushes back?'],
+      ['Design rule check','Gap checks that generate meeting questions','07, 09','What don’t I know yet?'],
+      ['Modular design, encapsulation','Modules with one job and a typed interface','08','How does the build split into testable parts?'],
+      ['Prototype bring-up','PoC with pass/fail criteria and a parallel run','08, 10','What is the smallest proof that it works?']]
+     .map(r=>`<tr><td><b>${esc(r[0])}</b></td><td>${esc(r[1])}</td><td class="mono">${r[2]}</td><td>${esc(r[3])}</td></tr>`).join('')}
+   </tbody></table></div></div>
+  <div class="block"><h3>Meeting sequence <span class="tag">five sessions, each fills specific sheets</span></h3><div class="chain">${STAGES.map((s,i)=>`<a href="#meeting" data-stage="${s.id}"><span class="c-no"><span>${i+1}</span><span>${esc(s.dur)}</span></span><span class="c-t">${esc(s.name)}</span><span class="c-d">${esc(s.goal)} Fills ${s.fills.map(sheetNo).join(', ')}.</span></a>`).join('')}</div></div>
+  <div class="note"><b>Data</b><span>Saved in this browser only. Use Export to keep versions or move to another machine. Describe the process with field names and patterns; keep client names, account numbers and trade identifiers out.</span></div>`,
+ charter:()=>`
+  <div class="fields">
+   ${fld('charter.trigger','Trigger',{ph:'What starts the work: a time, a file, an email, a request'})}
+   ${fld('charter.frequency','Frequency and peaks',{ph:'Daily, month-end peaks, ad hoc'})}
+   ${fld('charter.objective','Objective',{wide:1,ph:'What the process must achieve, in one line'})}
+   ${fld('charter.pain','Pain points',{wide:1,ta:1,ph:'What the team says hurts, in their words'})}
+   ${fld('charter.stakeholders','Stakeholders',{ta:1,ph:'Who does the work, owns the process, uses the output, owns the controls'})}
+   ${fld('charter.metric','Success metric',{ta:1,ph:'Minutes per item, error rate, aged items, cut-off misses'})}
+   ${fld('charter.constraints','Constraints and controls',{ta:1,ph:'Data restrictions, approvals, maker-checker, access limits'})}
+   ${fld('charter.notes','Notes',{ta:1})}
+  </div>
+  <div class="block"><h3>Problem statement <span class="tag">generated; use it to open the kickoff</span></h3><div class="say" data-out="problem"></div><div class="btn-row"><button type="button" class="btn sm" data-copy="problem">Copy</button></div></div>
+  ${checks('charter')}`,
+ context:()=>`
+  <div class="block"><h3>Boundary items</h3><div id="ed-icom"></div></div>
+  ${figBlock('context','Context diagram','IDEF0 A0')}
+  ${checks('context')}`,
+ flow:()=>`
+  <div class="block"><h3>Shadow timer <span class="tag">time real items at the desk</span></h3>
+   <div class="sw">
+    <label class="vh" for="sw-step">Step to time</label><select id="sw-step"></select>
+    <span class="clock" id="sw-clock" aria-live="off">0:00</span>
+    <button type="button" class="btn primary sm" id="sw-go">Start</button>
+    <button type="button" class="btn sm" id="sw-pause">Pause</button>
+    <button type="button" class="btn sm" id="sw-use">Use average</button>
+    <button type="button" class="btn sm" id="sw-clear">Clear samples</button>
+    <div class="stats" id="sw-stats"></div>
+   </div></div>
+  <div class="block"><h3>Steps <span class="tag">one row per step, in order</span></h3>
+   <div class="note"><b>Type</b><span>Manual: a person does it. System: runs without a person. Decision: a choice between routes. Wait: the item sits idle. Handoff: the work passes to another team.</span><b>Fit</b><span>Rules, data format, system access and how often things change. Leave ? until you know; every unknown becomes a question.</span><b>Next</b><span>The step IDs this step leads to, separated by commas. Blank means the next row; END stops the flow.</span></div>
+   <div id="ed-steps"></div></div>
+  ${figBlock('flow','Swimlane diagram','',legend([[swc('ch-manual'),'Manual'],[swc('ch-system'),'System'],[swc('ch-decision'),'Decision'],[swc('ch-wait'),'Wait'],[swc('ch-handoff'),'Handoff'],[lnc('accent'),'Critical path'],[lnc('hot',1),'Rework loop'],[boxc('hot'),'Hot spot'],['','Δt = wait per item; bar = share of load']]))}
+  ${checks('flow')}`,
+ states:()=>`
+  <div class="fields"><div class="field"><label for="f-fsm-item">Work item</label><input id="f-fsm-item" data-bind="fsm.item" placeholder="e.g. trade confirmation, payment, client request"><small>The one thing that moves through the process. Generated questions use this word.</small></div></div>
+  <div class="cols"><div class="block"><h3>States</h3><div id="ed-states"></div></div><div class="block"><h3>Transitions</h3><div id="ed-trans"></div></div></div>
+  ${figBlock('fsm','State diagram','',legend([[lnc('ch-system'),'Fired by a system'],[lnc('ch-manual'),'Fired by a person'],[boxc('hot',1),'Exception state'],[boxc('ink-2'),'Start (●) and end (double border)'],[boxc('hot'),'No exit']]))}
+  <div data-out="fsm-stats"></div>
+  ${checks('states')}`,
+ timing:()=>`
+  <div class="block"><h3>Events of the day</h3>
+   <div class="note"><b>Kinds</b><span>Arrival: an input becomes available. Window: a stretch of work with a start and an end. Cut-off: a hard deadline. Output: when a deliverable is due.</span></div>
+   <div id="ed-timing"></div></div>
+  ${figBlock('timing','Timing diagram','',legend([[lnc('ch-system'),'Arrival'],[swc('accent'),'Work window'],[lnc('hot'),'Cut-off'],[lnc('accent',1),'Output due'],['','Bracket = slack, or how late the work runs']]))}
+  <div class="block"><h3>Slack against each deadline</h3><div data-out="slack"></div></div>
+  ${checks('timing')}`,
+ loops:()=>`
+  <div class="cols">
+   <div class="block"><h3>Variables</h3><p class="hint">Quantities that can rise or fall: backlog, errors, overtime. Reorder them to untangle the diagram.</p><div id="ed-vars"></div></div>
+   <div class="block"><h3>Causal links</h3><p class="hint">If the first variable rises, does the second rise (+) or fall (−)?</p><div id="ed-links"></div></div>
+  </div>
+  ${figBlock('cld','Causal loop diagram','',legend([['<b class="mono" style="color:var(--accent)">+</b>','Same direction'],['<b class="mono" style="color:var(--hot)">−</b>','Opposite direction'],['<b class="mono" style="color:var(--hot)">R</b>','Reinforcing loop'],['<b class="mono" style="color:var(--accent)">B</b>','Balancing loop']]))}
+  <div class="block"><h3>Loops found</h3><div data-out="loops"></div></div>
+  ${checks('loops')}`,
+ analysis:()=>`
+  <div data-out="an-kpis"></div>
+  <div class="block"><h3>Where manual time goes <span class="tag">Pareto</span></h3><div class="fig" data-fig="pareto"></div><p class="hint" data-out="pareto-cap"></p></div>
+   <div class="block"><h3>Fit against load <span class="tag">one dot per step</span></h3><div class="fig" data-fig="matrix"></div>${legend([[swc('ok'),'Automate'],[swc('accent'),'Assist or template'],[swc('warn'),'Simplify first'],[swc('ink-3'),'Keep manual'],[swc('hot'),'Remove the wait']])}</div>
+  <div class="block"><h3>Critical path <span class="tag">one item, end to end</span></h3>${legend([[swc('accent'),'Touch time'],['<i style="background:repeating-linear-gradient(45deg,var(--ink-3) 0 2px,transparent 2px 5px)"></i>','Waiting']])}<div class="fig" data-fig="cp"></div><p class="hint" data-out="cp-cap"></p></div>
+  <div class="block"><h3>Opportunities <span class="tag">ranked by estimated saving</span></h3><div data-out="opps"></div></div>
+  <div class="note"><b>Model</b><span>Load = minutes per item × items per day × (1 + rework). Fit weights rules 35%, data format 25%, system access 20% and stability 20%. Savings assume automate steps lose 80% of their manual time, assist steps 45%, templated handoffs 50% and simplify-first steps 15%. Replace these estimates with PoC measurements.</span></div>
+  <div class="block"><h3>Design rule check <span class="tag">every gap becomes a question on sheet 09</span></h3><div data-drc="all"></div></div>`,
+ solution:()=>`
+  ${figBlock('pipeline','Module architecture','',legend([[boxc('accent'),'Automate'],[boxc('accent',1),'Assist: a person reviews'],[boxc('ch-handoff'),'Templated handoff'],[swc('sheet-2'),'Existing system step'],[boxc('hot',1),'Human queue']]))}
+  <div class="block"><h3>Modules and interfaces</h3><p class="hint">Change a step’s module in the Module column on sheet 03. Each module can be built and tested on synthetic data that has the production schema.</p><div data-out="modules"></div></div>
+  <div class="block"><h3>Build increments <span class="tag">each runs end to end; a person finishes the rest</span></h3><div data-out="increments"></div></div>
+  <div class="block"><div class="fig-tools"><h3>Proof of concept</h3><button type="button" class="btn sm" id="b-draftpoc">Draft from increment 1</button></div>
+   <div class="fields">
+    ${fld('poc.name','PoC name',{ph:'e.g. Break enrichment bot (S1 to S3)'})}
+    ${fld('poc.timebox','Timebox',{ph:'e.g. 3 weeks build + 2 weeks parallel run'})}
+    ${fld('poc.scope','In scope',{wide:1,ta:1})}
+    ${fld('poc.out','Out of scope',{ta:1})}
+    ${fld('poc.success','Success criteria',{ta:1,ph:'Measurable pass/fail criteria'})}
+    ${fld('poc.controls','Controls during the PoC',{ta:1})}
+    ${fld('poc.data','Data and environment',{ta:1})}
+    ${fld('poc.asks','Asks: access, data, people',{wide:1,ta:1})}
+   </div></div>
+  ${checks('solution')}`,
+ meeting:()=>`
+  <div class="seg" role="group" aria-label="Meeting" id="stage-seg">${STAGES.map((s,i)=>`<button type="button" data-stage="${s.id}" aria-pressed="false">${i+1} · ${esc(s.name)}</button>`).join('')}</div>
+  <div data-out="stagehead"></div>
+  <div class="block"><h3>Open with <span class="tag">say it in your own words</span></h3><div class="say" data-out="say"></div></div>
+  <div class="block"><div class="fig-tools"><h3>Questions <span class="tag" data-out="qprog"></span></h3><div class="btn-row"><button type="button" class="btn sm" id="b-agenda">Copy agenda</button><button type="button" class="btn sm" id="b-notes">Copy notes</button></div></div><div data-out="questions"></div></div>
+  <div class="block"><h3>Close with</h3><div class="say" data-out="close"></div></div>`,
+ brief:()=>`
+  <div class="btn-row"><button type="button" class="btn primary sm" id="b-copybrief">Copy brief as Markdown</button><button type="button" class="btn sm" id="b-mflow">Copy flow as Mermaid</button><button type="button" class="btn sm" id="b-mfsm">Copy states as Mermaid</button></div>
+  <div class="block"><h3>30-second version</h3><div class="say" data-out="pitch"></div><div class="btn-row"><button type="button" class="btn sm" data-copy="pitch">Copy</button></div></div>
+  <div data-out="brief"></div>`
+};
+
+function buildViews(){
+  $('#nav').innerHTML=SHEETS.map(s=>`<a href="#${s.id}" data-v="${s.id}"><span class="no">${s.no}</span><span>${esc(s.name)}</span><span class="st">${s.meter?`<span class="meter"><i data-meter="${s.id}"></i></span>`:''}<span class="badge" data-badge="${s.id}"></span></span></a>`).join('');
+  $('#views').innerHTML=SHEETS.map(s=>`<section class="sheet" id="v-${s.id}" hidden aria-labelledby="h-${s.id}">
+   <div class="sheet-head"><div class="sheet-title"><h2 id="h-${s.id}">${esc(s.title)}</h2><p>${esc(s.desc)}</p></div>
+    <div class="tblock"><div><span>Sheet</span><b>${s.no} / 10</b></div><div><span>Rev</span><b data-tb="rev"></b></div><div><span>Date</span><b data-tb="date"></b></div><div><span>Checks</span><b data-tbc="${s.id}"></b></div></div></div>
+   <div class="sheet-body">${BODIES[s.id]()}</div></section>`).join('');
+  document.body.insertAdjacentHTML('beforeend',['dl-lanes','dl-systems','dl-states','dl-vars'].map(id=>`<datalist id="${id}"></datalist>`).join(''));
+}
+
+/* ============ derived outputs ============ */
+function setOut(name,html){$$(`[data-out="${name}"]`).forEach(el=>{if(el._h!==html){el.innerHTML=html;el._h=html}})}
+function setFig(name,html){$$(`[data-fig="${name}"]`).forEach(el=>{if(el._h!==html){el.innerHTML=html;el._h=html}})}
+const kpiHTML=list=>'<div class="kpis">'+list.map(k=>`<div class="kpi"><span class="l">${esc(k.l)}</span><span class="v${k.hot?' hot':''}">${esc(k.v)}</span><span class="s">${esc(k.s||'')}</span></div>`).join('')+'</div>';
+const pill=(cls,t)=>`<span class="pill ${cls}">${esc(t)}</span>`;
+const sevPill=s=>s==='err'?pill('err','ERROR'):s==='warn'?pill('warn','WARN'):pill('info','NOTE');
+function drcCounts(){const c={all:{err:0,warn:0,info:0}};A.drc.forEach(d=>{c.all[d.sev]++;(c[d.sheet]=c[d.sheet]||{err:0,warn:0,info:0})[d.sev]++});return c}
+function drcHTML(list,src){
+  if(!list.length)return '<ul class="drc clean"><li>No open checks.</li></ul>';
+  return '<ul class="drc">'+list.map(d=>`<li>${sevPill(d.sev)}<span>${esc(d.msg)}${src?` <a class="src" href="#${d.sheet}">${sheetNo(d.sheet)} ${esc(sheetName(d.sheet))}</a>`:''}</span>${d.q?`<span class="qq">Ask: ${esc(d.q)}</span>`:''}</li>`).join('')+'</ul>';
+}
+function completeness(){
+  const c=state.charter,ch=['trigger','frequency','objective','pain','stakeholders','metric','constraints'];
+  const I=state.icom.filter(x=>has(x.name)),S=A.steps,F=A.F,T=A.T,L=A.L,p=state.poc,fr=(a,b)=>b?a/b:0;
+  return{
+    charter:fr(ch.filter(k=>has(c[k])).length,ch.length),
+    context:fr(['Input','Output','Control','Mechanism'].filter(k=>I.some(x=>x.kind===k)).length+(I.length?I.filter(x=>x.kind==='Mechanism'||has(x.party)).length/I.length:0),5),
+    flow:S.length?sum(S,s=>{if(!s.human)return 1;let k=0;['mins','vol'].forEach(f=>{if(has(s[f]))k++});['rules','data','access','stability'].forEach(f=>{if(s[f]&&s[f]!=='?')k++});return k/6})/S.length:0,
+    states:F.states.length?fr([F.start.length>0,F.ends.length>0,F.tr.length>0,!F.dead.length,!F.noEvent.length].filter(Boolean).length,5):0,
+    timing:fr([T.ev.some(e=>e.kind==='Arrival'),T.ev.some(e=>e.kind==='Window'),T.cuts.length>0].filter(Boolean).length,3),
+    loops:L.names.length?fr([L.names.length>=3,L.loops.length>0,!L.orphan.length].filter(Boolean).length,3):0,
+    solution:fr(['name','scope','success','out','controls','data','timebox','asks'].filter(k=>has(p[k])).length,8)};
+}
+function allGapIds(){const ids=new Set();A.drc.forEach(d=>{if(d.q)ids.add('gap-'+hash(d.q))});return [...ids]}
+const openGapCount=()=>allGapIds().filter(id=>!state.asked[id]).length;
+
+function increments(){
+  const S=A.steps,out=[],cand=S.filter(s=>s.save>0);let end=-1,guard=0;
+  while(guard++<60){const rest=cand.filter(s=>s.i>end);if(!rest.length)break;
+    const top=rest.reduce((a,b)=>b.save>a.save?b:a),add=S.filter(s=>s.i>end&&s.i<=top.i);end=top.i;out.push({steps:add,save:sum(add,s=>s.save)})}
+  if(out.length>5){const tail=out.splice(4);out.push({steps:tail.flatMap(x=>x.steps),save:sum(tail,x=>x.save)})}
+  let cum=0;out.forEach((x,i)=>{cum+=x.save;x.cum=cum;x.n=i+1;const ks=x.steps.map(s=>s.key);
+    x.label=ks.length>2?ks[0]+'–'+ks[ks.length-1]:ks.join(', ');x.mods=[...new Set(x.steps.filter(s=>s.save>0).map(s=>s.mod))]});
+  return out;
+}
+function modSteps(m){
+  const S=A.steps;
+  if(m==='Human')return [...S.filter(s=>s.mod==='Human'||['manual','simplify','combine'].includes(s.rec)).map(s=>({s})),...S.filter(s=>s.rec==='assist'&&s.mod!=='Human').map(s=>({s,review:true}))];
+  return S.filter(s=>s.mod===m&&!['manual','simplify','combine','eliminate'].includes(s.rec)).map(s=>({s}));
+}
+
+/* Critical path breakdown strip */
+function svgCP(R){
+  const P=R.cp.path.map(k=>R.byKey.get(k));if(!P.length||!(R.cp.len>0))return emptyFig('Add times and waits on sheet 03 to compute the critical path.');
+  const Wd=820,L=10,BW=Wd-20,y=26,h=22,H=88,sc=BW/R.cp.len;let x=L;
+  let o=svgOpen(Wd,H,'Critical path time breakdown')+`<defs><pattern id="cp-hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="6" height="6" class="f-sheet"/><line x1="0" y1="0" x2="0" y2="6" style="stroke:var(--ink-3);stroke-width:2"/></pattern></defs>`;
+  P.forEach(s=>{const tw=s.t*sc,ww=s.w*sc,seg=tw+ww;
+    o+=`<g><title>${esc(s.key+' '+(s.name||'')+': touch '+fmtMin(s.t)+', wait '+fmtMin(s.w))}</title>`;
+    if(tw>0)o+=`<rect x="${r1(x)}" y="${y}" width="${r1(Math.max(tw,1))}" height="${h}" class="f-acc"/>`;
+    if(ww>0)o+=`<rect x="${r1(x+tw)}" y="${y}" width="${r1(ww)}" height="${h}" fill="url(#cp-hatch)" style="stroke:var(--ink-3);stroke-width:.5"/>`;
+    o+=`</g><line x1="${r1(x)}" y1="${y-4}" x2="${r1(x)}" y2="${y+h+4}" class="axis"/>`;
+    if(seg>=26)o+=`<text x="${r1(x+seg/2)}" y="${y+h+16}" text-anchor="middle" class="mono t-mute" font-size="10">${esc(s.key)}</text>`;
+    if(seg>=60)o+=`<text x="${r1(x+seg/2)}" y="${y+h+29}" text-anchor="middle" class="mono t-faint" font-size="9.5">${fmtMin(s.t+s.w)}</text>`;
+    x+=seg});
+  o+=`<line x1="${r1(x)}" y1="${y-4}" x2="${r1(x)}" y2="${y+h+4}" class="axis"/><text x="${L}" y="14" class="mono t-faint" font-size="10">0</text><text x="${L+BW}" y="14" text-anchor="end" class="mono t-faint" font-size="10">${fmtMin(R.cp.len)}</text>`;
+  return o+'</svg>';
+}
+
+function problemText(){
+  const c=state.charter,team=tr(state.meta.team)||'The team',parts=[];
+  if(has(c.objective))parts.push(`${team} needs to ${lcFirst(stripDot(tr(c.objective)))}.`);
+  if(has(c.pain))parts.push(dot(tr(c.pain)));
+  if(A.totLoad>0)parts.push(`The model so far shows about ${hrsW(A.totLoad)} of manual work per day across ${A.steps.length} steps.`);
+  if(has(c.metric))parts.push(`Success is measured by ${lcFirst(stripDot(tr(c.metric)))}.`);
+  return parts.length?parts.join(' '):'Fill in the objective, pain points and success metric to generate the problem statement.';
+}
+function pitch(){
+  const team=tr(state.meta.team)||'The team';
+  if(!(A.totLoad>0))return 'Add step times and volumes on sheet 03 to generate the 30-second version.';
+  const pct=x=>Math.round(x/A.totLoad*100),parts=[`${team} spends about ${hrsW(A.totLoad)} a day on ${procName()}.`];
+  if(A.hot)parts.push(`The largest share, ${pct(A.hot.load)}%, goes to “${A.hot.name||A.hot.key}”${A.slow&&A.slow.key!==A.hot.key?`, and items wait ${fmtMin(A.slow.w)} at “${A.slow.name||A.slow.key}”`:''}.`);
+  const inc=increments()[0],poc=tr(state.poc.name)||(inc?`automating ${inc.label}`:'');
+  if(inc)parts.push(`A proof of concept, ${poc}, targets about ${hrsW(inc.save)} a day${has(state.charter.metric)?`, measured by ${lcFirst(stripDot(tr(state.charter.metric)))}`:''}.`+(has(state.poc.timebox)?` Timebox: ${stripDot(tr(state.poc.timebox))}.`:''));
+  return parts.join(' ');
+}
+function paretoCap(){
+  const P=A.pareto;if(!P.length)return '';let c=0,k=0;for(const s of P){c+=s.load;k++;if(c>=.8*A.totLoad)break}
+  return `${listJoin(P.slice(0,k).map(s=>s.key))} carry ${Math.round(c/A.totLoad*100)}% of manual time (${k} of ${A.nHuman} steps done by people). The hot spot is ${P[0].key}, ${P[0].name||'unnamed'}.`;
+}
+function cpCap(){
+  if(!(A.cp.len>0))return '';
+  const w=Math.round(A.cpWait/A.cp.len*100);
+  return `${A.cp.path.join(' → ')}: ${fmtMin(A.cp.len)} end to end, of which ${fmtMin(A.cpWait)} (${w}%) is waiting. Flow efficiency is ${Math.round(A.eff*100)}%.${A.cpWait>A.cpTouch?' Shortening the waits moves lead time more than speeding up the work.':''}`;
+}
+function oppsHTML(){
+  const P=[...A.steps].filter(s=>s.load>0).sort((a,b)=>b.save-a.save||b.load-a.load);
+  if(!P.length)return '<p class="hint">Opportunities appear once steps have a time per item and a volume.</p>';
+  return `<div class="tbl-wrap"><table class="ro"><thead><tr><th>Step</th><th>Who</th><th class="num">Load min/day</th><th class="num">Fit</th><th class="num">Pain</th><th>Recommendation</th><th class="num">Saving min/day</th><th>Module</th></tr></thead><tbody>${P.map(s=>`<tr><td style="min-width:24ch"><span class="mono">${esc(s.key)}</span> ${esc(s.name)}</td><td>${esc(s.laneName)}</td><td class="num">${fmtN(s.load)}</td><td class="num">${s.fit}</td><td class="num">${has(s.pain)?esc(s.pain):'–'}</td><td>${pill(REC[s.rec].cls,REC[s.rec].label)}</td><td class="num">${fmtN(s.save)}</td><td>${esc(s.mod)}</td></tr>`).join('')}</tbody></table></div>`;
+}
+function modulesHTML(){
+  return `<div class="tbl-wrap"><table class="ro"><thead><tr><th>Module</th><th>Job</th><th>Interface</th><th>Steps</th><th class="num">Saving min/day</th><th>Candidate tooling</th></tr></thead><tbody>${[...MODS7,'Human'].map(m=>{const st=modSteps(m),info=MODINFO[m];
+    return `<tr><td><b>${m==='Human'?'Human queue':m}</b></td><td style="min-width:24ch">${esc(info.job)}</td><td class="mono" style="min-width:18ch;font-size:12px">${esc(info.io)}</td><td><div class="chips">${st.length?st.map(x=>`<span>${esc(x.s.key)}${x.review?' review':''}</span>`).join(''):'<em class="muted">none</em>'}</div></td><td class="num">${fmtN(sum(st,x=>x.review?0:x.s.save))}</td><td style="min-width:26ch">${esc(info.tools)}</td></tr>`}).join('')}</tbody></table></div>`;
+}
+function incHTML(){
+  const inc=increments();if(!inc.length)return '<p class="hint">Increments appear once steps have estimated savings.</p>';
+  const tot=inc[inc.length-1].cum||1;
+  return `<div class="tbl-wrap"><table class="ro"><thead><tr><th>Increment</th><th>Adds steps</th><th>Modules</th><th class="num">Saving h/day</th><th>Cumulative</th></tr></thead><tbody>${inc.map(x=>`<tr><td class="mono" style="white-space:nowrap">${x.n===1?'1 · PoC':x.n}</td><td style="min-width:26ch"><b class="mono">${esc(x.label)}</b><div class="muted" style="font-size:12px">${esc(x.steps.map(s=>trunc(s.name||s.key,30)).join('; '))}</div></td><td>${esc(x.mods.join(', '))}</td><td class="num">${(x.save/60).toFixed(1)}</td><td><div class="barcell"><i style="width:${Math.max(2,Math.round(x.cum/tot*120))}px"></i><span class="mono" style="font-size:12px">${fmtN(x.cum*MONTH_DAYS/60)} h/month</span></div></td></tr>`).join('')}</tbody></table></div>`;
+}
+function slackHTML(){
+  const T=A.T;if(!T.res.length)return '<p class="hint">Add work windows and cut-offs to compute slack.</p>';
+  return `<div class="tbl-wrap"><table class="ro"><thead><tr><th>Work window</th><th class="num">Ends</th><th>Deadline</th><th class="num">At</th><th class="num">Margin</th><th>Status</th></tr></thead><tbody>${T.res.map(r=>`<tr><td>${esc(r.win.name)}</td><td class="num">${hhmm(r.win.f)}</td><td>${esc(r.cut.name)}</td><td class="num">${hhmm(r.cut.s)}</td><td class="num">${r.slack<0?'−'+fmtMin(-r.slack):fmtMin(r.slack)}</td><td>${r.cross?pill('err','RUNS PAST'):r.slack<30?pill('warn','TIGHT'):pill('ok','OK')}</td></tr>`).join('')}</tbody></table></div>`;
+}
+function loopsHTML(){
+  const L=A.L;if(!L.loops.length)return '<p class="hint">No closed loops yet. A loop appears when the links lead back to where they started.</p>';
+  return '<ul class="opp">'+L.loops.map(l=>`<li>${pill(l.type==='R'?'hot':'info',l.label)}<span>${esc(l.names.join(' → '))} → ${esc(l.names[0])}<br><span class="muted" style="font-size:12.5px">${l.type==='R'?'Reinforcing: amplifies change in either direction, a vicious circle while the pain grows.':'Balancing: pushes the system back toward a limit or target.'}</span></span><span class="mono muted">${l.pols.map(p=>p==='-'?'−':'+').join(' ')}</span></li>`).join('')+'</ul>';
+}
+
+/* ============ brief ============ */
+function briefSections(){
+  const c=state.charter,p=state.poc,R=A,inc=increments(),load=R.totLoad,pct=x=>load>0?Math.round(x/load*100):0,S=[];
+  const prob=[];
+  if(has(c.pain))prob.push(dot(tr(c.pain)));
+  if(load>0)prob.push(`Manual effort is about ${hrs(load)} per day (${(load/FTE_MIN).toFixed(1)} FTE) across ${R.steps.length} steps and ${R.lanes.length} roles.`);
+  R.T.res.filter(r=>r.cross).forEach(r=>prob.push(`“${r.win.name}” runs ${fmtMin(-r.slack)} past “${r.cut.name}” (${hhmm(r.cut.s)}).`));
+  if(has(c.objective))prob.push(`Objective: ${dot(tr(c.objective))}`);
+  S.push({h:'Problem',p:prob.length?prob:['Not yet defined. Complete sheet 01.']});
+  const rows=[];
+  if(load>0)rows.push(['Manual load',`${hrs(load)} per day, ${(load/FTE_MIN).toFixed(1)} FTE`]);
+  if(R.cp.len>0)rows.push(['Lead time on the critical path',`${fmtMin(R.cp.len)}, flow efficiency ${Math.round(R.eff*100)}%`]);
+  rows.push(['Steps, roles, handoffs',`${R.steps.length}, ${R.lanes.length}, ${R.steps.filter(s=>s.type==='Handoff').length}`]);
+  const rw=R.steps.filter(s=>s.e>=8);if(rw.length)rows.push(['Rework of 8% or more',rw.map(s=>`${s.key} (${s.e}%)`).join(', ')]);
+  if(R.F.states.length)rows.push(['Work item lifecycle',`${R.F.states.length} states, ${R.F.manual} transitions fired by people`]);
+  S.push({h:'Current state',table:rows,fig:'flow'});
+  const bn=[];
+  if(R.hot)bn.push(`Largest manual load: ${R.hot.key} ${R.hot.name}, ${fmtN(R.hot.load)} min per day (${pct(R.hot.load)}% of total).`);
+  if(R.slow)bn.push(`Longest wait: ${R.slow.key} ${R.slow.name}, ${fmtMin(R.slow.w)} per item.`);
+  if(R.cp.len>0)bn.push(`Critical path: ${R.cp.path.join(' → ')}, ${fmtMin(R.cp.len)} end to end, ${Math.round(R.cpWait/R.cp.len*100)}% of it waiting.`);
+  R.T.res.filter(r=>!r.cross&&r.slack<30).forEach(r=>bn.push(`Tight timing: “${r.win.name}” ends ${fmtMin(r.slack)} before “${r.cut.name}”.`));
+  const rl=R.L.loops.find(l=>l.type==='R');if(rl)bn.push(`Reinforcing loop ${rl.label}: ${rl.names.join(' → ')} → ${rl.names[0]}.`);
+  R.F.dead.forEach(s=>bn.push(`State “${s.nm}” has no defined exit.`));
+  S.push({h:'Bottleneck',ul:bn.length?bn:['Not yet identified. Add times, volumes and waits on sheet 03.']});
+  const mods=MODS7.map(m=>({m,st:modSteps(m)})).filter(x=>x.st.length);
+  S.push({h:'Proposed approach',p:mods.length?[`Encapsulated modules with one job each: ${mods.map(x=>`${x.m} (${x.st.map(y=>y.s.key).join(', ')})`).join('; ')}. Exceptions and judgment calls route to a human queue; every run writes an audit log.`]:[],fig:'pipeline',
+    ulLead:inc.length?'Build in increments. Each increment runs end to end, with a person completing the remaining steps.':'',
+    ul:inc.map(x=>`Increment ${x.n}${x.n===1?' (PoC)':''}: ${x.label}, ${x.mods.join(', ')||'no saving'}, about ${hrs(x.save)} per day.`)});
+  const kv=[['Name',p.name],['Scope',p.scope],['Out of scope',p.out],['Success criteria',p.success],['Controls',p.controls],['Data',p.data],['Timebox',p.timebox]].filter(x=>has(x[1])).map(x=>[x[0],tr(x[1])]);
+  S.push({h:'Proof of concept',kv:kv.length?kv:[['Status','Not yet defined. Complete sheet 08.']]});
+  const be=[];
+  if(R.totSave>0){be.push(`Addressable effort: about ${hrs(R.totSave)} per day, ${fmtN(R.totSave*MONTH_DAYS/60)} h per month at ${MONTH_DAYS} business days.`);
+    if(inc[0])be.push(`First increment: about ${hrs(inc[0].save)} per day.`);
+    be.push('Estimates assume automate steps lose 80% of their manual time, assist steps 45% and templated handoffs 50%. PoC measurements replace them.')}
+  S.push({h:'Expected benefit',p:be.length?be:['Computed once steps have times and volumes.']});
+  const open=R.drc.filter(d=>d.sev!=='info'),rk=open.slice(0,6).map(d=>dot(d.msg));
+  if(has(c.constraints))rk.unshift(`Constraints: ${dot(tr(c.constraints))}`);
+  if(open.length>6)rk.push(`${open.length-6} further open checks on sheet 07.`);
+  S.push({h:'Risks and open items',ul:rk.length?rk:['No open errors or warnings.']});
+  S.push({h:'Asks',p:has(p.asks)?[dot(tr(p.asks))]:['Not yet listed.']});
+  return S;
+}
+const briefFit={flow:true,pipeline:true};
+const figInBrief=(k,svg)=>`<div class="fig-tools" style="margin-top:10px"><span class="muted" style="font-size:12px">${k==='flow'?'Swimlane flow, sheet 03':'Module architecture, sheet 08'}</span><button type="button" class="btn sm" data-bfit="${k}" aria-pressed="${briefFit[k]}">${briefFit[k]?'Actual size':'Fit to width'}</button></div><div class="fig${briefFit[k]?' fit':''}" style="margin-block:6px 10px">${svg}</div>`;
+const briefMeta=()=>[tr(state.meta.team),'Rev '+(tr(state.meta.rev)||'A'),state.meta.date].filter(Boolean).join(' · ');
+function briefHTML(){
+  let h=`<article class="brief"><h1>${esc(tr(state.meta.name)||'Untitled process')}</h1><p class="bm">${esc(briefMeta())}</p>`;
+  briefSections().forEach(x=>{h+=`<h2>${esc(x.h)}</h2>`;
+    (x.p||[]).forEach(t=>h+=`<p>${esc(t)}</p>`);
+    if(x.table)h+=`<div class="tbl-wrap"><table class="ro"><tbody>${x.table.map(r=>`<tr><th scope="row">${esc(r[0])}</th><td>${esc(r[1])}</td></tr>`).join('')}</tbody></table></div>`;
+    if(x.fig==='flow'&&A.steps.length)h+=figInBrief('flow',svgFlow(A,'fb'));
+    if(x.fig==='pipeline'&&A.steps.length)h+=figInBrief('pipeline',svgPipeline(A,'pb'));
+    if(x.ulLead)h+=`<p>${esc(x.ulLead)}</p>`;
+    if(x.ul&&x.ul.length)h+=`<ul>${x.ul.map(t=>`<li>${esc(t)}</li>`).join('')}</ul>`;
+    if(x.kv)h+=`<dl>${x.kv.map(r=>`<dt>${esc(r[0])}</dt><dd>${esc(r[1])}</dd>`).join('')}</dl>`});
+  return h+'</article>';
+}
+const mdc=s=>String(s).replace(/\|/g,'\\|').replace(/\s*\n\s*/g,' ');
+function briefMD(){
+  const L=[`# ${tr(state.meta.name)||'Untitled process'}`,`_${briefMeta()}_`,'',`**In 30 seconds:** ${pitch()}`,''];
+  briefSections().forEach(x=>{L.push(`## ${x.h}`,'');(x.p||[]).forEach(t=>L.push(mdc(t),''));
+    if(x.table)L.push('| Measure | Value |','|---|---|',...x.table.map(r=>`| ${mdc(r[0])} | ${mdc(r[1])} |`),'');
+    if(x.ulLead)L.push(x.ulLead,'');
+    if(x.ul&&x.ul.length){x.ul.forEach(t=>L.push('- '+mdc(t)));L.push('')}
+    if(x.kv){x.kv.forEach(r=>L.push(`- **${r[0]}:** ${mdc(r[1])}`));L.push('')}});
+  return L.join('\n').replace(/\n{3,}/g,'\n\n').trim()+'\n';
+}
+function mermaidFlow(){
+  const R=A;if(!R.steps.length)return '';
+  const id=k=>'n_'+String(k).replace(/[^A-Za-z0-9_]/g,'_'),q=s=>String(s).replace(/"/g,'#quot;').replace(/[[\]{}<>]/g,' ');
+  const L=['flowchart LR'];
+  R.lanes.forEach((l,i)=>{L.push(`  subgraph lane${i}["${q(l)}"]`);R.steps.filter(s=>s.laneName===l).forEach(s=>{const lb=q(`${s.key} ${s.name||''}`.trim());L.push(`    ${id(s.key)}${s.type==='Decision'?`{"${lb}"}`:`["${lb}"]`}`)});L.push('  end')});
+  R.steps.forEach(s=>s.nextIds.forEach(k=>L.push(`  ${id(s.key)} ${R.back.has(s.key+'>'+k)?'-. rework .->':'-->'} ${id(k)}`)));
+  if(R.hot)L.push(`  style ${id(R.hot.key)} stroke-width:3px`);
+  return L.join('\n')+'\n';
+}
+function mermaidFSM(){
+  const F=A.F;if(!F.states.length)return '';
+  const ids=new Map(F.states.map((s,i)=>[s.nm,'s'+i])),q=s=>String(s).replace(/"/g,"'").replace(/:/g,' -'),L=['stateDiagram-v2'];
+  F.states.forEach(s=>L.push(`  state "${q(s.nm)}" as ${ids.get(s.nm)}`));
+  F.start.forEach(s=>L.push(`  [*] --> ${ids.get(s.nm)}`));
+  F.tr.forEach(t=>L.push(`  ${ids.get(t.a)} --> ${ids.get(t.b)}${t.ev||t.g?' : '+q(t.ev+(t.g?' ['+t.g+']':'')):''}`));
+  F.ends.forEach(s=>L.push(`  ${ids.get(s.nm)} --> [*]`));
+  return L.join('\n')+'\n';
+}
+
+function renderDerived(){
+  const cnt=drcCounts(),comp=completeness(),all=cnt.all,load=A.totLoad;
+  setOut('ov-kpis',kpiHTML([
+    {l:'Steps mapped',v:String(A.steps.length),s:`${A.lanes.length} roles, ${A.steps.filter(s=>s.type==='Handoff').length} handoffs`},
+    {l:'Manual load',v:load?hrs(load):'–',s:load?`per day, ${(load/FTE_MIN).toFixed(1)} FTE`:'add times and volumes'},
+    {l:'Addressable',v:A.totSave?hrs(A.totSave):'–',s:A.totSave?'per day, estimated':'computed on sheet 07'},
+    {l:'Open checks',v:String(all.err+all.warn),s:`${all.err} errors, ${all.warn} warnings, ${all.info} notes`,hot:all.err>0}]));
+  setOut('chain',SHEETS.slice(1).map(s=>{const st=s.meter?Math.round((comp[s.id]||0)*100)+'%':s.id==='meeting'?`${openGapCount()} open`:'auto';
+    return `<a href="#${s.id}"><span class="c-no"><span>${s.no}</span><span>${st}</span></span><span class="c-t">${esc(s.name)}</span><span class="c-d">${esc(s.sum)}</span></a>`}).join(''));
+  setOut('problem',esc(problemText()));
+  setOut('an-kpis',kpiHTML([
+    {l:'Manual load',v:load?hrs(load):'–',s:load?`per day, ${(load/FTE_MIN).toFixed(1)} FTE at 7.5 h`:'add times and volumes'},
+    {l:'Hot spot',v:A.hot?A.hot.key:'–',s:A.hot?`${trunc(A.hot.name,30)}, ${Math.round(A.hot.load/load*100)}% of load`:'',hot:!!A.hot},
+    {l:'Lead time',v:A.cp.len>0?fmtMin(A.cp.len):'–',s:A.cp.len>0?`critical path, ${A.cp.path.length} steps`:''},
+    {l:'Flow efficiency',v:A.cp.len>0?Math.round(A.eff*100)+'%':'–',s:'touch time ÷ lead time'},
+    {l:'Addressable',v:A.totSave?hrs(A.totSave):'–',s:A.totSave?`per day, ${fmtN(A.totSave*MONTH_DAYS/60)} h/month`:''},
+    {l:'Open checks',v:String(all.err+all.warn),s:`${all.err} errors, ${all.warn} warnings`,hot:all.err>0}]));
+  setOut('pareto-cap',esc(paretoCap()));setOut('cp-cap',esc(cpCap()));
+  setOut('opps',oppsHTML());setOut('modules',modulesHTML());setOut('increments',incHTML());
+  const F=A.F;
+  setOut('fsm-stats',F.states.length?kpiHTML([{l:'States',v:String(F.states.length),s:`${F.start.length} start, ${F.ends.length} end`},{l:'Transitions',v:String(F.tr.length),s:`${F.tr.length-F.manual} fired by systems`},{l:'Fired by people',v:String(F.manual),s:'automation candidates'},{l:'No exit',v:String(F.dead.length),s:F.dead.length?F.dead.map(s=>s.nm).join(', '):'none',hot:F.dead.length>0}]):'');
+  setOut('slack',slackHTML());setOut('loops',loopsHTML());
+  setOut('pitch',esc(pitch()));setOut('brief',briefHTML());
+  $$('[data-drc]').forEach(el=>{const sh=el.dataset.drc,h=drcHTML(sh==='all'?A.drc:A.drc.filter(d=>d.sheet===sh),sh==='all');if(el._h!==h){el.innerHTML=h;el._h=h}});
+  SHEETS.forEach(s=>{
+    const m=$(`[data-meter="${s.id}"]`);if(m)m.style.width=Math.round((comp[s.id]||0)*100)+'%';
+    const c=cnt[s.id]||{err:0,warn:0,info:0},n=s.id==='analysis'||s.id==='overview'||s.id==='brief'?all.err+all.warn:s.id==='meeting'?openGapCount():c.err+c.warn;
+    const b=$(`[data-badge="${s.id}"]`);if(b){const v=s.id==='overview'||s.id==='brief'?'':n?String(n):'';b.textContent=v;b.title=v?(s.id==='meeting'?v+' gap questions not yet asked':v+' open checks'):''}
+    const tb=$(`[data-tbc="${s.id}"]`);if(tb)tb.textContent=s.id==='meeting'?`${openGapCount()} gaps open`:n?`${n} open`:'clear';
+  });
+  $$('[data-tb="rev"]').forEach(e=>e.textContent=tr(state.meta.rev)||'A');
+  $$('[data-tb="date"]').forEach(e=>e.textContent=state.meta.date||today());
+}
+
+/* ============ meeting kit ============ */
+let qSig='';
+function meetingItems(st){
+  const core=st.qs.map((q,i)=>({id:`std-${st.id}-${i}`,t:q.t,w:'Reveals: '+q.w})),seen=new Set(),gaps=[];
+  A.drc.filter(d=>d.q&&d.stage===st.id).forEach(d=>{const id='gap-'+hash(d.q);if(seen.has(id))return;seen.add(id);gaps.push({id,t:d.q,w:`Gap · sheet ${sheetNo(d.sheet)} · ${d.msg}`,gap:true})});
+  return [...core,...gaps];
+}
+function renderMeeting(){
+  const st=curStage();
+  $$('#stage-seg button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.stage===st.id)));
+  setOut('stagehead',`<div class="stage-head"><div><span class="lbl">Goal</span><br>${esc(st.goal)}</div><div><span class="lbl">Time and people</span><br>${esc(st.dur)} · ${esc(st.who)}</div><div><span class="lbl">Leave with</span><br>${esc(st.out)}</div><div><span class="lbl">Fills sheets</span><br>${st.fills.map(f=>`<a href="#${f}">${sheetNo(f)} ${esc(sheetName(f))}</a>`).join(', ')}</div></div>`);
+  setOut('say',esc(st.open(procName(),A)));setOut('close',esc(st.close));
+  const items=meetingItems(st);
+  setOut('qprog',`${items.filter(x=>state.asked[x.id]).length} of ${items.length} asked`);
+  const sig=st.id+'|'+items.map(x=>x.id).join(',');if(sig===qSig)return;qSig=sig;
+  const li=x=>`<li class="q${state.asked[x.id]?' done':''}"><input type="checkbox" id="q-${x.id}" data-q="${x.id}"${state.asked[x.id]?' checked':''}><label class="qt" for="q-${x.id}">${esc(x.t)}</label><span class="qw">${esc(x.w)}</span><input class="qn" id="qn-${x.id}" data-qn="${x.id}" value="${esc(state.qnotes[x.id]||'')}" placeholder="Answer or note" aria-label="Answer or note"></li>`;
+  const core=items.filter(x=>!x.gap),gaps=items.filter(x=>x.gap);
+  const host=$('[data-out="questions"]');
+  host.innerHTML=`<ul class="qlist">${core.map(li).join('')}</ul>`+(gaps.length?`<h3 style="margin-top:18px">From the gaps in this model <span class="tag">${gaps.length} for this meeting</span></h3><ul class="qlist">${gaps.map(li).join('')}</ul>`:`<p class="hint" style="margin-top:12px">No open gaps for this meeting. Gap questions appear here when checks on sheets 01 to 08 flag missing information.</p>`);
+  host._h=null;
+}
+function agendaText(){
+  const st=curStage(),items=meetingItems(st);
+  return [`${tr(state.meta.name)||'Process'}: ${st.name} (${st.dur})`,`Attendees: ${st.who}`,`Goal: ${st.goal}`,'','Questions:',...items.map(x=>'- '+x.t),'',`Leave with: ${st.out}`].join('\n');
+}
+function notesText(){
+  const st=curStage(),items=meetingItems(st);
+  return [`${tr(state.meta.name)||'Process'}: ${st.name} notes, ${today()}`,'',...items.flatMap(x=>[(state.asked[x.id]?'[x] ':'[ ] ')+x.t,'    '+(tr(state.qnotes[x.id])||'(no answer recorded)')])].join('\n');
+}
+
+/* ============ shadow timer ============ */
+const SW={run:false,t0:0,iv:0};let swSig='';
+const fmtSec=x=>{x=Math.max(0,Math.round(x));return Math.floor(x/60)+':'+String(x%60).padStart(2,'0')};
+function swOptions(){
+  const sel=$('#sw-step');if(!sel)return;
+  const opts=A.steps.filter(s=>s.human),sig=opts.map(s=>s.key+'|'+s.name).join('\u0001');
+  if(sig!==swSig){swSig=sig;const cur=sel.value;
+    sel.innerHTML=opts.length?opts.map(s=>`<option value="${esc(s.key)}">${esc(s.key+' · '+trunc(s.name||'(unnamed)',44))}</option>`).join(''):'<option value="">Add steps first</option>';
+    if(opts.some(s=>s.key===cur))sel.value=cur}
+  swStats();
+}
+function swStats(){
+  const k=$('#sw-step').value,el=$('#sw-stats'),a=(state.samples[k]||[]).filter(Number.isFinite);
+  if(!k){el.textContent='Add steps on this sheet first.';return}
+  if(!a.length){el.textContent=`No samples yet for ${k}. Press Start when the analyst begins an item and Item done when it is finished; the clock carries on to the next item.`;return}
+  const avg=sum(a)/a.length;
+  el.textContent=`${a.length} item${a.length>1?'s':''} timed · average ${fmtSec(avg)} (${(avg/60).toFixed(1)} min) · median ${fmtSec(median(a))} · range ${fmtSec(Math.min(...a))} to ${fmtSec(Math.max(...a))}`;
+}
+function swTick(){$('#sw-clock').textContent=fmtSec(SW.run?(Date.now()-SW.t0)/1000:0)}
+function swStop(){SW.run=false;clearInterval(SW.iv);$('#sw-go').textContent='Start';$('#sw-clock').classList.remove('run');swTick()}
+
+/* ============ utilities: toast, copy, confirm ============ */
+let toastT=0;
+function toast(msg){const t=$('#toast');t.textContent=msg;t.classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('show'),2400)}
+function showFallback(txt){
+  let f=$('#cf');
+  if(!f){f=document.createElement('div');f.id='cf';f.className='cf';
+    f.innerHTML='<div class="cf-in" role="dialog" aria-modal="true" aria-labelledby="cf-h"><div class="fig-tools"><b id="cf-h">Copy this text</b><button type="button" class="btn sm" id="cf-x">Close</button></div><textarea id="cf-t" rows="12" aria-label="Text to copy" readonly></textarea><small class="muted">Clipboard access is blocked here. The text is selected: press Ctrl+C or Cmd+C.</small></div>';
+    document.body.appendChild(f);$('#cf-x').addEventListener('click',()=>{f.hidden=true});f.addEventListener('keydown',e=>{if(e.key==='Escape')f.hidden=true})}
+  f.hidden=false;const t=$('#cf-t');t.value=txt;t.focus();t.select();
+}
+function copyText(txt,what){
+  if(!txt){toast('Nothing to copy yet');return}
+  try{navigator.clipboard.writeText(txt).then(()=>toast(what+' copied'),()=>showFallback(txt))}catch(e){showFallback(txt)}
+}
+function armButton(btn,armedLabel,needs,fn){
+  btn.addEventListener('click',()=>{
+    if(btn.classList.contains('armed')){clearTimeout(btn._t);btn.classList.remove('armed');btn.textContent=btn._l;fn();return}
+    if(needs&&!needs()){fn();return}
+    btn._l=btn.textContent;btn.classList.add('armed');btn.textContent=armedLabel;
+    btn._t=setTimeout(()=>{btn.classList.remove('armed');btn.textContent=btn._l},4000);
+  });
+}
+const hasContent=()=>state.steps.length>0||state.icom.length>0||has(state.charter.pain)||has(state.meta.name);
+function replaceState(s,msg){
+  state=normalize(s);if(SW.run)swStop();
+  editors.forEach(e=>e.render());fillBinds();qSig='';swSig='';dlSig='';
+  $$('[data-out],[data-fig],[data-drc]').forEach(el=>{el._h=null});
+  saveLocal();refresh();toast(msg);
+}
+
+/* ============ datalists, refresh, routing ============ */
+let dlSig='';
+function updateDatalists(){
+  const u=a=>[...new Set(a.map(tr).filter(Boolean))];
+  const L=[u(state.steps.map(s=>s.lane)),u(state.steps.map(s=>s.system)),u(state.fsm.states.map(s=>s.name)),u(state.cld.vars.map(v=>v.name))];
+  const sig=JSON.stringify(L);if(sig===dlSig)return;dlSig=sig;
+  ['dl-lanes','dl-systems','dl-states','dl-vars'].forEach((id,i)=>{$('#'+id).innerHTML=L[i].map(x=>`<option value="${esc(x)}"></option>`).join('')});
+}
+function refresh(){
+  A=analyse();
+  setFig('context',svgIDEF0());setFig('flow',svgFlow(A,'fl'));setFig('fsm',svgFSM(A,'fs'));setFig('timing',svgTiming(A));
+  setFig('cld',svgCLD(A,'cl'));setFig('pareto',svgPareto(A));setFig('matrix',svgMatrix(A));setFig('cp',svgCP(A));setFig('pipeline',svgPipeline(A,'pl'));
+  renderDerived();renderMeeting();updateDatalists();swOptions();
+  $('#sample-flag').hidden=!state.meta.sample;
+}
+function show(){
+  let id=(location.hash||'').slice(1);if(!SHEETS.some(s=>s.id===id))id='overview';
+  SHEETS.forEach(s=>{$('#v-'+s.id).hidden=s.id!==id});
+  $$('#nav a').forEach(a=>{if(a.dataset.v===id)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current')});
+}
+
+/* ============ editors ============ */
+let stepsEd;
+function setupEditors(){
+  stepsEd=tableEditor($('#ed-steps'),{get:()=>state.steps,addLabel:'Add step',empty:'No steps yet. Add the first thing the team does.',
+    groups:[{label:'Step',span:5},{label:'Measure while shadowing',span:5},{label:'Automation fit',span:4},{label:'Wiring',span:2}],
+    cols:[{k:'id',label:'ID',w:'6ch',key:true},{k:'name',label:'Step',w:'28ch',ph:'Verb + object'},{k:'lane',label:'Who',w:'14ch',list:'dl-lanes'},
+      {k:'type',label:'Type',t:'sel',o:OPT.type,w:'11ch'},{k:'system',label:'System or tool',w:'16ch',list:'dl-systems'},
+      {k:'mins',label:'Min/item',t:'num',w:'8ch',tip:'Hands-on minutes per item'},{k:'vol',label:'Items/day',t:'num',w:'8ch'},
+      {k:'wait',label:'Wait min',t:'num',w:'8ch',tip:'Idle minutes per item before this step can finish'},{k:'rework',label:'Rework %',t:'num',w:'8ch'},
+      {k:'pain',label:'Pain 1–5',t:'num',w:'7ch',tip:'How painful the team rates this step'},
+      {k:'rules',label:'Rules',t:'sel',o:OPT.rules,w:'10ch'},{k:'data',label:'Data',t:'sel',o:OPT.data,w:'13ch'},
+      {k:'access',label:'Access',t:'sel',o:OPT.access,w:'11ch'},{k:'stability',label:'Changes',t:'sel',o:OPT.stability,w:'10ch'},
+      {k:'next',label:'Next',w:'10ch',ph:'blank = next row'},{k:'module',label:'Module',t:'sel',o:OPT.module,w:'10ch',tip:'Auto suggests one from the step name'}],
+    blank:R=>{const n=Math.max(0,...R.map(r=>{const m=String(r.id||'').match(/^S(\d+)$/i);return m?+m[1]:0}))+1,b=blankStep(n);if(R.length)b.lane=R[R.length-1].lane;return b}});
+  tableEditor($('#ed-icom'),{get:()=>state.icom,addLabel:'Add item',empty:'No boundary items yet.',
+    cols:[{k:'kind',label:'Kind',t:'sel',o:OPT.icom,w:'11ch'},{k:'name',label:'Item',w:'30ch',ph:'e.g. Unmatched confirmations report'},
+      {k:'party',label:'Source, consumer or owner',w:'22ch',ph:'Who sends, uses or owns it'},{k:'format',label:'Format',t:'sel',o:OPT.format,w:'14ch'}],
+    blank:R=>({kind:R.length?R[R.length-1].kind:'Input',name:'',party:'',format:'?'})});
+  tableEditor($('#ed-states'),{get:()=>state.fsm.states,addLabel:'Add state',empty:'No states yet.',
+    cols:[{k:'name',label:'State',w:'22ch',ph:'e.g. Awaiting confirmation'},{k:'kind',label:'Kind',t:'sel',o:OPT.stateKind,w:'11ch'}],
+    blank:()=>({name:'',kind:'Normal'})});
+  tableEditor($('#ed-trans'),{get:()=>state.fsm.trans,addLabel:'Add transition',empty:'No transitions yet.',
+    cols:[{k:'from',label:'From',w:'18ch',list:'dl-states'},{k:'event',label:'Event',w:'22ch',ph:'What happens'},{k:'guard',label:'Guard',w:'12ch',ph:'Only if…'},
+      {k:'to',label:'To',w:'18ch',list:'dl-states'},{k:'owner',label:'Fired by',t:'sel',o:OPT.owner,w:'10ch'}],
+    blank:R=>({from:R.length?R[R.length-1].to:'',event:'',guard:'',to:'',owner:'Manual'})});
+  tableEditor($('#ed-timing'),{get:()=>state.timing,addLabel:'Add event',empty:'No events yet.',
+    cols:[{k:'name',label:'Event',w:'28ch',ph:'e.g. Settlement cut-off'},{k:'kind',label:'Kind',t:'sel',o:OPT.tkind,w:'10ch'},
+      {k:'start',label:'Time or start',t:'time',w:'10ch'},{k:'end',label:'End (windows)',t:'time',w:'10ch'}],
+    blank:()=>({name:'',kind:'Window',start:'',end:''})});
+  tableEditor($('#ed-vars'),{get:()=>state.cld.vars,addLabel:'Add variable',empty:'No variables yet.',
+    cols:[{k:'name',label:'Variable',w:'28ch',ph:'e.g. Break backlog'}],blank:()=>({name:''})});
+  tableEditor($('#ed-links'),{get:()=>state.cld.links,addLabel:'Add link',empty:'No links yet.',
+    cols:[{k:'from',label:'If this rises',w:'20ch',list:'dl-vars'},{k:'pol',label:'Effect',t:'sel',o:OPT.pol,w:'7ch'},{k:'to',label:'This moves',w:'20ch',list:'dl-vars'}],
+    blank:()=>({from:'',pol:'+',to:''})});
+}
+
+/* ============ events ============ */
+function bindEvents(){
+  window.addEventListener('hashchange',()=>{show();window.scrollTo(0,0)});
+  const io=$('#io'),bio=$('#b-io');
+  bio.addEventListener('click',()=>{io.hidden=!io.hidden;bio.setAttribute('aria-expanded',String(!io.hidden))});
+  $('#b-copyjson').addEventListener('click',()=>copyText(JSON.stringify(state,null,2),'Project JSON'));
+  armButton($('#b-import'),'Click again to replace',hasContent,()=>{
+    const raw=$('#io-text').value.trim(),msg=$('#io-msg');
+    try{const j=JSON.parse(raw);if(!j||typeof j!=='object'||!('steps' in j||'meta' in j))throw new Error('shape');
+      replaceState(j,'Project imported');msg.textContent='Imported.';$('#io-text').value=''}
+    catch(e){msg.textContent='That is not a project file. Paste the text from Copy project JSON.'}});
+  $('#io-file').addEventListener('change',e=>{const f=e.target.files&&e.target.files[0];if(!f)return;const r=new FileReader();
+    r.onload=()=>{$('#io-text').value=String(r.result||'');$('#io-msg').textContent=`Loaded ${f.name}. Press Import pasted JSON to replace the current project.`};
+    r.onerror=()=>{$('#io-msg').textContent='The file could not be read.'};r.readAsText(f);e.target.value=''});
+  armButton($('#b-sample'),'Click again to replace',hasContent,()=>replaceState(sampleState(),'Sample loaded'));
+  armButton($('#b-blank'),'Click again to clear',hasContent,()=>{replaceState(blankState(),'Blank project started');location.hash='#charter'});
+  armButton($('#b-draftpoc'),'Click again to replace name and scope',()=>has(state.poc.name)||has(state.poc.scope),()=>{
+    const inc=increments()[0];if(!inc){toast('Add steps with times and volumes first');return}
+    const p=state.poc;p.name=`${inc.mods.join(' + ')} bot (${inc.label})`;
+    p.scope=`Automate ${inc.steps.map(s=>s.key+' '+(s.name||'')).join('; ')}. Start with the most common route and send exceptions to a person.`;
+    if(!has(p.success))p.success='At least 80% of items processed without manual work; output ready on time; zero mismatches over a 2-week parallel run';
+    if(!has(p.controls))p.controls='Read-only access first; a person reviews output before use; run log with counts and exceptions';
+    if(!has(p.data))p.data='Synthetic data with the production schema for the build; UAT data for testing';
+    if(!has(p.timebox))p.timebox='3 weeks build + 2 weeks parallel run';
+    fillBinds();changed();toast('PoC drafted from increment 1')});
+  $('#b-copybrief').addEventListener('click',()=>copyText(briefMD(),'Brief'));
+  $('#b-mflow').addEventListener('click',()=>copyText(mermaidFlow(),'Flow diagram source'));
+  $('#b-mfsm').addEventListener('click',()=>copyText(mermaidFSM(),'State diagram source'));
+  $('#b-agenda').addEventListener('click',()=>copyText(agendaText(),'Agenda'));
+  $('#b-notes').addEventListener('click',()=>copyText(notesText(),'Notes'));
+  document.addEventListener('click',e=>{
+    const c=e.target.closest('[data-copy]');if(c){copyText(c.dataset.copy==='problem'?problemText():pitch(),c.dataset.copy==='problem'?'Problem statement':'Pitch');return}
+    const bf=e.target.closest('[data-bfit]');if(bf){briefFit[bf.dataset.bfit]=!briefFit[bf.dataset.bfit];setOut('brief',briefHTML());return}
+    const f=e.target.closest('[data-fit]');if(f){const on=f.getAttribute('aria-pressed')!=='true';f.setAttribute('aria-pressed',String(on));f.textContent=on?'Actual size':'Fit to width';$$(`.fig[data-fig="${f.dataset.fit}"]`).forEach(el=>el.classList.toggle('fit',on));return}
+    const s=e.target.closest('[data-stage]');if(s){state.ui.stage=s.dataset.stage;qSig='';saveLocal();renderMeeting()}
+  });
+  const qs=$('[data-out="questions"]');
+  qs.addEventListener('change',e=>{const id=e.target.dataset&&e.target.dataset.q;if(!id)return;
+    if(e.target.checked)state.asked[id]=true;else delete state.asked[id];
+    const li=e.target.closest('.q');if(li)li.classList.toggle('done',e.target.checked);changed()});
+  qs.addEventListener('input',e=>{const id=e.target.dataset&&e.target.dataset.qn;if(!id)return;
+    if(has(e.target.value))state.qnotes[id]=e.target.value;else delete state.qnotes[id];clearTimeout(saveT);saveT=setTimeout(saveLocal,300)});
+  $('#sw-step').addEventListener('change',()=>{if(SW.run)swStop();swStats()});
+  $('#sw-go').addEventListener('click',()=>{const k=$('#sw-step').value;if(!k){toast('Add a step first');return}
+    if(!SW.run){SW.run=true;SW.t0=Date.now();SW.iv=setInterval(swTick,250);$('#sw-go').textContent='Item done';$('#sw-clock').classList.add('run');swTick();return}
+    const secs=(Date.now()-SW.t0)/1000;SW.t0=Date.now();swTick();
+    if(secs>=1){(state.samples[k]=state.samples[k]||[]).push(Math.round(secs));saveLocal();swStats()}});
+  $('#sw-pause').addEventListener('click',()=>{if(SW.run)swStop()});
+  $('#sw-use').addEventListener('click',()=>{const k=$('#sw-step').value,a=(state.samples[k]||[]).filter(Number.isFinite);
+    if(!a.length){toast('Time a few items first');return}
+    const st=state.steps.find(s=>(tr(s.id)||'')===k);if(!st){toast('That step no longer exists');return}
+    st.mins=String(Math.round(sum(a)/a.length/6)/10);stepsEd.render();changed();toast(`${k}: ${st.mins} min per item from ${a.length} sample${a.length>1?'s':''}`)});
+  armButton($('#sw-clear'),'Click again to clear',()=>((state.samples[$('#sw-step').value]||[]).length>0),()=>{delete state.samples[$('#sw-step').value];saveLocal();swStats()});
+}
+
+/* ============ boot ============ */
+function init(){
+  buildViews();setupEditors();fillBinds();bindEvents();refresh();show();
+}
+init();
+</script>
