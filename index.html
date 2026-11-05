@@ -57,6 +57,7 @@ body{background-color:var(--paper);background-image:linear-gradient(var(--grid) 
 .proj .f-name{flex:3 1 240px}.proj .f-team{flex:2 1 180px}.proj .f-rev{flex:0 1 72px}
 .actions{display:flex;flex-wrap:wrap;gap:6px}
 .panel{flex:1 1 100%;border-top:1px solid var(--rule);padding-top:12px;display:flex;flex-direction:column;gap:8px}
+.panel[hidden]{display:none}
 .io-row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
 .flag{font:12px/1.4 var(--f-mono);color:var(--warn);border:1px dashed var(--warn);padding:6px 10px;background:var(--sheet)}
 .sheet{border:1px solid var(--ink);background:var(--sheet);min-width:0}
@@ -231,6 +232,85 @@ table.ro th[scope=row]{text-transform:none;letter-spacing:0;font:500 12.5px var(
 .cf{position:fixed;inset:0;background:rgba(6,12,14,.55);display:flex;align-items:center;justify-content:center;z-index:30;padding:max(16px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(16px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
 .cf-in{background:var(--sheet);border:1px solid var(--ink);padding:14px;width:min(720px,100%);display:flex;flex-direction:column;gap:8px}
 .cf-in textarea{min-height:240px;font:12px/1.5 var(--f-mono)}
+.nav-h{font:600 9.5px var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);padding:7px 10px 3px;background:var(--sheet-2);border-bottom:1px solid var(--rule-2)}
+.nav-h:first-child{border-top:0}
+.proj .f-ticket{flex:0 1 110px}.proj .f-phase{flex:0 1 130px}
+.proj select{width:100%}
+.pbar{flex:1 1 100%;display:flex;flex-wrap:wrap;gap:8px;align-items:center;border-top:1px solid var(--rule);padding-top:10px}
+.pbar label{font:500 10.5px var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2)}
+.pbar select{flex:1 1 160px;max-width:420px;width:auto;min-width:0}
+.phases{display:flex;flex-wrap:wrap;border:1px solid var(--rule);background:var(--sheet);flex:1 1 100%}
+.phases button{flex:1 1 92px;display:flex;flex-direction:column;gap:3px;align-items:flex-start;font:500 12px var(--f-body);padding:7px 10px;background:var(--sheet);color:var(--ink-2);border:0;border-right:1px solid var(--rule-2);cursor:pointer;text-align:left;min-width:0}
+.phases button:last-child{border-right:0}
+.phases button:hover{background:var(--sheet-2)}
+.phases button .pn{font:500 10px var(--f-mono);color:var(--ink-3);letter-spacing:.06em}
+.phases button.done{color:var(--ink)}
+.phases button.done .pn{color:var(--ok)}
+.phases button[aria-current="step"]{background:var(--ink);color:var(--sheet)}
+.phases button[aria-current="step"] .pn{color:var(--sheet)}
+.phases .meter{width:100%;max-width:60px}
+.phases button[aria-current="step"] .meter i{background:var(--sheet)}
+.gates{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule)}
+.gate{background:var(--sheet);padding:10px 12px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.gate.cur{background:var(--accent-soft)}
+.gate .g-h{display:flex;justify-content:space-between;align-items:baseline;gap:8px;font:600 15px/1.1 var(--f-display);text-transform:uppercase;letter-spacing:.02em}
+.gate .g-h span{font:500 10.5px var(--f-mono);color:var(--ink-3)}
+.gate ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:3px}
+.gate li{display:grid;grid-template-columns:16px minmax(0,1fr);gap:6px;font-size:12.5px;color:var(--ink-2);align-items:start}
+.gate li.ok{color:var(--ink-3)}
+.gate li i{font-style:normal;font:600 12px var(--f-mono);color:var(--ok)}
+.gate li.no i{color:var(--hot)}
+.gate li a{color:inherit;text-decoration:none}
+.gate li a:hover{text-decoration:underline}
+.next{list-style:none;margin:0;padding:0;border:1px solid var(--accent);background:var(--accent-soft)}
+.next li{display:grid;grid-template-columns:28px minmax(0,1fr) auto;gap:10px;align-items:baseline;padding:9px 12px;border-bottom:1px solid var(--rule-2);font-size:13.5px}
+.next li:last-child{border-bottom:0}
+.next .k{font:600 12px var(--f-mono);color:var(--accent)}
+.next a{white-space:nowrap;font:500 11px var(--f-mono)}
+.ipo-grid{display:flex;flex-direction:column;gap:10px}
+.ipo-mod{font:600 11px var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2);padding:4px 0 0}
+.ipo{border:1px solid var(--rule);background:var(--sheet);display:grid;grid-template-columns:minmax(0,1fr);min-width:0}
+.ipo .ipo-h{display:flex;flex-wrap:wrap;gap:4px 12px;align-items:baseline;padding:7px 10px;border-bottom:1px solid var(--rule-2);font-size:13px}
+.ipo .ipo-h b{font:600 12px var(--f-mono)}
+.ipo .ipo-h .pill{margin-left:auto}
+.ipo-3{display:grid;grid-template-columns:minmax(0,1fr) 20px minmax(0,1.4fr) 20px minmax(0,1fr);align-items:stretch}
+.ipo-3>div{padding:8px 10px;font-size:12.5px;min-width:0;display:flex;flex-direction:column;gap:3px}
+.ipo-3>div.arr{padding:8px 0;justify-content:center;align-items:center;color:var(--ink-3);font:600 14px var(--f-mono)}
+.ipo-3 .lbl{font-size:9.5px}
+.ipo-3 .fn{background:var(--sheet-2)}
+.ipo-f{display:flex;flex-wrap:wrap;gap:4px 14px;padding:6px 10px;border-top:1px solid var(--rule-2);font:11.5px var(--f-mono);color:var(--ink-2)}
+.ipo-f .warn{color:var(--warn)}.ipo-f .hot{color:var(--hot)}
+.chk{list-style:none;margin:0;padding:0;border:1px solid var(--rule)}
+.chk li{display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px;align-items:start;padding:8px 10px;border-bottom:1px solid var(--rule-2);font-size:13.5px}
+.chk li:last-child{border-bottom:0}
+.chk input[type=checkbox]{width:16px;height:16px;margin:3px 0 0;accent-color:var(--accent)}
+.chk li.done label{color:var(--ink-3);text-decoration:line-through}
+.doc{border:1px solid var(--rule);padding:22px 26px;background:var(--sheet);max-width:980px}
+.doc h1{font:600 30px/1.08 var(--f-display);text-transform:uppercase;letter-spacing:.015em;margin:0 0 4px;text-wrap:balance}
+.doc .bm{font:12px var(--f-mono);color:var(--ink-3);margin:0 0 6px}
+.doc h2{font:600 11px var(--f-mono);letter-spacing:.1em;text-transform:uppercase;margin:22px 0 6px;color:var(--ink-2);border-bottom:1px solid var(--rule-2);padding-bottom:4px}
+.doc h3{font:600 13.5px var(--f-body);margin:14px 0 4px}
+.doc p,.doc li{max-width:78ch;margin:0 0 6px;font-size:13.5px}
+.doc ul,.doc ol{margin:0 0 6px;padding-left:18px}
+.doc table{margin:4px 0 8px;font-size:12.5px}
+.doc td,.doc th{padding:5px 8px;border-bottom:1px solid var(--rule-2);vertical-align:top}
+.doc dl{display:grid;grid-template-columns:max-content minmax(0,1fr);gap:6px 16px;margin:0 0 6px}
+.doc dt{font:600 10.5px/1.9 var(--f-mono);text-transform:uppercase;letter-spacing:.06em;color:var(--ink-2)}
+.doc dd{margin:0;max-width:70ch;font-size:13.5px}
+.doc pre{font:11.5px/1.5 var(--f-mono);background:var(--sheet-2);border:1px solid var(--rule);padding:10px 12px;overflow-x:auto;margin:4px 0 8px;max-height:300px}
+.doc .fig{margin:6px 0 10px}
+.doc .fig svg{width:100%;height:auto}
+.secmap{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:6px}
+.secmap div{border:1px solid var(--rule);padding:6px 10px;font-size:12px;display:flex;justify-content:space-between;gap:8px;background:var(--sheet)}
+.secmap div span{font:500 10.5px var(--f-mono);color:var(--ink-3);white-space:nowrap}
+table.ro td.plat{min-width:16ch}
+.pf{display:flex;align-items:center;gap:6px;font:11px var(--f-mono);white-space:nowrap}
+.pf i{display:inline-block;height:6px;background:var(--accent);min-width:1px}
+.pf.dim{color:var(--ink-3)}.pf.dim i{background:var(--rule)}
+table.ro td select,table.ro td input{font-size:12.5px;padding:4px 6px}
+svg .cell-ok{fill:var(--accent-soft)} svg .cell-warn{fill:rgba(154,98,6,.14)} svg .cell-hot{fill:var(--hot-soft)}
+svg .k-source{fill:var(--ch-system)} svg .k-reference{fill:var(--ch-handoff)} svg .k-staging{fill:var(--ch-wait)} svg .k-base{fill:var(--accent)} svg .k-output{fill:var(--ch-manual)}
+svg .box.base{stroke:var(--accent);stroke-width:2}
 @media (max-width:880px){
   .app{grid-template-columns:minmax(0,1fr);gap:var(--s-3)}
   .rail{position:static}
@@ -238,6 +318,8 @@ table.ro th[scope=row]{text-transform:none;letter-spacing:0;font:500 12.5px var(
   .nav a{grid-template-columns:auto auto;border-bottom:0;border-right:1px solid var(--rule-2);white-space:nowrap}
   .nav .st{display:none}
   .rail-note{display:none}
+  .nav-h{display:none}
+  .phases button{flex:1 1 72px;padding:6px 8px}
 }
 @media (max-width:640px){
   .sheet-head{grid-template-columns:minmax(0,1fr)}
@@ -251,13 +333,25 @@ table.ro th[scope=row]{text-transform:none;letter-spacing:0;font:500 12.5px var(
   .brief dl{grid-template-columns:minmax(0,1fr)}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+@media print{
+  body{background:#fff;color:#000}
+  .rail,.topbar,.flag,.toast,.btn,.btn-row,.fig-tools button,.sheet-head .tblock,.seg{display:none!important}
+  .app{display:block;max-width:none;padding:0}
+  .sheet{border:0}
+  .sheet-body{padding:0}
+  .tbl-wrap{overflow:visible;border:0}
+  .fig{overflow:visible;border:0}
+  .fig svg{width:100%;height:auto}
+  .doc,.brief{border:0;padding:0;max-width:none}
+  a{color:inherit;text-decoration:none}
+}
 </style>
 
 <div class="app">
   <aside class="rail">
     <div class="brand">
       <div class="b-name">Process Schematic</div>
-      <div class="b-sub">shadow &rarr; model &rarr; analyse &rarr; propose</div>
+      <div class="b-sub">discover &rarr; design &rarr; deliver &rarr; hand over</div>
     </div>
     <nav class="nav" id="nav" aria-label="Sheets"></nav>
     <p class="rail-note">Saved in this browser only. Nothing is uploaded. Describe the process; keep client names, account and trade identifiers out.</p>
@@ -267,19 +361,29 @@ table.ro th[scope=row]{text-transform:none;letter-spacing:0;font:500 12.5px var(
       <div class="proj">
         <div class="field f-name"><label for="m-name">Process</label><input id="m-name" data-bind="meta.name" placeholder="e.g. Trade confirmation break management"></div>
         <div class="field f-team"><label for="m-team">Team</label><input id="m-team" data-bind="meta.team" placeholder="e.g. IB Operations, Confirmations"></div>
+        <div class="field f-ticket"><label for="m-ticket">Ticket</label><input id="m-ticket" data-bind="meta.ticket" placeholder="e.g. REQ-1234"></div>
         <div class="field f-rev"><label for="m-rev">Rev</label><input id="m-rev" data-bind="meta.rev"></div>
       </div>
       <div class="actions">
         <button class="btn" id="b-sample" type="button">Load sample</button>
         <button class="btn" id="b-blank" type="button">Start blank</button>
-        <button class="btn primary" id="b-io" type="button" aria-expanded="false" aria-controls="io">Export / import</button>
+        <button class="btn primary" id="b-io" type="button" aria-expanded="false" aria-controls="io">Projects, export, import</button>
       </div>
+      <div class="phases" id="phases" role="group" aria-label="Lifecycle phase"></div>
       <div class="panel" id="io" hidden>
-        <div class="io-row">
-          <button class="btn sm" id="b-copyjson" type="button">Copy project JSON</button>
-          <span class="hint">Paste it into a .json file to keep a version or move it to another machine.</span>
+        <div class="pbar">
+          <label for="p-sel">Project</label><select id="p-sel" aria-label="Open project"></select>
+          <button class="btn sm" id="p-new" type="button">New</button>
+          <button class="btn sm" id="p-dup" type="button">Duplicate</button>
+          <button class="btn sm" id="p-del" type="button">Delete</button>
+          <span class="hint">Every ticket is a project. All projects stay in this browser.</span>
         </div>
-        <label class="lbl" for="io-text">Import: paste project JSON</label>
+        <div class="io-row">
+          <button class="btn sm" id="b-download" type="button">Download project .json</button>
+          <button class="btn sm" id="b-copyjson" type="button">Copy project JSON</button>
+          <span class="hint">Keep a version with the ticket, or move the project to another machine.</span>
+        </div>
+        <label class="lbl" for="io-text">Import: paste project JSON (replaces the open project)</label>
         <textarea id="io-text" rows="4" placeholder='{"meta":{"name":"..."}, "steps":[...]}'></textarea>
         <div class="io-row">
           <button class="btn sm" id="b-import" type="button">Import pasted JSON</button>
@@ -337,12 +441,88 @@ const OPT={
 };
 const typeCls=t=>({Manual:'manual',System:'system',Decision:'decision',Wait:'wait',Handoff:'handoff'}[t]||'manual');
 
+/* ============ lifecycle, platforms and delivery vocabularies ============ */
+const PHASES=[
+ {id:'intake',name:'Intake',desc:'Ticket received and assigned. Record who asked, why, and the first reading of the pain.'},
+ {id:'discover',name:'Discover',desc:'Kickoff, shadow, deep dive and playback. Sheets 01 to 07 fill up.'},
+ {id:'design',name:'Design',desc:'Modules, data, platform, step-by-step design, controls and failure modes. Sheets 08 to 12.'},
+ {id:'build',name:'Build',desc:'Short iterations, each ending in a playback. Tests are written with the code.'},
+ {id:'test',name:'Test',desc:'Unit, integration, UAT and a parallel run against the manual process.'},
+ {id:'deploy',name:'Deploy',desc:'Service account, schedule, config per environment, alerting, change record.'},
+ {id:'handover',name:'Handover',desc:'Runbook handed to the service team. They run it once with you watching.'},
+ {id:'closed',name:'Closed',desc:'Benefit measured against the success metric. Ticket closed.'}];
+const phaseIdx=id=>Math.max(0,PHASES.findIndex(p=>p.id===id));
+Object.assign(OPT,{
+  priority:['Low','Medium','High','Urgent'],
+  dkind:['Source','Reference','Staging','Base','Output'],
+  dfmt:['?','Database table','Delta / Lakehouse','Excel / CSV','SharePoint list','XML / JSON','API','PDF','Email','Portal / screen','Text / fixed width'],
+  refresh:['?','Intraday','Daily','Weekly','Monthly','On demand','Static'],
+  how:['?','Copy as is','Append / union','Join on key','Lookup without key','Aggregate','Filter / derive','Manual entry'],
+  plat:['Python','Power Automate','Power Apps','Power BI','Fabric','Automation Anywhere','Alteryx','Excel / VBA','Copilot / AI','SharePoint / Teams'],
+  dmod:['Trigger','Ingest','Validate','Transform','Decide','Act','Report','Human'],
+  loop:['Batch','Per item'],
+  lookup:['None','Keyed','Scan'],
+  onerr:['?','Skip item','Retry then abort','Abort run','Fallback','Human queue'],
+  ctype:['Schema','Completeness','Duplicate','Range / format','Referential','Control total','Reconciliation','Tolerance','Maker-checker','Idempotency'],
+  onfail:['Block run','Flag item','Warn only'],
+  resp:['?','Retry then abort','Skip item','Abort run','Fallback','Human queue'],
+  ttype:['Unit','Integration','UAT','Parallel run','Peak / volume','Negative'],
+  tstatus:['Todo','Pass','Fail','Blocked'],
+  istatus:['Planned','In progress','Done','Dropped'],
+  score:['1','2','3','4','5']});
+const PLAT=OPT.plat;
+const PLATINFO={
+ 'Python':{runs:'Scheduled script on a bot VDI or server, built from toolbank functions',best:'Files, APIs, databases, OCR, reconciliations, anything with rules or volume',avoid:'Screen-only systems with no export: use browser or desktop automation, or A360'},
+ 'Power Automate':{runs:'Cloud flow or desktop flow under a service account',best:'Triggers on mail, Teams, SharePoint and forms; approvals; small transforms',avoid:'Large tables, complex rules and long loops: slow and hard to debug'},
+ 'Power Apps':{runs:'Canvas app on a SharePoint list or Dataverse',best:'Human queue, data entry forms, review screens',avoid:'Batch processing'},
+ 'Power BI':{runs:'Semantic model on Fabric, refreshed on a schedule',best:'MI, dashboards, aggregations and charts on a base table',avoid:'Row-level actions or writes'},
+ 'Fabric':{runs:'Pipeline, notebook or warehouse in a workspace',best:'Large or recurring loads, Delta tables, star schema, history',avoid:'Desktop files on a shared drive with no gateway'},
+ 'Automation Anywhere':{runs:'Bot runner under a service account',best:'Screen-only legacy systems, Citrix, desktop applications',avoid:'Data transformation: fragile and slow'},
+ 'Alteryx':{runs:'Designer workflow on a schedule (legacy)',best:'Existing workflows only',avoid:'New builds: the platform is being retired'},
+ 'Excel / VBA':{runs:'Macro-enabled workbook run by a person or a bot',best:'Small rules tables that users maintain, one-off fixes',avoid:'Unattended runs and more than a few thousand rows'},
+ 'Copilot / AI':{runs:'Model call with a prompt, always with a human review',best:'Unstructured text: classification, extraction from free text, drafting',avoid:'Fixed rules (code is deterministic), any step without a review'},
+ 'SharePoint / Teams':{runs:'List, library, channel or approval',best:'Human queue, trackers, evidence, notifications',avoid:'Heavy data'}};
+const PBASE={
+ Trigger:  {'Python':3,'Power Automate':5,'Power Apps':0,'Power BI':0,'Fabric':3,'Automation Anywhere':3,'Alteryx':1,'Excel / VBA':0,'Copilot / AI':0,'SharePoint / Teams':2},
+ Ingest:   {'Python':5,'Power Automate':3,'Power Apps':0,'Power BI':0,'Fabric':4,'Automation Anywhere':3,'Alteryx':2,'Excel / VBA':1,'Copilot / AI':0,'SharePoint / Teams':1},
+ Validate: {'Python':5,'Power Automate':1,'Power Apps':0,'Power BI':0,'Fabric':4,'Automation Anywhere':1,'Alteryx':2,'Excel / VBA':2,'Copilot / AI':0,'SharePoint / Teams':0},
+ Transform:{'Python':5,'Power Automate':1,'Power Apps':0,'Power BI':1,'Fabric':4,'Automation Anywhere':1,'Alteryx':2,'Excel / VBA':2,'Copilot / AI':0,'SharePoint / Teams':0},
+ Decide:   {'Python':5,'Power Automate':2,'Power Apps':0,'Power BI':0,'Fabric':3,'Automation Anywhere':2,'Alteryx':2,'Excel / VBA':3,'Copilot / AI':1,'SharePoint / Teams':0},
+ Act:      {'Python':4,'Power Automate':4,'Power Apps':1,'Power BI':0,'Fabric':1,'Automation Anywhere':4,'Alteryx':0,'Excel / VBA':1,'Copilot / AI':0,'SharePoint / Teams':2},
+ Report:   {'Python':4,'Power Automate':2,'Power Apps':1,'Power BI':5,'Fabric':3,'Automation Anywhere':1,'Alteryx':1,'Excel / VBA':3,'Copilot / AI':0,'SharePoint / Teams':2},
+ Human:    {'Python':0,'Power Automate':3,'Power Apps':4,'Power BI':0,'Fabric':0,'Automation Anywhere':0,'Alteryx':0,'Excel / VBA':2,'Copilot / AI':0,'SharePoint / Teams':5}};
+/* toolbank functions (Toolbox repo) that usually implement each module */
+const TOOLBANK={
+ Trigger:['single_instance','run_dir','load_config','get_logger','schtasks_create','watch_folder','wait_for_file','run_on_cron','WebhookServer','outlook_poll','FileQueue','Checkpoint'],
+ Ingest:['read_sheet','read_csv_smart','read_any','read_folder','read_all_sheets','find_header_row','read_multirow_header','unmerge_fill','read_fixed_width','read_parquet','json_to_df','xml_to_df','parse_camt053','parse_mt940','parse_fix','pdf_text','pdf_tables','ocr_pdf','docintel_analyze','outlook_mails','outlook_save_attachments','read_msg','html_tables','api_get','api_to_df','sql_read','read_delta','Browser.download'],
+ Validate:['check_schema','validate','assert_unique','control_totals','assert_totals_match','profile','validate_ids','isin_valid','iban_valid','normalise_key','find_duplicates','compare_frames','reconcile','recon_summary','match_with_tolerance'],
+ Transform:['cleanse','select','auto_types','to_number','to_date','cents','lookup','join3','sumifs','union','case_when','filter_rows','regex_extract','pivot','summarize','unpivot','add_subtotals','round_half_up','networkdays','workday','business_days_between','Flow.step'],
+ Decide:['apply_rules','rules_from_excel','validate_rules','first_match','feature_flag','flag_summary','case_when','condition'],
+ Act:['act','process_all','outlook_send','smtp_send','build_email','save_eml','api_post','sql_write','sql_upsert','delta_merge','write_delta','Browser.fill_form','Browser.click','ctl_click','ctl_type','teams_message','propose','approved_actions','retry'],
+ Report:['write_report','safe_write_excel','write_into_template','format_as_table','add_conditional_format','add_totals_row','to_csv_strict','df_to_docx_table','fill_docx','outlook_send','teams_message','count_rows','add_audit_columns','row_hash'],
+ Human:['propose','read_decisions','approved_actions','teams_message','outlook_send','FileQueue']};
+const EXITCODES=[['0','Run completed; no exceptions'],['2','Business exceptions recorded; send the exceptions report to the process owner'],['3','System failure (file locked, timeout, system down); re-run after the cause clears'],['4','Config error (missing path, secret or setting); fix the config, re-run'],['5','Robot error (unexpected data or a bug); needs a developer'],['6','Already running; a second copy was started and exited']];
+const CHECKLIST=[
+ {id:'svc',t:'Service account created; access approved per system (read first, write only where the design needs it)'},
+ {id:'cfg',t:'Config per environment (dev, UAT, prod); secrets in the vault, not in code or config files'},
+ {id:'sched',t:'Schedule registered (Task Scheduler, Power Automate or Fabric) with a one-copy lock'},
+ {id:'log',t:'Run log location and retention agreed; exit codes documented'},
+ {id:'alert',t:'Alert on failure (Teams or email) tested with a forced failure'},
+ {id:'par',t:'Parallel run completed and signed off against the manual process'},
+ {id:'ctl',t:'Control owner reviewed the controls and the evidence they produce'},
+ {id:'cab',t:'Change record raised and approved; rollback plan agreed'},
+ {id:'rb',t:'Runbook handed to the service team; they ran it once with the developer watching'},
+ {id:'ben',t:'Benefit baseline recorded (manual minutes before) to measure the success metric after go-live'}];
+
 /* ============ model ============ */
-function blankState(){return{v:1,
-  meta:{name:'',team:'',rev:'A',date:today(),sample:false},
+function blankState(){return{v:2,
+  meta:{name:'',team:'',rev:'A',date:today(),sample:false,ticket:'',requester:'',priority:'Medium',phase:'intake',author:'',received:''},
   charter:{trigger:'',frequency:'',objective:'',pain:'',stakeholders:'',metric:'',constraints:'',notes:''},
   icom:[],steps:[],fsm:{item:'',states:[],trans:[]},timing:[],cld:{vars:[],links:[]},
   poc:{name:'',scope:'',success:'',out:'',controls:'',data:'',timebox:'',asks:''},
+  data:{sets:[],links:[]},platform:{},platnotes:'',design:[],controls:[],fmea:[],
+  plan:{iters:[],tests:[],done:{}},
+  runbook:{run:'',schedule:'',env:'',inputs:'',outputs:'',checks:'',logs:'',rerun:'',contacts:'',change:'',notes:''},
   asked:{},qnotes:{},samples:{},ui:{stage:'kickoff'}}}
 const blankStep=n=>({id:'S'+n,name:'',lane:'',type:'Manual',system:'',mins:'',vol:'',wait:'',rework:'',pain:'',rules:'?',data:'?',access:'?',stability:'?',next:'',module:'Auto'});
 
@@ -422,6 +602,68 @@ function sampleState(){
     data:'Synthetic data with the production schema for build; UAT data for testing',
     timebox:'3 weeks build + 2 weeks parallel run',
     asks:'Read access to a booking-system extract; one anonymised sample report; two 30-minute analyst sessions for playback'});
+  Object.assign(s.meta,{ticket:'REQ-4821',requester:'Team lead, Confirmations',priority:'High',phase:'design',author:'Automation solutions developer',received:'2026-10-20'});
+  s.data.sets=[
+    {id:'D1',kind:'Source',name:'Unmatched confirmations report',system:'Matching platform',format:'Excel / CSV',grain:'one row per unmatched trade',key:'trade_id',refresh:'Daily',vol:'120',access:'UI only',owner:'Matching platform support',notes:'Download at 07:30; header on row 3'},
+    {id:'D2',kind:'Source',name:'Trade economics extract',system:'Booking system',format:'Database table',grain:'one row per trade leg',key:'trade_id, leg',refresh:'Intraday',vol:'4000',access:'API / file',owner:'Booking system IT',notes:'Read-only view requested'},
+    {id:'D3',kind:'Source',name:'Counterparty confirmations',system:'Shared mailbox',format:'PDF',grain:'one document per trade',key:'their_ref, trade_id (in text)',refresh:'Intraday',vol:'110',access:'API / file',owner:'Confirmations team',notes:'Layouts differ by counterparty'},
+    {id:'D4',kind:'Reference',name:'Counterparty master',system:'Reference data',format:'Database table',grain:'one row per counterparty',key:'cpty_id',refresh:'Daily',vol:'3000',access:'API / file',owner:'Reference data team',notes:''},
+    {id:'D5',kind:'Staging',name:'Extracted confirmation fields',system:'Python (work folder)',format:'Excel / CSV',grain:'one row per document',key:'file_name',refresh:'Daily',vol:'110',access:'API / file',owner:'Automation',notes:'OCR confidence kept per field'},
+    {id:'D6',kind:'Base',name:'Break master',system:'Python (work folder), later Fabric',format:'Delta / Lakehouse',grain:'one row per break per business date',key:'business_date, trade_id',refresh:'Daily',vol:'120',access:'API / file',owner:'Automation',notes:'Star schema centre: links to D2, D4, D5'},
+    {id:'D7',kind:'Output',name:'Break tracker',system:'SharePoint',format:'SharePoint list',grain:'one row per open break',key:'trade_id',refresh:'Daily',vol:'120',access:'API / file',owner:'Ops team',notes:''},
+    {id:'D8',kind:'Output',name:'Exceptions report',system:'Email',format:'Excel / CSV',grain:'one row per item not processed',key:'trade_id',refresh:'Daily',vol:'10',access:'API / file',owner:'Team lead',notes:''},
+    {id:'D9',kind:'Output',name:'Daily MI pack',system:'Power BI',format:'API',grain:'aggregates by desk, age and cause',key:'business_date, desk',refresh:'Daily',vol:'40',access:'API / file',owner:'Management',notes:''}];
+  s.data.links=[
+    {from:'D1',to:'D6',via:'B2 Ingest',how:'Copy as is'},{from:'D2',to:'D6',via:'B4 Enrich',how:'Join on key'},{from:'D3',to:'D5',via:'B3 Extract',how:'Filter / derive'},
+    {from:'D5',to:'D6',via:'B4 Enrich',how:'Join on key'},{from:'D4',to:'D6',via:'B4 Enrich',how:'Join on key'},{from:'D6',to:'D7',via:'B7 Write tracker',how:'Copy as is'},
+    {from:'D6',to:'D8',via:'B8 Report',how:'Filter / derive'},{from:'D6',to:'D9',via:'B9 MI',how:'Aggregate'}];
+  s.platform={Ingest:{choice:'Python',why:'Report is screen-only but exports to Excel; PDFs need OCR'},Act:{choice:'Power Automate',why:'Outlook and SharePoint under the service account'},Report:{choice:'Power BI',why:'MI pack replaces the PowerPoint'},Human:{choice:'SharePoint / Teams',why:'Existing tracker list'}};
+  s.platnotes='Bot runs on the Ops VDI under the CoE service account. Fabric workspace exists for Confirmations MI; Python 3.11 approved image.';
+  s.design=[
+    {id:'B1',module:'Trigger',from:'',action:'Start at 07:45 or when the unmatched report lands',input:'',function:'Task Scheduler fires the robot; single_instance stops a second copy; run_dir creates work/<date>',output:'run id, run folder',platform:'Python',tool:'single_instance, run_dir, wait_for_file',loop:'Batch',lookup:'None',onerr:'Abort run',check:'run.log.jsonl has a start line'},
+    {id:'B2',module:'Ingest',from:'S1',action:'Read the unmatched confirmations report',input:'D1',function:'read_sheet with header on row 3; required columns trade_id, cpty, product, amount, ccy, trade_date',output:'D6 (new rows)',platform:'Python',tool:'read_sheet, cleanse, check_schema',loop:'Batch',lookup:'None',onerr:'Abort run',check:'row count equals the report footer count'},
+    {id:'B3',module:'Ingest',from:'S4',action:'Extract fields from counterparty confirmation PDFs',input:'D3',function:'pdf_text first; ocr_pdf when the text layer is empty; parse_key_values for their_ref, amount, ccy, trade_date, settlement_date; keep OCR confidence',output:'D5',platform:'Python',tool:'pdf_text, ocr_pdf, parse_key_values, parse_amount',loop:'Per item',lookup:'None',onerr:'Skip item',check:'every PDF yields a row; low confidence flagged'},
+    {id:'B4',module:'Transform',from:'S3',action:'Enrich breaks with booking economics and counterparty master',input:'D6, D2, D4, D5',function:'lookup by trade_id into D2 (many_to_one), cpty_id into D4, trade_id into D5; amounts to cents; dates standardised',output:'D6',platform:'Python',tool:'lookup, join3, cents, to_date',loop:'Batch',lookup:'Keyed',onerr:'Abort run',check:'no trade_id without economics unless flagged NO_BOOKING'},
+    {id:'B5',module:'Validate',from:'S4',action:'Compare our economics with the counterparty confirmation',input:'D6',function:'reconcile on trade_id: amount within 1 cent, ccy equal, dates equal; status MATCHED, BREAK, NO_CONFIRM',output:'D6 (status, break_cols)',platform:'Python',tool:'reconcile, recon_summary',loop:'Batch',lookup:'Keyed',onerr:'Abort run',check:'recon_summary counts add up to the input count'},
+    {id:'B6',module:'Decide',from:'S5',action:'Classify the break cause',input:'D6',function:'Rules table (Excel, owned by the team lead): amount break + our side changed → INTERNAL; counterparty field missing → CPTY_MISSING; else → REVIEW (human)',output:'D6 (cause, reason_code)',platform:'Python',tool:'rules_from_excel, apply_rules, first_match',loop:'Batch',lookup:'Keyed',onerr:'Human queue',check:'every row has a reason_code; REVIEW share reported'},
+    {id:'B7',module:'Act',from:'S8',action:'Write pre-filled rows to the break tracker',input:'D6',function:'Upsert by trade_id into the SharePoint list; never overwrite analyst comments',output:'D7',platform:'Power Automate',tool:'act, process_all, Checkpoint',loop:'Per item',lookup:'Keyed',onerr:'Retry then abort',check:'tracker count = MATCHED excluded count; checkpoint keyed by trade_id'},
+    {id:'B8',module:'Report',from:'',action:'Write the exceptions report and the run summary',input:'D6',function:'Items skipped (BusinessError) and the run counts into one workbook; email to the team lead',output:'D8',platform:'Python',tool:'safe_write_excel, outlook_send, count_rows',loop:'Batch',lookup:'None',onerr:'Abort run',check:'Summary sheet: input, done, exceptions'},
+    {id:'B9',module:'Report',from:'S10',action:'Publish the MI aggregates',input:'D6',function:'Aggregate by desk, age bucket and cause; write Delta table; Power BI refresh',output:'D9',platform:'Power BI',tool:'summarize, buckets, write_delta',loop:'Batch',lookup:'None',onerr:'Fallback',check:'MI totals equal tracker counts'}];
+  s.controls=[
+    {id:'C1',name:'Report layout unchanged',type:'Schema',scope:'D1',rule:'Required columns present with expected types; header found on row 3',tol:'',onfail:'Block run',evidence:'run log: schema check line'},
+    {id:'C2',name:'All breaks loaded',type:'Completeness',scope:'D1 → D6',rule:'Rows loaded = rows in the report; count within 50% to 200% of the 20-day average',tol:'',onfail:'Block run',evidence:'Summary sheet: input count'},
+    {id:'C3',name:'One row per break per day',type:'Duplicate',scope:'D6',rule:'business_date + trade_id unique',tol:'',onfail:'Block run',evidence:'assert_unique'},
+    {id:'C4',name:'Economics match within tolerance',type:'Tolerance',scope:'B5',rule:'Amount compared in cents, tolerance 1 cent; dates exact',tol:'0.01',onfail:'Flag item',evidence:'break_cols per row'},
+    {id:'C5',name:'Tracker reconciles to break master',type:'Reconciliation',scope:'D6 ↔ D7',rule:'Every unmatched trade_id in D6 has one tracker row; no tracker row without a D6 row',tol:'',onfail:'Block run',evidence:'recon_summary in the run summary'},
+    {id:'C6',name:'No duplicate tracker writes on re-run',type:'Idempotency',scope:'B7',rule:'Checkpoint keyed by trade_id; upsert, never insert',tol:'',onfail:'Block run',evidence:'checkpoint.json'},
+    {id:'C7',name:'Low OCR confidence reviewed',type:'Maker-checker',scope:'D5',rule:'Fields below 60% confidence go to REVIEW; analyst confirms before the tracker row is used',tol:'60%',onfail:'Flag item',evidence:'tracker column ocr_review'}];
+  s.fmea=[
+    {id:'F1',mode:'Unmatched report missing or late',where:'B2',cause:'Matching platform job delayed',L:'3',I:'4',detect:'wait_for_file times out at 08:30',resp:'Abort run',alert:'Teams message; exit 3',prevent:'Agree an SLA with platform support; retry at 08:45'},
+    {id:'F2',mode:'Report layout changed',where:'B2',cause:'Platform release',L:'2',I:'4',detect:'check_schema fails',resp:'Abort run',alert:'Teams message; exit 5',prevent:'Subscribe to the release notes; schema in config, not code'},
+    {id:'F3',mode:'PDF unreadable or new layout',where:'B3',cause:'New counterparty template, scanned image',L:'4',I:'2',detect:'No fields parsed or confidence below 60%',resp:'Skip item',alert:'Exceptions report; exit 2',prevent:'Keep per-counterparty patterns in config; analyst handles the item manually'},
+    {id:'F4',mode:'Booking system extract unavailable',where:'B4',cause:'Database maintenance window',L:'2',I:'5',detect:'sql_read raises a connection error',resp:'Retry then abort',alert:'Teams message; exit 3',prevent:'Retry 3 times over 15 minutes; run after the maintenance window'},
+    {id:'F5',mode:'Tracker write fails midway',where:'B7',cause:'SharePoint throttling or outage',L:'3',I:'3',detect:'Upsert returns an error after retries',resp:'Retry then abort',alert:'Teams message; exit 3',prevent:'Checkpoint per trade_id so the re-run resumes without duplicates'},
+    {id:'F6',mode:'Second copy of the robot starts',where:'B1',cause:'Scheduler fired twice or a manual run during the scheduled run',L:'2',I:'3',detect:'single_instance lock held',resp:'Abort run',alert:'Log line; exit 6',prevent:'One-copy lock in the run folder'},
+    {id:'F7',mode:'Volume spike (month-end)',where:'B2',cause:'Peak day',L:'4',I:'2',detect:'Count above 200% of the 20-day average',resp:'Fallback',alert:'Warning in the summary',prevent:'Batch processing; per-item work only for PDFs'},
+    {id:'F8',mode:'Rules table edited with a typo',where:'B6',cause:'Team lead edits the Excel rules',L:'3',I:'3',detect:'validate_rules fails at start',resp:'Abort run',alert:'Teams message to the team lead; exit 4',prevent:'Rules validated before any item is processed; previous version kept'}];
+  s.plan.iters=[
+    {n:'1',goal:'Ingest the report and enrich with booking economics (B1, B2, B4)',scope:'B1, B2, B4',demo:'2026-11-14',status:'Done',notes:'Playback with two analysts; header row 3 found'},
+    {n:'2',goal:'PDF extraction and reconciliation (B3, B5)',scope:'B3, B5',demo:'2026-11-28',status:'In progress',notes:'Three counterparty layouts covered; OCR for scans'},
+    {n:'3',goal:'Classification, tracker writes, exceptions report (B6, B7, B8)',scope:'B6, B7, B8',demo:'2026-12-12',status:'Planned',notes:''},
+    {n:'4',goal:'Parallel run and MI (B9)',scope:'B9',demo:'2027-01-09',status:'Planned',notes:'Two-week parallel run with the manual process'}];
+  s.plan.tests=[
+    {id:'T1',scenario:'Happy path: 20 breaks, all enriched',type:'Integration',input:'Synthetic report with 20 rows, booking extract with matches',expected:'20 tracker rows, 0 exceptions, exit 0',status:'Pass'},
+    {id:'T2',scenario:'Empty report',type:'Negative',input:'Report with header only',expected:'Run ends with a summary of 0 rows, exit 0, no tracker writes',status:'Pass'},
+    {id:'T3',scenario:'Report missing at 08:30',type:'Negative',input:'No file in the inbox',expected:'Exit 3; Teams message; no partial output',status:'Pass'},
+    {id:'T4',scenario:'Column renamed in the report',type:'Negative',input:'Report with cpty renamed to counterparty',expected:'Exit 5 before any item is processed',status:'Pass'},
+    {id:'T5',scenario:'Duplicate trade_id in the report',type:'Negative',input:'Two rows with the same trade_id',expected:'Run blocked by C3 with both rows listed',status:'Todo'},
+    {id:'T6',scenario:'Re-run after a crash at item 12 of 20',type:'Negative',input:'Kill the robot during B7',expected:'Re-run resumes at item 13; 20 tracker rows, no duplicates',status:'Todo'},
+    {id:'T7',scenario:'Each classification rule',type:'Unit',input:'One row per rule in the rules table',expected:'Reason codes as per the rules table; REVIEW for the rest',status:'Todo'},
+    {id:'T8',scenario:'Month-end volume (600 rows)',type:'Peak / volume',input:'Report with 600 rows',expected:'Run completes under 15 minutes',status:'Todo'},
+    {id:'T9',scenario:'Analysts process a day with the bot output',type:'UAT',input:'UAT day with real anonymised data',expected:'Analysts accept the tracker rows; corrections listed',status:'Todo'},
+    {id:'T10',scenario:'Two-week parallel run',type:'Parallel run',input:'Bot and manual process side by side',expected:'Zero mismatches in economics; tracker ready by 08:15 on every day',status:'Todo'}];
+  s.plan.done={svc:true,cfg:true};
+  Object.assign(s.runbook,{run:'python C:\\bots\\break_enrichment\\robot.py --env prod (Task Scheduler task CoE\\break_enrichment)',schedule:'Business days 07:45; waits for the report until 08:30',env:'Ops VDI OPS-BOT-02 under svc_coe_bots; config in C:\\bots\\break_enrichment\\config\\prod.yaml',inputs:'',outputs:'',checks:'Summary sheet: input count = report footer; exceptions below 10%; tracker rows visible by 08:15',logs:'C:\\bots\\break_enrichment\\work\\<YYYY-MM-DD>\\run.log.jsonl; exit code in Task Scheduler history',rerun:'Fix the cause, then re-run the same command. The checkpoint skips items already written; the run folder for the date is reused.',contacts:'Developer: Automation CoE. Process owner: Confirmations team lead. Matching platform: platform support. Booking system: booking IT.',change:'Rules table: team lead edits the Excel rules sheet; the robot validates it at start. Code: raise a change request; deploy from the release branch.',notes:''});
   return s;
 }
 
@@ -435,16 +677,49 @@ function normalize(x){
     else b[k]=x[k];
   }
   b.fsm.states=arr(b.fsm.states);b.fsm.trans=arr(b.fsm.trans);b.cld.vars=arr(b.cld.vars);b.cld.links=arr(b.cld.links);
+  b.data.sets=arr(b.data.sets);b.data.links=arr(b.data.links);b.plan.iters=arr(b.plan.iters);b.plan.tests=arr(b.plan.tests);
+  if(!b.plan.done||typeof b.plan.done!=='object')b.plan.done={};
+  if(!b.platform||typeof b.platform!=='object'||Array.isArray(b.platform))b.platform={};
+  if(!PHASES.some(p=>p.id===b.meta.phase))b.meta.phase='intake';
+  if(!OPT.priority.includes(b.meta.priority))b.meta.priority='Medium';
   if(!OPT||!b.ui.stage)b.ui.stage='kickoff';
   return b;
 }
 
-/* ============ storage (this browser only) ============ */
-const KEY='process-schematic-workbench-v1';
-function saveLocal(){try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){}}
-function loadLocal(){try{const s=localStorage.getItem(KEY);return s?JSON.parse(s):null}catch(e){return null}}
-
-let state=(()=>{const s=loadLocal();return s?normalize(s):sampleState()})();
+/* ============ storage: projects in this browser ============ */
+const KEY='process-schematic-workbench-v1';   /* legacy single-project key, migrated on first load */
+const PKEY='psw-projects', PFX='psw-project:';
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+const lsGet=k=>{try{return localStorage.getItem(k)}catch(e){return null}};
+const lsSet=(k,v)=>{try{localStorage.setItem(k,v)}catch(e){}};
+const lsDel=k=>{try{localStorage.removeItem(k)}catch(e){}};
+let projects={cur:'',list:[]};
+function loadProjects(){
+  try{const p=JSON.parse(lsGet(PKEY)||'null');if(p&&Array.isArray(p.list)&&p.list.length)projects=p}catch(e){}
+  if(!projects.list.length){
+    let s=null;try{const raw=lsGet(KEY);s=raw?JSON.parse(raw):null}catch(e){}
+    s=s?normalize(s):sampleState();const id=uid();
+    projects={cur:id,list:[{id,name:s.meta.name,team:s.meta.team,phase:s.meta.phase,updated:Date.now()}]};
+    lsSet(PFX+id,JSON.stringify(s));lsSet(PKEY,JSON.stringify(projects));
+  }
+  if(!projects.list.some(p=>p.id===projects.cur))projects.cur=projects.list[0].id;
+}
+function loadProject(id){try{const s=lsGet(PFX+id);return s?normalize(JSON.parse(s)):blankState()}catch(e){return blankState()}}
+function saveLocal(){
+  lsSet(PFX+projects.cur,JSON.stringify(state));
+  const p=projects.list.find(x=>x.id===projects.cur);
+  if(p){p.name=state.meta.name;p.team=state.meta.team;p.phase=state.meta.phase;p.updated=Date.now()}
+  lsSet(PKEY,JSON.stringify(projects));renderProjectList();
+}
+let plSig='';
+function renderProjectList(){
+  const sel=$('#p-sel');if(!sel)return;
+  const L=[...projects.list].sort((a,b)=>(b.updated||0)-(a.updated||0));
+  const sig=projects.cur+'|'+L.map(p=>p.id+p.name+p.team+p.phase).join(',');if(sig===plSig)return;plSig=sig;
+  sel.innerHTML=L.map(p=>`<option value="${esc(p.id)}"${p.id===projects.cur?' selected':''}>${esc((tr(p.name)||'Untitled process')+(has(p.team)?' · '+p.team:'')+' · '+(PHASES.find(x=>x.id===p.phase)||PHASES[0]).name)}</option>`).join('');
+}
+loadProjects();
+let state=loadProject(projects.cur);
 let A=null;
 let saveT=0, refT=0;
 function changed(){clearTimeout(saveT);saveT=setTimeout(saveLocal,300);clearTimeout(refT);refT=setTimeout(refresh,160)}
@@ -586,6 +861,7 @@ function analyse(){
   res.F=fsmCheck(state.fsm);
   res.T=timingCheck(state.timing);
   res.L=findLoops(state.cld.vars,state.cld.links);
+  res.D=dataCheck(state.data);res.G=designCheck(res.D);res.P=platformFit(res);res.C=controlsCheck(res.D,res.G);res.M=fmeaCheck();res.Q=planCheck();
   res.drc=drc(res);
   return res;
 }
@@ -646,6 +922,101 @@ function findLoops(vars,links){
   const orphan=names.filter(n=>!linked.has(n));
   const badLinks=links.filter(l=>(tr(l.from)||tr(l.to))&&(!idx.has(tr(l.from))||!idx.has(tr(l.to))));
   return{names,loops,orphan,badLinks};
+}
+
+/* ============ data lineage, design, platform, controls, failure modes, plan ============ */
+function dataCheck(d){
+  const sets=d.sets.map((x,i)=>Object.assign({},x,{i,key_:tr(x.id)||('D?'+(i+1)),nm:tr(x.name)}));
+  const byId=new Map(),dup=new Set();
+  sets.forEach(s=>{if(byId.has(s.key_))dup.add(s.key_);else byId.set(s.key_,s);if(!OPT.dkind.includes(s.kind))s.kind='Source'});
+  const links=d.links.map(l=>Object.assign({},l,{a:tr(l.from),b:tr(l.to)}));
+  const valid=links.filter(l=>byId.has(l.a)&&byId.has(l.b)&&l.a!==l.b),bad=links.filter(l=>(l.a||l.b)&&!(byId.has(l.a)&&byId.has(l.b)));
+  const adj=new Map(sets.map(s=>[s.key_,[]]));valid.forEach(l=>adj.get(l.a).push(l.b));
+  const col=new Map(),back=new Set();
+  const dfs=u=>{col.set(u,1);for(const v of adj.get(u)||[]){const c=col.get(v);if(c===1)back.add(u+'>'+v);else if(!c)dfs(v)}col.set(u,2)};
+  sets.forEach(s=>{if(!col.get(s.key_))dfs(s.key_)});
+  const fwd=new Map(sets.map(s=>[s.key_,(adj.get(s.key_)||[]).filter(v=>!back.has(s.key_+'>'+v))]));
+  const indeg=new Map(sets.map(s=>[s.key_,0]));fwd.forEach(v=>v.forEach(k=>indeg.set(k,indeg.get(k)+1)));
+  const rk=new Map(),q=sets.filter(s=>!indeg.get(s.key_)).map(s=>s.key_);q.forEach(k=>rk.set(k,0));
+  while(q.length){const u=q.shift();for(const v of fwd.get(u)||[]){rk.set(v,Math.max(rk.get(v)??0,(rk.get(u)??0)+1));indeg.set(v,indeg.get(v)-1);if(indeg.get(v)===0)q.push(v)}}
+  sets.forEach(s=>{s.rank=rk.get(s.key_)??0;s.ins=valid.filter(l=>l.b===s.key_);s.outs=valid.filter(l=>l.a===s.key_);s.n=num(s.vol)});
+  const linked=new Set();valid.forEach(l=>{linked.add(l.a);linked.add(l.b)});
+  const orphan=sets.filter(s=>s.nm&&!linked.has(s.key_)&&sets.length>1);
+  const depth=Math.max(0,...sets.map(s=>s.rank));
+  const scans=valid.filter(l=>l.how==='Lookup without key');
+  const keyless=sets.filter(s=>s.nm&&s.kind!=='Output'&&!has(s.key));
+  const base=sets.filter(s=>s.kind==='Base');
+  const thinBase=base.filter(s=>s.ins.length<2);
+  return{sets,byId,dup,links:valid,bad,back,orphan,depth,scans,keyless,base,thinBase,
+    sources:sets.filter(s=>s.kind==='Source'),outputs:sets.filter(s=>s.kind==='Output'),rows:sum(sets.filter(s=>s.kind==='Source'),s=>s.n)};
+}
+const dsRefs=s=>String(s??'').split(/[,;\s()→←↔-]+/).map(tr).filter(x=>/^D\d+$/i.test(x)).map(x=>x.toUpperCase());
+function designCheck(D){
+  const steps=state.design.map((x,i)=>Object.assign({},x,{i,key_:tr(x.id)||('B?'+(i+1))}));
+  const dup=new Set(),seen=new Set();
+  steps.forEach(s=>{if(seen.has(s.key_))dup.add(s.key_);seen.add(s.key_);
+    if(!OPT.dmod.includes(s.module))s.module='Transform';
+    s.inRefs=dsRefs(s.input);s.outRefs=dsRefs(s.output);
+    s.badRefs=[...s.inRefs,...s.outRefs].filter(r=>!D.byId.has(r));
+    s.cx=s.loop==='Per item'?(s.lookup==='Scan'?'O(N×M)':'O(N)'):(s.lookup==='Scan'?'O(N×M)':'O(N)');
+    s.n=Math.max(0,...s.inRefs.map(r=>D.byId.has(r)?D.byId.get(r).n:0));
+    s.slow=s.lookup==='Scan';
+    s.sendRetry=s.module==='Act'&&s.onerr==='Retry then abort';});
+  const byMod=new Map(OPT.dmod.map(m=>[m,steps.filter(s=>s.module===m)]));
+  return{steps,dup,byMod,noErr:steps.filter(s=>!s.onerr||s.onerr==='?'),noIO:steps.filter(s=>s.module!=='Trigger'&&(!has(s.input)||!has(s.output))),
+    noFn:steps.filter(s=>!has(s.function)),noAct:steps.filter(s=>!has(s.action)),scans:steps.filter(s=>s.slow),sendRetry:steps.filter(s=>s.sendRetry),
+    noPlat:steps.filter(s=>!has(s.platform)),noCheck:steps.filter(s=>!has(s.check)),decideNoRule:steps.filter(s=>s.module==='Decide'&&!has(s.function)),
+    acts:steps.filter(s=>s.module==='Act')};
+}
+function platformFit(R){
+  const I=state.icom.filter(x=>has(x.name)),fm=k=>I.some(x=>x.kind==='Input'&&x.format===k);
+  const big=sum(R.steps,s=>s.n)>=5000,out={};
+  OPT.dmod.forEach(m=>{
+    const st=modSteps(m,R).map(x=>x.s),sc={},why={};
+    PLAT.forEach(p=>sc[p]=PBASE[m][p]);
+    const adj=(p,d,w)=>{sc[p]+=d;(why[p]=why[p]||[]).push((d>0?'+':'')+d+' '+w)};
+    const ui=st.some(s=>s.access==='UI only'),api=st.some(s=>s.access==='API / file'),uns=st.some(s=>s.data==='Unstructured'),judg=st.some(s=>s.rules==='Judgment'),rules=st.length>0&&st.every(s=>s.rules==='Rules');
+    if(ui){adj('Automation Anywhere',2,'screen-only system');adj('Python',-1,'screen-only: needs browser or desktop automation');adj('Power Automate',-1,'screen-only system')}
+    if(api){adj('Python',1,'export or API available');adj('Fabric',1,'export or API available')}
+    if(uns){adj('Copilot / AI',3,'unstructured input');adj('Python',1,'OCR and text parsing');adj('Power Automate',-1,'unstructured input')}
+    if(judg){adj('Copilot / AI',1,'judgment, with a review step');adj('Python',-1,'judgment step')}
+    if(rules)adj('Copilot / AI',-2,'fixed rules: code is deterministic');
+    if(big){adj('Fabric',2,'high volume');adj('Python',1,'high volume');adj('Excel / VBA',-2,'high volume');adj('Power Automate',-2,'high volume');adj('Automation Anywhere',-1,'high volume')}
+    if(m==='Ingest'||m==='Trigger'){
+      if(fm('Email')){adj('Power Automate',2,'email input');adj('Python',1,'Outlook or .msg files')}
+      if(fm('PDF')){adj('Python',1,'PDF text or OCR');adj('Copilot / AI',1,'PDF content')}
+      if(fm('Portal')){adj('Automation Anywhere',1,'portal input');adj('Python',1,'browser automation')}
+      if(fm('System feed')||fm('Excel / CSV')){adj('Python',1,'files or feeds');adj('Fabric',1,'files or feeds')}}
+    if(m==='Act'&&I.some(x=>x.kind==='Output'&&x.format==='Email'))adj('Power Automate',1,'email output');
+    PLAT.forEach(p=>sc[p]=clamp(sc[p],0,5));
+    const ranked=PLAT.map(p=>({p,s:sc[p],why:why[p]||[]})).sort((a,b)=>b.s-a.s||PLAT.indexOf(a.p)-PLAT.indexOf(b.p));
+    const ov=state.platform[m]||{};const choice=PLAT.includes(ov.choice)?ov.choice:ranked[0].p;
+    out[m]={ranked,rec:ranked[0].p,choice,why:tr(ov.why),override:PLAT.includes(ov.choice),n:st.length,steps:st};
+  });
+  return out;
+}
+function controlsCheck(D,G){
+  const C=state.controls.map((x,i)=>Object.assign({},x,{i,key_:tr(x.id)||('C?'+(i+1)),refs:dsRefs(x.scope)}));
+  C.forEach(c=>{if(!OPT.ctype.includes(c.type))c.type='Completeness';c.badRefs=c.refs.filter(r=>!D.byId.has(r))});
+  const covers=(s,types)=>C.some(c=>types.includes(c.type)&&c.refs.includes(s.key_));
+  const uncovered=D.outputs.filter(s=>s.nm&&!covers(s,['Reconciliation','Control total','Completeness']));
+  const noSchema=D.sources.filter(s=>s.nm&&!covers(s,['Schema']));
+  const idem=C.some(c=>c.type==='Idempotency');
+  return{C,uncovered,noSchema,idem,noRule:C.filter(c=>!has(c.rule)),noEvidence:C.filter(c=>!has(c.evidence))};
+}
+function fmeaCheck(){
+  const F=state.fmea.map((x,i)=>{const L=clamp(num(x.L)||0,0,5),I=clamp(num(x.I)||0,0,5);return Object.assign({},x,{i,key_:tr(x.id)||('F?'+(i+1)),Ln:L,In:I,risk:L*I})});
+  F.sort((a,b)=>b.risk-a.risk||a.i-b.i);
+  return{F,noDetect:F.filter(f=>!has(f.detect)),noResp:F.filter(f=>!f.resp||f.resp==='?'),highNoPrevent:F.filter(f=>f.risk>=10&&!has(f.prevent)),unscored:F.filter(f=>!f.Ln||!f.In),
+    high:F.filter(f=>f.risk>=10),hasRunLevel:F.some(f=>/second copy|already running|duplicate run|twice/i.test(f.mode+' '+f.cause)),hasResume:F.some(f=>/midway|crash|partial|resume/i.test(f.mode+' '+f.cause+' '+f.prevent))};
+}
+function planCheck(){
+  const p=state.plan,T=p.tests.map((t,i)=>Object.assign({},t,{i})),It=p.iters;
+  const rb=state.runbook,req=[['run','How to run'],['schedule','Schedule'],['env','Environment and config'],['checks','What to check after a run'],['logs','Logs and exit codes'],['rerun','Re-run procedure'],['contacts','Contacts']];
+  return{T,It,pass:T.filter(t=>t.status==='Pass').length,fail:T.filter(t=>t.status==='Fail'),todo:T.filter(t=>t.status==='Todo'||!t.status).length,blocked:T.filter(t=>t.status==='Blocked').length,
+    hasNeg:T.some(t=>t.type==='Negative'),hasPar:T.some(t=>t.type==='Parallel run'),hasPeak:T.some(t=>t.type==='Peak / volume'),hasUAT:T.some(t=>t.type==='UAT'),
+    parPass:T.some(t=>t.type==='Parallel run'&&t.status==='Pass'),allPass:T.length>0&&T.every(t=>t.status==='Pass'),
+    done:CHECKLIST.filter(c=>p.done[c.id]).length,rbMissing:req.filter(r=>!has(rb[r[0]])),itersNoStatus:It.filter(x=>!has(x.goal))};
 }
 
 /* ============ design rule check: gaps become questions ============ */
@@ -714,6 +1085,67 @@ function drc(R){
   const p=state.poc;
   if(S.length&&!has(p.success))add('info','solution','PoC has no success criteria','What result in 2 to 4 weeks would count as success?','signoff');
   if(S.length&&!has(p.asks))add('info','solution','PoC asks not listed','What access or approvals are needed, and who grants them?','signoff');
+  /* design phase sheets */
+  const Dd=R.D,G=R.G,P=R.P,C=R.C,M=R.M,Q=R.Q,ph=phaseIdx(state.meta.phase);
+  if(S.length&&!Dd.sets.length)add('info','data','No datasets yet','Which tables, files and documents does the solution read and write? Which one is the base table?','design');
+  Dd.dup.forEach(k=>add('err','data',`Duplicate dataset ID ${k}`,'','design'));
+  Dd.bad.forEach(l=>add('err','data',`Lineage link ${l.a||'?'} → ${l.b||'?'} uses an unknown dataset`,'','design'));
+  Dd.back.forEach(k=>add('warn','data',`Lineage ${k.replace('>',' → ')} closes a cycle`,'Which dataset is the source of truth when two feed each other?','design'));
+  Dd.orphan.forEach(s=>add('info','data',`${s.key_} "${s.nm}" is not linked`,`Where does "${s.nm}" come from, and what reads it?`,'design'));
+  Dd.keyless.forEach(s=>add('warn','data',`${s.key_} "${s.nm}" has no key`,`Which field, or combination of fields, identifies one row of "${s.nm}"?`,'design'));
+  Dd.thinBase.forEach(s=>add('info','data',`Base table ${s.key_} has ${s.ins.length} feed${s.ins.length===1?'':'s'}`,`Which sources does "${s.nm}" combine?`,'design'));
+  Dd.scans.forEach(l=>add('warn','data',`${l.a} → ${l.b}: lookup without a key is O(N×M)`,`Which key links ${l.a} to ${l.b}? A keyed lookup (toolbank lookup or join3) is O(N+M).`,'design'));
+  Dd.sources.forEach(s=>{if(s.access==='?'||!has(s.access))add('info','data',`${s.key_}: access route unknown`,`Does ${s.system||'the system'} offer an export, a report or an API for "${s.nm}"?`,'design');
+    if(!has(s.owner))add('info','data',`${s.key_}: no owner`,`Who owns "${s.nm}" and announces changes to it?`,'design');
+    if(s.access==='UI only'&&s.n>=1000)add('warn','data',`${s.key_}: ${fmtN(s.n)} rows through a screen`,`Can "${s.nm}" be exported or queried instead of read from the screen?`,'design')});
+  OPT.dmod.forEach(m=>{const x=P[m];if(!x||!x.n)return;
+    if(x.choice==='Alteryx')add('warn','platform',`${m} on Alteryx (legacy)`,'Alteryx is being retired. What stops this module from being built in Python or Fabric?','design');
+    if(x.choice==='Copilot / AI'&&x.steps.every(s=>s.rules==='Rules'))add('warn','platform',`${m} on AI for fixed rules`,'The rules are fixed. Code gives the same answer every time; a model does not. Why AI here?','design');
+    if(x.choice==='Copilot / AI'&&!G.steps.some(s=>s.module==='Human'||s.onerr==='Human queue'))add('warn','platform',`${m} on AI with no review step`,'Who reviews the model output before it is used?','design');
+    if(x.choice==='Python'&&x.steps.some(s=>s.access==='UI only'))add('info','platform',`${m}: screen-only step on Python`,'Browser (toolbank web) or desktop (toolbank desktop) automation is needed, or an export. Which one?','design');
+    if(x.choice==='Excel / VBA'&&sum(x.steps,s=>s.n)>=2000)add('warn','platform',`${m}: Excel at ${fmtN(sum(x.steps,s=>s.n))} rows a day`,'Excel will not hold this volume unattended. Python or Fabric?','design');
+    if(!x.override&&!x.why)add('info','platform',`${m}: platform not confirmed`,`The fit score suggests ${x.rec} for ${m}. Does that match the team's licences and the systems involved?`,'design')});
+  if(S.length&&!G.steps.length)add('info','design','No design steps yet','Press "Draft from flow" or add the first step: what triggers the run?','design');
+  G.dup.forEach(k=>add('err','design',`Duplicate design step ID ${k}`,'','design'));
+  G.steps.forEach(s=>{s.badRefs.forEach(r=>add('err','design',`${s.key_} refers to unknown dataset ${r}`,'','design'))});
+  G.noAct.forEach(s=>add('warn','design',`${s.key_} has no action`,'','design'));
+  G.noIO.forEach(s=>add('warn','design',`${s.key_}: input or output missing`,`What goes into "${s.action||s.key_}" and what comes out? Name the datasets (D-ids) and fields.`,'design'));
+  G.decideNoRule.forEach(s=>add('warn','design',`${s.key_}: decision rule not written`,`Write the rule for "${s.action||s.key_}" as if/then. Who owns the rules table?`,'design'));
+  G.noErr.forEach(s=>add('warn','design',`${s.key_}: no error policy`,`When "${s.action||s.key_}" fails for one item, does the run skip the item, retry, stop, or send it to a person?`,'design'));
+  G.sendRetry.forEach(s=>add('warn','design',`${s.key_}: retry around an action can repeat it`,`If "${s.action||s.key_}" sends or writes, a retry can send twice. Is the action idempotent (upsert, checkpoint by business id)?`,'design'));
+  G.scans.forEach(s=>add('warn','design',`${s.key_}: scan lookup is O(N×M)`,`Index the reference table by key (dict or merge) so "${s.action||s.key_}" is O(N+M).`,'design'));
+  G.noCheck.forEach(s=>add('info','design',`${s.key_}: no check`,`How will you know "${s.action||s.key_}" produced the right output: a count, a total, a sample?`,'design'));
+  if(G.steps.length&&!G.steps.some(s=>s.module==='Trigger'))add('info','design','No trigger step','What starts a run, and what stops a second copy from starting?','design');
+  if(G.steps.length&&!G.steps.some(s=>s.module==='Report'))add('info','design','No run summary step','Which step writes the run summary (counts, exceptions) that the service team reads?','design');
+  if(G.steps.length&&!state.controls.length)add('warn','controls','No controls defined','What proves the output is right: a count, a total, a reconciliation? Who checks it?','design');
+  C.C.forEach(c=>{c.badRefs.forEach(r=>add('err','controls',`${c.key_} refers to unknown dataset ${r}`,'','design'))});
+  C.noRule.forEach(c=>add('warn','controls',`${c.key_} "${c.name||''}" has no rule`,`Write the rule for "${c.name||c.key_}" as a comparison with a tolerance.`,'design'));
+  C.noEvidence.forEach(c=>add('info','controls',`${c.key_}: no evidence location`,`Where is the result of "${c.name||c.key_}" recorded so an auditor can see it?`,'design'));
+  if(state.controls.length)C.uncovered.forEach(s=>add('warn','controls',`${s.key_} "${s.nm}" has no completeness or reconciliation control`,`How do you prove every item reached "${s.nm}"?`,'design'));
+  if(state.controls.length)C.noSchema.forEach(s=>add('info','controls',`${s.key_} "${s.nm}" has no schema control`,`What happens when a column in "${s.nm}" is renamed or moved?`,'design'));
+  if(G.acts.length&&!C.idem)add('warn','controls','No idempotency control on an action step','If the run is repeated after a crash, what stops actions from being sent twice?','design');
+  if(G.steps.length&&!state.fmea.length)add('warn','controls','No failure modes listed','Press "Add standard failure modes", then score likelihood and impact.','design');
+  M.unscored.forEach(f=>add('info','controls',`${f.key_}: likelihood or impact not scored`,'','design'));
+  M.noDetect.forEach(f=>add('warn','controls',`${f.key_} "${f.mode||''}": no detection`,`How would anyone know that "${f.mode||f.key_}" happened?`,'design'));
+  M.noResp.forEach(f=>add('info','controls',`${f.key_}: no response`,`When "${f.mode||f.key_}" happens, does the run retry, skip, stop or hand over?`,'design'));
+  M.highNoPrevent.forEach(f=>add('warn','controls',`${f.key_}: risk ${f.risk} with no prevention`,`What reduces the chance or the impact of "${f.mode||f.key_}"?`,'design'));
+  if(state.fmea.length&&!M.hasRunLevel)add('info','controls','No failure mode for a second copy of the run','What happens if the scheduler fires twice or someone starts the robot by hand during the run?','design');
+  if(state.fmea.length&&!M.hasResume)add('info','controls','No failure mode for a crash midway','If the run stops at item 12 of 20, does the re-run start from 13 or from 1?','design');
+  /* deliver phase sheets */
+  if(ph>=phaseIdx('build')){
+    if(!Q.It.length)add('info','plan','No iterations planned','What does the first playback show, and when?','handover');
+    if(!Q.T.length)add('warn','plan','No test cases','Press "Add standard tests", then add one test per decision rule.','handover');
+    if(Q.T.length&&!Q.hasNeg)add('warn','plan','No negative test','What should happen with an empty input, a renamed column, a duplicate item, a crash midway?','handover');
+    if(Q.T.length&&!Q.hasPar)add('warn','plan','No parallel run test','How long will the bot run beside the manual process, and who compares the two?','handover');
+    if(Q.T.length&&!Q.hasPeak)add('info','plan','No peak volume test','How long does a month-end run take?','handover');
+    if(Q.T.length&&!Q.hasUAT)add('info','plan','No UAT','When do the analysts work a day with the bot output?','handover');
+  }
+  Q.fail.forEach(t=>add('err','plan',`Test ${t.id||t.i+1} failed: ${trunc(t.scenario||'',50)}`,'','handover'));
+  if(ph>=phaseIdx('deploy')){
+    CHECKLIST.filter(c=>!state.plan.done[c.id]).forEach(c=>add('warn','plan',`Checklist: ${trunc(c.t,60)}`,'','handover'));
+  }
+  if(ph>=phaseIdx('test'))Q.rbMissing.forEach(r=>add('warn','runbook',`Runbook: ${r[1]} missing`,`Service team: ${r[1].toLowerCase()}?`,'handover'));
+  else if(G.steps.length)Q.rbMissing.slice(0,1).forEach(()=>add('info','runbook','Runbook not started','Fill the runbook during the build; the service team needs it before the parallel run.','handover'));
   const rank={err:0,warn:1,info:2};
   return D.sort((a,b)=>rank[a.sev]-rank[b.sev]);
 }
@@ -993,18 +1425,27 @@ function svgPipeline(R,id){
 
 /* ============ sheets, modules, meetings ============ */
 const SHEETS=[
- {id:'overview',no:'00',name:'Overview',title:'Method and status',desc:'Model a team’s process the way a circuit is designed: draw the boundary, wire the flow, define the states, check the timing and the feedback, then run design-rule checks. Gaps turn into meeting questions; the model turns into the proposal.'},
- {id:'charter',no:'01',name:'Charter',meter:1,title:'Problem charter',sum:'Trigger, pain, stakeholders, success metric',desc:'Frame the problem before mapping it: what starts the work, what hurts, who is involved and how success will be measured.'},
- {id:'context',no:'02',name:'Context',meter:1,title:'System boundary',sum:'Inputs, controls, outputs, mechanisms',desc:'An IDEF0 context diagram. Inputs enter from the left and outputs leave on the right; controls constrain the work from above and mechanisms (people and systems) perform it from below.'},
- {id:'flow',no:'03',name:'Flow',meter:1,title:'Process flow',sum:'Steps, owners, times, waits, fit signals',desc:'Every step the team performs, wired in sequence across the people who do it. Shadow the work to fill in time, volume and wait, and rate how well each step suits automation.'},
- {id:'states',no:'04',name:'States',meter:1,title:'Work item state machine',sum:'Lifecycle of one work item',desc:'The lifecycle of one work item as a finite state machine. Each status is a state and each event moves the item on. Manual transitions are where people push items along by hand.'},
- {id:'timing',no:'05',name:'Timing',meter:1,title:'Timing and cut-offs',sum:'Arrivals, work windows, cut-offs, slack',desc:'The working day as a timing diagram. Inputs arrive, work windows run and cut-offs fall; slack is the margin between finishing the work and the deadline edge.'},
- {id:'loops',no:'06',name:'Loops',meter:1,title:'Causal loops',sum:'What reinforces or balances the pain',desc:'What makes the process better or worse over time. A + link moves the next variable the same way, a − link the opposite way. A loop with an odd number of − links balances; any other loop reinforces.'},
- {id:'analysis',no:'07',name:'Analysis',title:'Bottleneck analysis',sum:'Hot spot, critical path, fit, checks',desc:'Computed from sheets 01 to 06: where manual time goes, which steps suit automation, what sits on the critical path, and which gaps are still open.'},
- {id:'solution',no:'08',name:'Solution',meter:1,title:'Solution architecture',sum:'Modules, increments, PoC definition',desc:'Divide and conquer. Each step is assigned to a module with one job and a clean interface; modules are built and tested separately, then wired together. Exceptions and judgment calls route to a person.'},
- {id:'meeting',no:'09',name:'Meeting kit',title:'Meeting kit',sum:'Questions for each meeting, from the gaps',desc:'Questions for each meeting in the engagement, including questions generated from the gaps in this model. Tick them off and note the answers as you go.'},
- {id:'brief',no:'10',name:'Brief',title:'Proposal brief',sum:'One-page proposal and 30-second pitch',desc:'A one-page proposal generated from the model, ready to paste into an email, a Teams post or a document.'}
+ {id:'overview',no:'00',name:'Overview',phase:'',title:'Method and status',desc:'Model a team’s process the way a circuit is designed, then carry the design through to a robot the service team can run. Draw the boundary, wire the flow, define the states, check the timing and the feedback; then design the data, the modules, the controls and the failure handling; then build, test, deploy and hand over. Gaps turn into meeting questions; the model turns into the proposal and the SDD.'},
+ {id:'charter',no:'01',name:'Charter',phase:'discover',meter:1,title:'Problem charter',sum:'Trigger, pain, stakeholders, success metric',desc:'Frame the problem before mapping it: what starts the work, what hurts, who is involved and how success will be measured.'},
+ {id:'context',no:'02',name:'Context',phase:'discover',meter:1,title:'System boundary',sum:'Inputs, controls, outputs, mechanisms',desc:'An IDEF0 context diagram. Inputs enter from the left and outputs leave on the right; controls constrain the work from above and mechanisms (people and systems) perform it from below.'},
+ {id:'flow',no:'03',name:'Flow',phase:'discover',meter:1,title:'Process flow',sum:'Steps, owners, times, waits, fit signals',desc:'Every step the team performs, wired in sequence across the people who do it. Shadow the work to fill in time, volume and wait, and rate how well each step suits automation.'},
+ {id:'states',no:'04',name:'States',phase:'discover',meter:1,title:'Work item state machine',sum:'Lifecycle of one work item',desc:'The lifecycle of one work item as a finite state machine. Each status is a state and each event moves the item on. Manual transitions are where people push items along by hand.'},
+ {id:'timing',no:'05',name:'Timing',phase:'discover',meter:1,title:'Timing and cut-offs',sum:'Arrivals, work windows, cut-offs, slack',desc:'The working day as a timing diagram. Inputs arrive, work windows run and cut-offs fall; slack is the margin between finishing the work and the deadline edge.'},
+ {id:'loops',no:'06',name:'Loops',phase:'discover',meter:1,title:'Causal loops',sum:'What reinforces or balances the pain',desc:'What makes the process better or worse over time. A + link moves the next variable the same way, a − link the opposite way. A loop with an odd number of − links balances; any other loop reinforces.'},
+ {id:'analysis',no:'07',name:'Analysis',phase:'discover',title:'Bottleneck analysis',sum:'Hot spot, critical path, fit, checks',desc:'Computed from sheets 01 to 06: where manual time goes, which steps suit automation, what sits on the critical path, and which gaps are still open.'},
+ {id:'solution',no:'08',name:'Solution',phase:'design',meter:1,title:'Solution architecture',sum:'Modules, increments, PoC definition',desc:'Divide and conquer. Each step is assigned to a module with one job and a clean interface; modules are built and tested separately, then wired together. Exceptions and judgment calls route to a person.'},
+ {id:'data',no:'09',name:'Data',phase:'design',meter:1,title:'Datasets and lineage',sum:'Sources, base table, outputs, keys, layers',desc:'Every table, file and document the solution reads or writes, and how they feed each other. The base table sits at the centre of a star: sources and reference data join into it, outputs read from it. Keys and grain decide whether joins are exact and fast.'},
+ {id:'platform',no:'10',name:'Platform',phase:'design',meter:1,title:'Platform fit',sum:'Which tool builds each module',desc:'The stack scored against each module from the signals on sheet 03 (system access, data format, rules, volume) and the input formats on sheet 02. The score is a starting point: record the choice and the reason, and the design and the SDD follow it.'},
+ {id:'design',no:'11',name:'Design',phase:'design',meter:1,title:'Step-by-step design',sum:'Input, function, output per build step',desc:'One row per build step: what goes in, what the step does, what comes out, on which platform, with which toolbank function, and what happens when it fails. This is the detailed design section of the SDD.'},
+ {id:'controls',no:'12',name:'Controls',phase:'design',meter:1,title:'Controls and failure modes',sum:'Accuracy checks and how the run fails',desc:'Accuracy first: the checks that prove each output is complete and right, with a tolerance and a place where the evidence lands. Then the failure modes: what can go wrong, how the run notices, and whether it retries, skips, stops or hands over. A run that fails well stops before it does harm and tells someone why.'},
+ {id:'plan',no:'13',name:'Plan',phase:'deliver',meter:1,title:'Build, test, deploy',sum:'Iterations, test cases, go-live checklist',desc:'Short iterations that each end in a playback with the users; test cases written with the code, the negative ones included; a parallel run before go-live; and the checklist the bank expects before a robot runs unattended.'},
+ {id:'runbook',no:'14',name:'Runbook',phase:'deliver',meter:1,title:'Runbook for the service team',sum:'How to run, check, re-run, escalate',desc:'What the service team needs after handover: how to run it, what to check, where the logs are, what each exit code means, what to do when it fails, and who to call. Inputs, outputs, exit codes and errors come from the other sheets; the operational details are filled in here.'},
+ {id:'meeting',no:'15',name:'Meeting kit',phase:'communicate',title:'Meeting kit',sum:'Questions for each meeting, from the gaps',desc:'Questions for each meeting in the engagement, from kickoff to handover, including questions generated from the gaps in this model. Tick them off and note the answers as you go.'},
+ {id:'brief',no:'16',name:'Brief',phase:'communicate',title:'Proposal brief',sum:'One-page proposal and 30-second pitch',desc:'A one-page proposal generated from the model, ready to paste into an email, a Teams post or a document.'},
+ {id:'sdd',no:'17',name:'SDD',phase:'communicate',title:'Solution design document',sum:'Full document from every sheet',desc:'The Solution Design Document assembled from sheets 01 to 15: overview, current process, proposed solution, data, detailed design, business rules, controls, error handling, testing, deployment, operations, benefit and open items. Copy it as Markdown or download it and paste the sections into the bank template.'}
 ];
+const PHASEGROUPS=[{id:'discover',name:'1 · Discover'},{id:'design',name:'2 · Design'},{id:'deliver',name:'3 · Deliver'},{id:'communicate',name:'4 · Communicate'}];
+const SECMAP=[['1 Document control','top bar, 17'],['2 Overview, scope, success','01, 08'],['3 Current process','02, 03, 04, 05, 07'],['4 Proposed solution','08, 10'],['5 Data','09'],['6 Detailed design','11'],['7 Business rules','03, 11'],['8 Controls','12'],['9 Error handling','12'],['10 Testing','13'],['11 Build and deployment','13'],['12 Operations','14'],['13 Benefit','07'],['14 Risks and open items','all checks'],['15 Meeting notes','15']];
 const sheetById=id=>SHEETS.find(s=>s.id===id);
 const sheetNo=id=>(sheetById(id)||{}).no||'';
 const sheetName=id=>(sheetById(id)||{}).name||id;
@@ -1078,7 +1519,28 @@ const STAGES=[
    {t:'Who checks the bot’s output during the parallel run?',w:'control during the PoC'},
    {t:'What access, data and approvals are needed, and who grants them?',w:'dependencies'},
    {t:'What must stay manual, and how will exceptions reach a person?',w:'human queue'},
-   {t:'What would make you pause or stop the PoC?',w:'risk tolerance'}]}
+   {t:'What would make you pause or stop the PoC?',w:'risk tolerance'}]},
+ {id:'design',name:'Design review',dur:'45 min',who:'Process owner, control owner, system owners, service team lead',goal:'Walk through the to-be design: data, platform, steps, controls and failure handling.',fills:['data','platform','design','controls'],out:'A reviewed design, agreed controls and a list of access to request',
+  open:p=>`The map of ${p} is agreed, so today is about how the solution will work: which data it reads and writes, where each part runs, what it checks, and what it does when something fails. I would like your corrections before anything is built.`,
+  close:'Confirm that the control owner signs off the controls, and who provides test data and a UAT day.',
+  qs:[{t:'Is this the right base table, and are these the keys you trust?',w:'data model and keys'},
+   {t:'Which of these sources change layout, and who tells us?',w:'schema stability'},
+   {t:'Do these controls give you the evidence you need today, and in an audit?',w:'control sufficiency'},
+   {t:'For each failure mode: is the response right, and who should be told?',w:'failure handling'},
+   {t:'Which actions must never be repeated if the run is repeated?',w:'idempotency'},
+   {t:'Where should exceptions land so the team sees them in the morning?',w:'human queue'},
+   {t:'Which platform constraints apply: licences, service accounts, where the bot can run?',w:'platform constraints'},
+   {t:'What would make you stop the robot during the parallel run?',w:'kill criteria'}]},
+ {id:'handover',name:'Handover',dur:'30 min, then one supervised run',who:'Service team, team lead, developer',goal:'Hand over the runbook and run the robot once together.',fills:['runbook','plan'],out:'A service team that can run, check and re-run the robot without the developer',
+  open:()=>`This session hands the robot to you. We will run it once together from the runbook, look at the log and the summary, and go through what to do when it fails. Anything unclear in the runbook gets fixed today.`,
+  close:'Agree the support rota, the escalation path and the date of the first benefit measurement.',
+  qs:[{t:'Can you start the robot from the runbook alone, and see where it writes its log?',w:'operability'},
+   {t:'What do you check after a run, and how long does that take?',w:'post-run checks'},
+   {t:'For each exit code: what do you do, and who do you call?',w:'failure procedure'},
+   {t:'How do you re-run after a failure without repeating actions?',w:'re-run safety'},
+   {t:'Who changes the rules table, and how is a change tested?',w:'change procedure'},
+   {t:'Which alerts do you receive, and where?',w:'alerting'},
+   {t:'What is missing from the runbook?',w:'gaps'}]}
 ];
 const curStage=()=>STAGES.find(s=>s.id===(state.ui&&state.ui.stage))||STAGES[0];
 
@@ -1096,7 +1558,9 @@ const figBlock=(name,title,tag,leg)=>`<div class="block"><div class="fig-tools">
 const BODIES={
  overview:()=>`
   <div data-out="ov-kpis"></div>
-  <div class="block"><h3>The drawing set <span class="tag">fill in order, revisit any time</span></h3><div class="chain" data-out="chain"></div></div>
+  <div class="block"><h3>What next <span class="tag" data-out="phase-tag"></span></h3><div data-out="next"></div></div>
+  <div class="block"><h3>Phase gates <span class="tag">set the phase in the bar above; each gate lists what done means</span></h3><div class="gates" data-out="gates"></div></div>
+  <div class="block"><h3>The drawing set <span class="tag">fill in order, revisit any time</span></h3><div data-out="chain"></div></div>
   <div class="block"><h3>From engineering to process <span class="tag">what each sheet borrows</span></h3>
    <div class="tbl-wrap"><table class="ro"><thead><tr><th>Engineering idea</th><th>In this workbench</th><th>Sheet</th><th>Question it answers</th></tr></thead><tbody>
    ${[['Block diagram, system boundary','IDEF0 context: inputs, controls, outputs, mechanisms','02','What crosses the boundary, and what governs it?'],
@@ -1108,10 +1572,15 @@ const BODIES={
       ['Positive and negative feedback','Causal loops: reinforcing (R) and balancing (B)','06','What makes it worse over time, and what pushes back?'],
       ['Design rule check','Gap checks that generate meeting questions','07, 09','What don’t I know yet?'],
       ['Modular design, encapsulation','Modules with one job and a typed interface','08','How does the build split into testable parts?'],
-      ['Prototype bring-up','PoC with pass/fail criteria and a parallel run','08, 10','What is the smallest proof that it works?']]
+      ['Prototype bring-up','PoC with pass/fail criteria and a parallel run','08, 16','What is the smallest proof that it works?'],
+      ['Data flow diagram, schema','Datasets with grain and keys, wired by lineage','09','Where does each number come from, and is the join exact?'],
+      ['Interface specification','Input → function → output per build step','11','What does each step consume, do and produce?'],
+      ['FMEA, fail-safe design','Controls with tolerances; failure modes with detection and response','12','How does the run know it is right, and what does it do when it is not?'],
+      ['Bring-up plan, acceptance test','Iterations, test cases, parallel run, go-live checklist','13','When is it safe to run unattended?'],
+      ['Operating manual','Runbook with exit codes and a re-run procedure','14','Can the service team run it without me?']]
      .map(r=>`<tr><td><b>${esc(r[0])}</b></td><td>${esc(r[1])}</td><td class="mono">${r[2]}</td><td>${esc(r[3])}</td></tr>`).join('')}
    </tbody></table></div></div>
-  <div class="block"><h3>Meeting sequence <span class="tag">five sessions, each fills specific sheets</span></h3><div class="chain">${STAGES.map((s,i)=>`<a href="#meeting" data-stage="${s.id}"><span class="c-no"><span>${i+1}</span><span>${esc(s.dur)}</span></span><span class="c-t">${esc(s.name)}</span><span class="c-d">${esc(s.goal)} Fills ${s.fills.map(sheetNo).join(', ')}.</span></a>`).join('')}</div></div>
+  <div class="block"><h3>Meeting sequence <span class="tag">seven sessions, each fills specific sheets</span></h3><div class="chain">${STAGES.map((s,i)=>`<a href="#meeting" data-stage="${s.id}"><span class="c-no"><span>${i+1}</span><span>${esc(s.dur)}</span></span><span class="c-t">${esc(s.name)}</span><span class="c-d">${esc(s.goal)} Fills ${s.fills.map(sheetNo).join(', ')}.</span></a>`).join('')}</div></div>
   <div class="note"><b>Data</b><span>Saved in this browser only. Use Export to keep versions or move to another machine. Describe the process with field names and patterns; keep client names, account numbers and trade identifiers out.</span></div>`,
  charter:()=>`
   <div class="fields">
@@ -1174,7 +1643,7 @@ const BODIES={
   <div class="block"><h3>Critical path <span class="tag">one item, end to end</span></h3>${legend([[swc('accent'),'Touch time'],['<i style="background:repeating-linear-gradient(45deg,var(--ink-3) 0 2px,transparent 2px 5px)"></i>','Waiting']])}<div class="fig" data-fig="cp"></div><p class="hint" data-out="cp-cap"></p></div>
   <div class="block"><h3>Opportunities <span class="tag">ranked by estimated saving</span></h3><div data-out="opps"></div></div>
   <div class="note"><b>Model</b><span>Load = minutes per item × items per day × (1 + rework). Fit weights rules 35%, data format 25%, system access 20% and stability 20%. Savings assume automate steps lose 80% of their manual time, assist steps 45%, templated handoffs 50% and simplify-first steps 15%. Replace these estimates with PoC measurements.</span></div>
-  <div class="block"><h3>Design rule check <span class="tag">every gap becomes a question on sheet 09</span></h3><div data-drc="all"></div></div>`,
+  <div class="block"><h3>Design rule check <span class="tag">every gap becomes a question on sheet ${sheetNo('meeting')}</span></h3><div data-drc="all"></div></div>`,
  solution:()=>`
   ${figBlock('pipeline','Module architecture','',legend([[boxc('accent'),'Automate'],[boxc('accent',1),'Assist: a person reviews'],[boxc('ch-handoff'),'Templated handoff'],[swc('sheet-2'),'Existing system step'],[boxc('hot',1),'Human queue']]))}
   <div class="block"><h3>Modules and interfaces</h3><p class="hint">Change a step’s module in the Module column on sheet 03. Each module can be built and tested on synthetic data that has the production schema.</p><div data-out="modules"></div></div>
@@ -1191,6 +1660,62 @@ const BODIES={
     ${fld('poc.asks','Asks: access, data, people',{wide:1,ta:1})}
    </div></div>
   ${checks('solution')}`,
+ data:()=>`
+  <div data-out="data-kpis"></div>
+  <div class="block"><h3>Datasets <span class="tag">one row per table, file or document</span></h3>
+   <div class="note"><b>Kind</b><span>Source: read from a system or a person. Reference: lookup data (master data, rates, a rules table). Staging: an intermediate table the solution builds. Base: the one table the outputs read from, the centre of the star. Output: what the solution writes or sends.</span><b>Grain, key</b><span>Grain says what one row is. Key says which fields identify it. A join on a key is exact and O(N+M); a lookup without a key is a scan.</span></div>
+   <div id="ed-dsets"></div></div>
+  <div class="block"><h3>Lineage <span class="tag">which dataset feeds which</span></h3><p class="hint">Through which build step, and how. Build steps on sheet ${sheetNo('design')} refer to the same D-ids.</p><div id="ed-dlinks"></div></div>
+  ${figBlock('lineage','Lineage diagram','layers from left to right',legend([[swc('ch-system'),'Source'],[swc('ch-handoff'),'Reference'],[swc('ch-wait'),'Staging'],[swc('accent'),'Base'],[swc('ch-manual'),'Output'],[lnc('warn'),'Lookup without key'],[lnc('hot',1),'Cycle']]))}
+  ${checks('data')}`,
+ platform:()=>`
+  <div class="note"><b>Stack</b><span>${esc(PLAT.join(' · '))}. Scores run 0 to 5 per module. Choose, then write why: the design steps and the SDD follow the choice.</span><b>Rule of thumb</b><span>Screen-only system: Automation Anywhere or browser/desktop automation. Files, APIs, databases, rules, volume: Python or Fabric. Mail, Teams, approvals: Power Automate. MI: Power BI. Human queue: SharePoint or Power Apps. Free text: Copilot or AI, always with a review. Alteryx: existing workflows only.</span></div>
+  <div class="block"><h3>Fit by module <span class="tag">score, suggestion, your choice</span></h3><div data-out="platfit"></div></div>
+  <div class="block"><h3>The platforms <span class="tag">where each runs, what it is good for, what to avoid</span></h3><div data-out="platinfo"></div></div>
+  <div class="fields">${fld('platnotes','Platform constraints and notes',{wide:1,ta:1,ph:'Licences, service accounts, where the bot can run, approved images, gateways'})}</div>
+  ${checks('platform')}`,
+ design:()=>`
+  <div class="block"><div class="fig-tools"><h3>Build steps <span class="tag">input → function → output</span></h3><button type="button" class="btn sm" id="b-draftdesign">Draft from flow</button></div>
+   <div class="note"><b>Input, output</b><span>Name datasets by their D-id from sheet ${sheetNo('data')} and add the fields that matter. Unknown IDs are flagged.</span><b>On error</b><span>Skip item: record the item and carry on (a business error). Retry then abort: for system errors on reads. Abort run: stop before any harm. Fallback: use a default or the previous value. Human queue: hand the item to a person.</span><b>Loop, lookup</b><span>Batch work on whole tables is O(N). Per-item work with a keyed lookup is still O(N). A scan inside a per-item loop is O(N×M): index the reference table first.</span></div>
+   <div id="ed-design"></div></div>
+  <div class="block"><h3>IPO view <span class="tag">one card per step</span></h3><div data-out="ipo"></div></div>
+  ${checks('design')}`,
+ controls:()=>`
+  <div class="block"><div class="fig-tools"><h3>Accuracy controls <span class="tag">what proves the output is right</span></h3><button type="button" class="btn sm" id="b-stdcontrols">Add standard controls</button></div>
+   <div class="note"><b>Types</b><span>Schema: columns and types as expected. Completeness: all rows arrived. Duplicate: one row per key. Range / format: values inside limits. Referential: every key exists in the reference. Control total: sum or count out equals in. Reconciliation: two sources agree by key. Tolerance: differences within a limit (money in cents). Maker-checker: a person approves. Idempotency: a re-run does not repeat an action.</span><b>On fail</b><span>Block run: stop before any output is used. Flag item: send the item to a person, carry on. Warn only: note it in the summary.</span></div>
+   <div id="ed-controls"></div></div>
+  <div class="block"><div class="fig-tools"><h3>Failure modes <span class="tag">how the run fails well</span></h3><button type="button" class="btn sm" id="b-stdfmea">Add standard failure modes</button></div>
+   <div class="note"><b>Score</b><span>Likelihood and impact 1 to 5; risk = likelihood × impact. Anything at 10 or more needs prevention. Detection says how anyone would know; response says what the run does; alert says who hears and which exit code comes back.</span></div>
+   <div id="ed-fmea"></div></div>
+  <div class="cols"><div class="block"><h3>Risk matrix</h3><div class="fig" data-fig="risk"></div></div><div class="block"><h3>Top risks</h3><div data-out="risks"></div></div></div>
+  ${checks('controls')}`,
+ plan:()=>`
+  <div data-out="plan-kpis"></div>
+  <div class="block"><h3>Iterations <span class="tag">each ends in a playback with the users</span></h3><div id="ed-iters"></div></div>
+  <div class="block"><div class="fig-tools"><h3>Test cases <span class="tag">written with the code</span></h3><button type="button" class="btn sm" id="b-stdtests">Add standard tests</button></div><div id="ed-tests"></div></div>
+  <div class="block"><h3>Go-live checklist <span class="tag" data-out="chk-tag"></span></h3><div data-out="checklist"></div></div>
+  ${checks('plan')}`,
+ runbook:()=>`
+  <div class="fields">
+   ${fld('runbook.run','How to run',{wide:1,ph:'Command, task name or flow name; parameters such as --env and --business-date'})}
+   ${fld('runbook.schedule','Schedule',{ph:'Business days 07:45; waits for the input until 08:30'})}
+   ${fld('runbook.env','Environment and config',{ph:'Machine, service account, config path per environment'})}
+   ${fld('runbook.checks','What to check after a run',{wide:1,ta:1,ph:'Summary sheet counts, output visible by a time, exceptions below a share'})}
+   ${fld('runbook.logs','Logs and evidence',{ta:1,ph:'Log path, run folder, where the exit code is visible'})}
+   ${fld('runbook.rerun','Re-run procedure',{ta:1,ph:'What to fix first, which command, what the checkpoint skips'})}
+   ${fld('runbook.contacts','Contacts and escalation',{ta:1,ph:'Developer, process owner, system owners'})}
+   ${fld('runbook.change','Change procedure',{ta:1,ph:'Who edits the rules table, how code changes are released'})}
+   ${fld('runbook.inputs','Notes on inputs',{ta:1,ph:'Anything the service team must know about the inputs'})}
+   ${fld('runbook.outputs','Notes on outputs',{ta:1,ph:'Anything the service team must know about the outputs'})}
+   ${fld('runbook.notes','Notes',{wide:1,ta:1})}
+  </div>
+  <div class="block"><div class="fig-tools"><h3>Runbook <span class="tag">generated: inputs, outputs, exit codes and errors come from the other sheets</span></h3><div class="btn-row"><button type="button" class="btn sm" id="b-copyrb">Copy as Markdown</button><button type="button" class="btn sm" id="b-dlrb">Download .md</button></div></div><div data-out="runbook"></div></div>
+  ${checks('runbook')}`,
+ sdd:()=>`
+  <div class="btn-row"><button type="button" class="btn primary sm" id="b-copysdd">Copy SDD as Markdown</button><button type="button" class="btn sm" id="b-dlsdd">Download .md</button><button type="button" class="btn sm" id="b-print">Print or save as PDF</button></div>
+  <div class="fields">${fld('meta.author','Author',{ph:'Your name'})}${fld('meta.requester','Requester',{ph:'Who raised the ticket'})}${fld('meta.received','Date received',{ph:'YYYY-MM-DD'})}<div class="field"><label for="f-meta-priority">Priority</label><select id="f-meta-priority" data-bind="meta.priority">${OPT.priority.map(o=>`<option>${esc(o)}</option>`).join('')}</select></div></div>
+  <div class="block"><h3>Section map <span class="tag">which sheet feeds which section</span></h3><div class="secmap" data-out="secmap"></div></div>
+  <div data-out="sdd"></div>`,
  meeting:()=>`
   <div class="seg" role="group" aria-label="Meeting" id="stage-seg">${STAGES.map((s,i)=>`<button type="button" data-stage="${s.id}" aria-pressed="false">${i+1} · ${esc(s.name)}</button>`).join('')}</div>
   <div data-out="stagehead"></div>
@@ -1204,12 +1729,13 @@ const BODIES={
 };
 
 function buildViews(){
-  $('#nav').innerHTML=SHEETS.map(s=>`<a href="#${s.id}" data-v="${s.id}"><span class="no">${s.no}</span><span>${esc(s.name)}</span><span class="st">${s.meter?`<span class="meter"><i data-meter="${s.id}"></i></span>`:''}<span class="badge" data-badge="${s.id}"></span></span></a>`).join('');
+  const navItem=s=>`<a href="#${s.id}" data-v="${s.id}"><span class="no">${s.no}</span><span>${esc(s.name)}</span><span class="st">${s.meter?`<span class="meter"><i data-meter="${s.id}"></i></span>`:''}<span class="badge" data-badge="${s.id}"></span></span></a>`;
+  $('#nav').innerHTML=navItem(SHEETS[0])+PHASEGROUPS.map(g=>`<div class="nav-h">${esc(g.name)}</div>`+SHEETS.filter(s=>s.phase===g.id).map(navItem).join('')).join('');
   $('#views').innerHTML=SHEETS.map(s=>`<section class="sheet" id="v-${s.id}" hidden aria-labelledby="h-${s.id}">
    <div class="sheet-head"><div class="sheet-title"><h2 id="h-${s.id}">${esc(s.title)}</h2><p>${esc(s.desc)}</p></div>
-    <div class="tblock"><div><span>Sheet</span><b>${s.no} / 10</b></div><div><span>Rev</span><b data-tb="rev"></b></div><div><span>Date</span><b data-tb="date"></b></div><div><span>Checks</span><b data-tbc="${s.id}"></b></div></div></div>
+    <div class="tblock"><div><span>Sheet</span><b>${s.no} / ${SHEETS.length-1}</b></div><div><span>Rev</span><b data-tb="rev"></b></div><div><span>Date</span><b data-tb="date"></b></div><div><span>Checks</span><b data-tbc="${s.id}"></b></div></div></div>
    <div class="sheet-body">${BODIES[s.id]()}</div></section>`).join('');
-  document.body.insertAdjacentHTML('beforeend',['dl-lanes','dl-systems','dl-states','dl-vars'].map(id=>`<datalist id="${id}"></datalist>`).join(''));
+  document.body.insertAdjacentHTML('beforeend',['dl-lanes','dl-systems','dl-states','dl-vars','dl-dsets','dl-design','dl-tools'].map(id=>`<datalist id="${id}"></datalist>`).join(''));
 }
 
 /* ============ derived outputs ============ */
@@ -1225,7 +1751,7 @@ function drcHTML(list,src){
 }
 function completeness(){
   const c=state.charter,ch=['trigger','frequency','objective','pain','stakeholders','metric','constraints'];
-  const I=state.icom.filter(x=>has(x.name)),S=A.steps,F=A.F,T=A.T,L=A.L,p=state.poc,fr=(a,b)=>b?a/b:0;
+  const I=state.icom.filter(x=>has(x.name)),S=A.steps,F=A.F,T=A.T,L=A.L,p=state.poc,fr=(a,b)=>b?a/b:0,D=A.D,G=A.G,P=A.P,C=A.C,M=A.M,Q=A.Q,mods=OPT.dmod.filter(m=>P[m]&&P[m].n);
   return{
     charter:fr(ch.filter(k=>has(c[k])).length,ch.length),
     context:fr(['Input','Output','Control','Mechanism'].filter(k=>I.some(x=>x.kind===k)).length+(I.length?I.filter(x=>x.kind==='Mechanism'||has(x.party)).length/I.length:0),5),
@@ -1233,7 +1759,13 @@ function completeness(){
     states:F.states.length?fr([F.start.length>0,F.ends.length>0,F.tr.length>0,!F.dead.length,!F.noEvent.length].filter(Boolean).length,5):0,
     timing:fr([T.ev.some(e=>e.kind==='Arrival'),T.ev.some(e=>e.kind==='Window'),T.cuts.length>0].filter(Boolean).length,3),
     loops:L.names.length?fr([L.names.length>=3,L.loops.length>0,!L.orphan.length].filter(Boolean).length,3):0,
-    solution:fr(['name','scope','success','out','controls','data','timebox','asks'].filter(k=>has(p[k])).length,8)};
+    solution:fr(['name','scope','success','out','controls','data','timebox','asks'].filter(k=>has(p[k])).length,8),
+    data:D.sets.length?sum(D.sets,s=>{let k=0;if(s.nm)k++;if(has(s.system))k++;if(s.kind==='Output'||has(s.key))k++;if(has(s.owner))k++;if(s.access&&s.access!=='?')k++;return k/5})/D.sets.length*(D.links.length?1:.6):0,
+    platform:mods.length?mods.filter(m=>P[m].override||P[m].why).length/mods.length:0,
+    design:G.steps.length?sum(G.steps,s=>(['action','function','platform','check'].filter(k=>has(s[k])).length+(s.module==='Trigger'||(has(s.input)&&has(s.output))?1:0)+(s.onerr&&s.onerr!=='?'?1:0))/6)/G.steps.length:0,
+    controls:fr([state.controls.length>0,state.controls.length>0&&!C.uncovered.length,state.fmea.length>=3,state.fmea.length>0&&!M.noDetect.length,state.fmea.length>0&&!M.highNoPrevent.length&&!M.unscored.length].filter(Boolean).length,5),
+    plan:fr([Q.It.length>0,Q.T.length>=3,Q.hasNeg,Q.hasPar].filter(Boolean).length+2*Q.done/CHECKLIST.length,6),
+    runbook:fr(7-Q.rbMissing.length,7)};
 }
 function allGapIds(){const ids=new Set();A.drc.forEach(d=>{if(d.q)ids.add('gap-'+hash(d.q))});return [...ids]}
 const openGapCount=()=>allGapIds().filter(id=>!state.asked[id]).length;
@@ -1247,8 +1779,8 @@ function increments(){
     x.label=ks.length>2?ks[0]+'–'+ks[ks.length-1]:ks.join(', ');x.mods=[...new Set(x.steps.filter(s=>s.save>0).map(s=>s.mod))]});
   return out;
 }
-function modSteps(m){
-  const S=A.steps;
+function modSteps(m,R){
+  const S=(R||A).steps;
   if(m==='Human')return [...S.filter(s=>s.mod==='Human'||['manual','simplify','combine'].includes(s.rec)).map(s=>({s})),...S.filter(s=>s.rec==='assist'&&s.mod!=='Human').map(s=>({s,review:true}))];
   return S.filter(s=>s.mod===m&&!['manual','simplify','combine','eliminate'].includes(s.rec)).map(s=>({s}));
 }
@@ -1302,8 +1834,8 @@ function oppsHTML(){
   return `<div class="tbl-wrap"><table class="ro"><thead><tr><th>Step</th><th>Who</th><th class="num">Load min/day</th><th class="num">Fit</th><th class="num">Pain</th><th>Recommendation</th><th class="num">Saving min/day</th><th>Module</th></tr></thead><tbody>${P.map(s=>`<tr><td style="min-width:24ch"><span class="mono">${esc(s.key)}</span> ${esc(s.name)}</td><td>${esc(s.laneName)}</td><td class="num">${fmtN(s.load)}</td><td class="num">${s.fit}</td><td class="num">${has(s.pain)?esc(s.pain):'–'}</td><td>${pill(REC[s.rec].cls,REC[s.rec].label)}</td><td class="num">${fmtN(s.save)}</td><td>${esc(s.mod)}</td></tr>`).join('')}</tbody></table></div>`;
 }
 function modulesHTML(){
-  return `<div class="tbl-wrap"><table class="ro"><thead><tr><th>Module</th><th>Job</th><th>Interface</th><th>Steps</th><th class="num">Saving min/day</th><th>Candidate tooling</th></tr></thead><tbody>${[...MODS7,'Human'].map(m=>{const st=modSteps(m),info=MODINFO[m];
-    return `<tr><td><b>${m==='Human'?'Human queue':m}</b></td><td style="min-width:24ch">${esc(info.job)}</td><td class="mono" style="min-width:18ch;font-size:12px">${esc(info.io)}</td><td><div class="chips">${st.length?st.map(x=>`<span>${esc(x.s.key)}${x.review?' review':''}</span>`).join(''):'<em class="muted">none</em>'}</div></td><td class="num">${fmtN(sum(st,x=>x.review?0:x.s.save))}</td><td style="min-width:26ch">${esc(info.tools)}</td></tr>`}).join('')}</tbody></table></div>`;
+  return `<div class="tbl-wrap"><table class="ro"><thead><tr><th>Module</th><th>Job</th><th>Interface</th><th>Steps</th><th class="num">Saving min/day</th><th>Candidate tooling</th><th>toolbank</th></tr></thead><tbody>${[...MODS7,'Human'].map(m=>{const st=modSteps(m),info=MODINFO[m];
+    return `<tr><td><b>${m==='Human'?'Human queue':m}</b></td><td style="min-width:24ch">${esc(info.job)}</td><td class="mono" style="min-width:18ch;font-size:12px">${esc(info.io)}</td><td><div class="chips">${st.length?st.map(x=>`<span>${esc(x.s.key)}${x.review?' review':''}</span>`).join(''):'<em class="muted">none</em>'}</div></td><td class="num">${fmtN(sum(st,x=>x.review?0:x.s.save))}</td><td style="min-width:26ch">${esc(info.tools)}</td><td class="mono" style="min-width:22ch;font-size:11.5px">${esc(TOOLBANK[m].slice(0,6).join(', '))}</td></tr>`}).join('')}</tbody></table></div>`;
 }
 function incHTML(){
   const inc=increments();if(!inc.length)return '<p class="hint">Increments appear once steps have estimated savings.</p>';
@@ -1335,16 +1867,11 @@ function briefSections(){
   const rw=R.steps.filter(s=>s.e>=8);if(rw.length)rows.push(['Rework of 8% or more',rw.map(s=>`${s.key} (${s.e}%)`).join(', ')]);
   if(R.F.states.length)rows.push(['Work item lifecycle',`${R.F.states.length} states, ${R.F.manual} transitions fired by people`]);
   S.push({h:'Current state',table:rows,fig:'flow'});
-  const bn=[];
-  if(R.hot)bn.push(`Largest manual load: ${R.hot.key} ${R.hot.name}, ${fmtN(R.hot.load)} min per day (${pct(R.hot.load)}% of total).`);
-  if(R.slow)bn.push(`Longest wait: ${R.slow.key} ${R.slow.name}, ${fmtMin(R.slow.w)} per item.`);
-  if(R.cp.len>0)bn.push(`Critical path: ${R.cp.path.join(' → ')}, ${fmtMin(R.cp.len)} end to end, ${Math.round(R.cpWait/R.cp.len*100)}% of it waiting.`);
-  R.T.res.filter(r=>!r.cross&&r.slack<30).forEach(r=>bn.push(`Tight timing: “${r.win.name}” ends ${fmtMin(r.slack)} before “${r.cut.name}”.`));
-  const rl=R.L.loops.find(l=>l.type==='R');if(rl)bn.push(`Reinforcing loop ${rl.label}: ${rl.names.join(' → ')} → ${rl.names[0]}.`);
-  R.F.dead.forEach(s=>bn.push(`State “${s.nm}” has no defined exit.`));
+  const bn=bottleneckLines();
   S.push({h:'Bottleneck',ul:bn.length?bn:['Not yet identified. Add times, volumes and waits on sheet 03.']});
   const mods=MODS7.map(m=>({m,st:modSteps(m)})).filter(x=>x.st.length);
-  S.push({h:'Proposed approach',p:mods.length?[`Encapsulated modules with one job each: ${mods.map(x=>`${x.m} (${x.st.map(y=>y.s.key).join(', ')})`).join('; ')}. Exceptions and judgment calls route to a human queue; every run writes an audit log.`]:[],fig:'pipeline',
+  const pl=OPT.dmod.filter(m=>R.P[m].n).map(m=>`${m} on ${R.P[m].choice}`);
+  S.push({h:'Proposed approach',p:mods.length?[`Encapsulated modules with one job each: ${mods.map(x=>`${x.m} (${x.st.map(y=>y.s.key).join(', ')})`).join('; ')}. Exceptions and judgment calls route to a human queue; every run writes an audit log.`,...(pl.length?[`Platforms: ${pl.join('; ')}.`]:[])]:[],fig:'pipeline',
     ulLead:inc.length?'Build in increments. Each increment runs end to end, with a person completing the remaining steps.':'',
     ul:inc.map(x=>`Increment ${x.n}${x.n===1?' (PoC)':''}: ${x.label}, ${x.mods.join(', ')||'no saving'}, about ${hrs(x.save)} per day.`)});
   const kv=[['Name',p.name],['Scope',p.scope],['Out of scope',p.out],['Success criteria',p.success],['Controls',p.controls],['Data',p.data],['Timebox',p.timebox]].filter(x=>has(x[1])).map(x=>[x[0],tr(x[1])]);
@@ -1405,6 +1932,293 @@ function mermaidFSM(){
   return L.join('\n')+'\n';
 }
 
+/* ============ lineage, risk matrix, platform, IPO cards, checklist, gates ============ */
+function svgLineage(R,id){
+  const D=R.D,S=D.sets.filter(s=>s.nm);if(!S.length)return emptyFig('Add datasets and lineage links to draw the data flow.');
+  const BW=164,BH=64,CW=276,VG=22,TOP=30,L=16;
+  const cols=new Map();S.forEach(s=>{const a=cols.get(s.rank)||[];s.row=a.length;a.push(s);cols.set(s.rank,a)});
+  const maxRank=Math.max(...S.map(s=>s.rank)),maxRows=Math.max(...[...cols.values()].map(a=>a.length));
+  const Wd=L*2+maxRank*CW+BW,H=TOP+maxRows*(BH+VG)+8;
+  S.forEach(s=>{const n=cols.get(s.rank).length;s.x=L+s.rank*CW;s.y=TOP+(maxRows-n)*(BH+VG)/2+s.row*(BH+VG)});
+  let o=svgOpen(Wd,H,'Lineage diagram')+markers(id);
+  for(let r=0;r<=maxRank;r++)o+=`<text x="${L+r*CW}" y="18" class="mono t-faint" font-size="10">LAYER ${r}</text>`;
+  D.links.forEach(l=>{const a=D.byId.get(l.a),b=D.byId.get(l.b);if(!a||!b||!a.nm||!b.nm)return;
+    const back=D.back.has(l.a+'>'+l.b),scan=l.how==='Lookup without key',x1=a.x+BW,y1=a.y+BH/2,x2=b.x,y2=b.y+BH/2;let d;
+    if(!back&&b.rank>a.rank){const mx=x1+(x2-x1)/2;d=`M${x1},${y1} C${r1(mx)},${y1} ${r1(mx)},${y2} ${x2-1},${y2}`}
+    else{const yb=Math.max(a.y,b.y)+BH+10;d=`M${x1},${y1} H${x1+10} V${yb} H${x2-10} V${y2} H${x2-1}`}
+    o+=`<path d="${d}" class="wire${back?' hot':''}"${scan?' style="stroke:var(--warn);stroke-width:1.8"':''} marker-end="${mref(id,back?'hot':'')}"/>`;
+    const lb=trunc(tr(l.via)||(l.how&&l.how!=='?'?l.how:''),22);
+    if(lb&&!back){const fan=a.outs.length>1&&b.ins.length<2,t=fan?.5:.28,u=1-t,mx=x1+(x2-x1)/2,lx=u*u*u*x1+3*u*u*t*mx+3*u*t*t*mx+t*t*t*x2,ly=u*u*u*y1+3*u*u*t*y1+3*u*t*t*y2+t*t*t*y2;
+      o+=`<text x="${r1(fan?lx:lx+4)}" y="${r1(ly-5)}"${fan?' text-anchor="middle"':''} class="mono halo t-faint" font-size="9.5">${esc(lb)}</text>`}});
+  S.forEach(s=>{const k=s.kind.toLowerCase();
+    o+=`<g><title>${esc(s.key_+' · '+s.nm+' · '+s.kind+(s.n?' · '+fmtN(s.n)+' rows':'')+(has(s.key)?' · key '+s.key:''))}</title><rect x="${s.x}" y="${s.y}" width="${BW}" height="${BH}" class="box${s.kind==='Base'?' base':''}"/><rect x="${s.x}" y="${s.y}" width="5" height="${BH}" class="k-${k}"/>`;
+    o+=`<text x="${s.x+12}" y="${s.y+14}" class="mono t-faint" font-size="10">${esc(s.key_)} · ${esc(s.kind.toUpperCase())}${s.n?' · '+fmtN(s.n):''}</text>`;
+    wrap(s.nm,23,2).forEach((t,j)=>o+=`<text x="${s.x+12}" y="${s.y+29+j*13}" font-size="11.5">${esc(t)}</text>`);
+    o+=`<text x="${s.x+12}" y="${s.y+BH-7}" class="mono ${has(s.key)?'t-faint':'t-hot'}" font-size="9.5">${esc(has(s.key)?'key '+trunc(s.key,24):s.kind==='Output'?'':'key ?')}</text></g>`});
+  return o+'</svg>';
+}
+function mermaidLineage(){
+  const D=A.D;if(!D.sets.length)return '';
+  const id=k=>'d_'+String(k).replace(/[^A-Za-z0-9_]/g,'_'),q=s=>String(s).replace(/"/g,'#quot;').replace(/[[\]{}<>|]/g,' ');
+  const L=['flowchart LR'];
+  D.sets.filter(s=>s.nm).forEach(s=>{const lb=q(s.key_+' '+s.nm);L.push(`  ${id(s.key_)}${s.kind==='Base'?`[("${lb}")]`:s.kind==='Output'?`>"${lb}"]`:`["${lb}"]`}`)});
+  D.links.forEach(l=>{const lb=q(tr(l.via)||(l.how&&l.how!=='?'?l.how:''));L.push(`  ${id(l.a)} ${lb?`-->|"${lb}"|`:'-->'} ${id(l.b)}`)});
+  return L.join('\n')+'\n';
+}
+function svgRisk(R){
+  const F=R.M.F.filter(f=>f.Ln&&f.In);if(!F.length)return emptyFig('Score likelihood and impact to place failure modes on the matrix.');
+  const C=84,L=46,T=16,B=36,Wd=L+5*C+16,H=T+5*C+B;
+  let o=svgOpen(Wd,H,'Risk matrix');
+  for(let i=1;i<=5;i++)for(let l=1;l<=5;l++){const r=i*l,x=L+(l-1)*C,y=T+(5-i)*C;
+    o+=`<rect x="${x}" y="${y}" width="${C}" height="${C}" class="${r>=10?'cell-hot':r>=5?'cell-warn':'cell-ok'}" style="stroke:var(--sheet);stroke-width:1"/><text x="${x+C-5}" y="${y+C-5}" text-anchor="end" class="mono t-faint" font-size="9">${r}</text>`}
+  const cell=new Map();F.forEach(f=>{const k=f.Ln+'|'+f.In;if(!cell.has(k))cell.set(k,[]);cell.get(k).push(f)});
+  cell.forEach((fs,k)=>{const [l,i]=k.split('|').map(Number),x=L+(l-1)*C+7,y=T+(5-i)*C+15;
+    fs.slice(0,6).forEach((f,j)=>o+=`<g><title>${esc(f.key_+' '+(f.mode||'')+' · risk '+f.risk)}</title><text x="${x+(j%3)*25}" y="${y+Math.floor(j/3)*14}" class="mono" font-size="10.5" font-weight="600">${esc(trunc(f.key_,4))}</text></g>`);
+    if(fs.length>6)o+=`<text x="${x}" y="${y+30}" class="mono t-faint" font-size="9.5">+${fs.length-6} more</text>`});
+  for(let i=1;i<=5;i++)o+=`<text x="${L-8}" y="${T+(5-i)*C+C/2+4}" text-anchor="end" class="mono t-mute" font-size="10.5">${i}</text>`;
+  for(let l=1;l<=5;l++)o+=`<text x="${L+(l-1)*C+C/2}" y="${T+5*C+14}" text-anchor="middle" class="mono t-mute" font-size="10.5">${l}</text>`;
+  o+=`<text x="${L+2.5*C}" y="${H-6}" text-anchor="middle" class="t-mute" font-size="11">Likelihood</text><text transform="translate(12 ${T+2.5*C}) rotate(-90)" text-anchor="middle" class="t-mute" font-size="11">Impact</text>`;
+  return o+'</svg>';
+}
+let pfSig='';
+function renderPlatfit(){
+  const host=$('[data-out="platfit"]');if(!host)return;const P=A.P;
+  const sig=OPT.dmod.map(m=>{const x=P[m];return m+x.choice+x.rec+x.override+x.steps.map(s=>s.key).join('')+x.ranked.map(r=>r.s).join('')}).join('|');
+  if(sig===pfSig){OPT.dmod.forEach(m=>{const el=host.querySelector(`[data-platwhy="${m}"]`);if(el&&document.activeElement!==el&&el.value!==P[m].why)el.value=P[m].why});return}
+  pfSig=sig;
+  host.innerHTML=`<div class="tbl-wrap"><table class="ro"><thead><tr><th>Module</th><th>Steps</th><th>Fit scores</th><th>Suggested</th><th>Choice</th><th>Why</th></tr></thead><tbody>${OPT.dmod.map(m=>{const x=P[m],top=x.ranked.filter(r=>r.s>0).slice(0,4);
+    return `<tr${x.n?'':' class="muted"'}><td><b>${m==='Human'?'Human queue':m}</b></td><td><div class="chips">${x.steps.length?x.steps.map(s=>`<span>${esc(s.key)}</span>`).join(''):'<em class="muted">none</em>'}</div></td><td>${top.map(r=>`<div class="pf${r.p===x.choice?'':' dim'}" title="${esc(r.why.join('; ')||'base fit for this module')}"><i style="width:${r.s*18}px"></i>${esc(r.p)} ${r.s}</div>`).join('')||'<span class="muted">–</span>'}</td><td class="mono" style="font-size:12px">${esc(x.rec)}</td><td class="plat"><select data-plat="${m}" aria-label="Platform for ${m}">${PLAT.map(p=>`<option${p===x.choice?' selected':''}>${esc(p)}</option>`).join('')}</select></td><td style="min-width:24ch"><input data-platwhy="${m}" value="${esc(x.why)}" placeholder="${esc(x.ranked[0].why.length?x.ranked[0].why.join('; '):'Why this platform')}" aria-label="Why ${m} runs on ${esc(x.choice)}"></td></tr>`}).join('')}</tbody></table></div>`;
+}
+const platinfoHTML=()=>`<div class="tbl-wrap"><table class="ro"><thead><tr><th>Platform</th><th>Runs as</th><th>Good for</th><th>Avoid for</th></tr></thead><tbody>${PLAT.map(p=>`<tr><td><b>${esc(p)}</b></td><td style="min-width:20ch">${esc(PLATINFO[p].runs)}</td><td style="min-width:22ch">${esc(PLATINFO[p].best)}</td><td style="min-width:22ch">${esc(PLATINFO[p].avoid)}</td></tr>`).join('')}</tbody></table></div>`;
+function ipoHTML(){
+  const G=A.G;if(!G.steps.length)return '<p class="hint">Cards appear once build steps exist. Press "Draft from flow" to start from the automatable steps on sheet 03.</p>';
+  let h='<div class="ipo-grid">';
+  OPT.dmod.forEach(m=>{const st=G.byMod.get(m);if(!st.length)return;h+=`<div class="ipo-mod">${esc(m)} · ${esc(MODINFO[m].job)}</div>`;
+    st.forEach(s=>{const w=[];if(s.slow)w.push('<span class="hot">'+s.cx+': scan inside the loop</span>');if(s.sendRetry)w.push('<span class="warn">retry around an action</span>');if(!s.onerr||s.onerr==='?')w.push('<span class="warn">no error policy</span>');s.badRefs.forEach(r=>w.push('<span class="hot">unknown '+esc(r)+'</span>'));
+      h+=`<div class="ipo"><div class="ipo-h"><b>${esc(s.key_)}</b><span>${esc(s.action||'(no action)')}</span>${has(s.from)?`<span class="muted mono" style="font-size:11px">replaces ${esc(s.from)}</span>`:''}${pill(has(s.platform)?'info':'mute',s.platform||'platform ?')}</div>
+       <div class="ipo-3"><div><span class="lbl">Input</span><span>${esc(s.input||'–')}</span></div><div class="arr">→</div><div class="fn"><span class="lbl">Function</span><span>${esc(s.function||'–')}</span>${has(s.tool)?`<span class="mono muted" style="font-size:11px">toolbank: ${esc(s.tool)}</span>`:''}</div><div class="arr">→</div><div><span class="lbl">Output</span><span>${esc(s.output||'–')}</span></div></div>
+       <div class="ipo-f"><span>${esc(s.loop||'Batch')} · ${s.cx}${s.n?' · N ≈ '+fmtN(s.n):''}</span><span>on error: ${esc(s.onerr||'?')}</span>${has(s.check)?`<span>check: ${esc(s.check)}</span>`:''}${w.join('')}</div></div>`})});
+  return h+'</div>';
+}
+function risksHTML(){
+  const F=A.M.F.filter(f=>f.risk>0).slice(0,6);if(!F.length)return '<p class="hint">Top risks appear once failure modes are scored.</p>';
+  return '<ul class="opp">'+F.map(f=>`<li>${pill(f.risk>=10?'hot':f.risk>=5?'warn':'ok',String(f.risk))}<span><b>${esc(f.key_)}</b> ${esc(f.mode||'')}<br><span class="muted" style="font-size:12.5px">${esc(f.resp&&f.resp!=='?'?f.resp:'response ?')}${has(f.prevent)?' · '+esc(f.prevent):' · <em>no prevention</em>'}</span></span><span class="mono muted">L${f.Ln} I${f.In}</span></li>`).join('')+'</ul>';
+}
+let chkSig='';
+function renderChecklist(){
+  const host=$('[data-out="checklist"]');if(!host)return;
+  const sig=CHECKLIST.map(c=>state.plan.done[c.id]?1:0).join('');if(sig===chkSig)return;chkSig=sig;
+  host.innerHTML='<ul class="chk">'+CHECKLIST.map(c=>`<li class="${state.plan.done[c.id]?'done':''}"><input type="checkbox" id="chk-${c.id}" data-chk="${c.id}"${state.plan.done[c.id]?' checked':''}><label for="chk-${c.id}">${esc(c.t)}</label></li>`).join('')+'</ul>';
+}
+const meetingAsked=id=>{const st=STAGES.find(s=>s.id===id);return !!st&&st.qs.every((q,i)=>state.asked[`std-${st.id}-${i}`])};
+function gates(){
+  const c=state.charter,S=A.steps,p=state.poc,D=A.D,G=A.G,P=A.P,C=A.C,M=A.M,Q=A.Q,cnt=drcCounts(),comp=completeness();
+  const errsIn=ids=>ids.reduce((t,id)=>t+((cnt[id]||{}).err||0),0),mods=OPT.dmod.filter(m=>P[m].n);
+  return[
+   {id:'intake',items:[['Process named',has(state.meta.name),'charter'],['Ticket or requester recorded',has(state.meta.ticket)||has(state.meta.requester),'sdd'],['Objective written',has(c.objective),'charter'],['Pain captured in the team’s words',has(c.pain),'charter']]},
+   {id:'discover',items:[['Charter complete',comp.charter>=.85,'charter'],['Inputs and outputs defined',state.icom.some(x=>x.kind==='Input'&&has(x.name))&&state.icom.some(x=>x.kind==='Output'&&has(x.name)),'context'],['At least three steps mapped',S.length>=3,'flow'],['Every human step has a time and a volume',S.length>0&&S.filter(s=>s.human).every(s=>has(s.mins)&&has(s.vol)),'flow'],['Hot spot identified',!!A.hot,'analysis'],['No errors on sheets 01 to 07',errsIn(['charter','context','flow','states','timing','loops','analysis'])===0,'analysis']]},
+   {id:'design',items:[['PoC named and scoped, with success criteria',has(p.name)&&has(p.scope)&&has(p.success),'solution'],['Datasets and lineage captured',D.sets.length>=2&&D.links.length>=1,'data'],['Platform confirmed for every module in use',mods.length>0&&mods.every(m=>P[m].override||P[m].why),'platform'],['Design steps written, each with an error policy',G.steps.length>=1&&G.noErr.length===0,'design'],['Every output has a control',state.controls.length>0&&C.uncovered.length===0,'controls'],['Failure modes listed, each with detection',state.fmea.length>=3&&M.noDetect.length===0,'controls']]},
+   {id:'build',items:[['Iterations planned',Q.It.length>=1,'plan'],['Test cases written, negative tests included',Q.T.length>=3&&Q.hasNeg,'plan'],['Every design step names its platform',G.steps.length>0&&G.noPlat.length===0,'design']]},
+   {id:'test',items:[['All tests pass',Q.allPass,'plan'],['Parallel run test passed',Q.parPass,'plan'],['Runbook complete',Q.rbMissing.length===0,'runbook']]},
+   {id:'deploy',items:[['Go-live checklist complete',Q.done===CHECKLIST.length,'plan'],['Design review questions asked',meetingAsked('design'),'meeting']]},
+   {id:'handover',items:[['Runbook handed over and run once by the service team',!!state.plan.done.rb,'plan'],['Handover questions asked',meetingAsked('handover'),'meeting']]},
+   {id:'closed',items:[['Benefit measured against the success metric',!!state.plan.done.ben,'plan']]}];
+}
+function gatesHTML(){
+  const cur=state.meta.phase;
+  return gates().map(g=>{const ph=PHASES.find(p=>p.id===g.id),ok=g.items.filter(x=>x[1]).length;
+    return `<div class="gate${g.id===cur?' cur':''}"><div class="g-h">${esc(ph.name)}<span>${ok} / ${g.items.length}</span></div><ul>${g.items.map(x=>`<li class="${x[1]?'ok':'no'}"><i>${x[1]?'✓':'○'}</i><a href="#${x[2]}">${esc(x[0])}</a></li>`).join('')}</ul></div>`}).join('');
+}
+function nextHTML(){
+  const cur=state.meta.phase,G=gates(),g=G.find(x=>x.id===cur)||G[0],open=g.items.filter(x=>!x[1]).map(x=>({t:x[0],s:x[2]}));
+  const errs=A.drc.filter(d=>d.sev==='err').map(d=>({t:d.msg,s:d.sheet}));
+  const all=[...open.slice(0,4),...errs.filter(e=>!open.some(o=>o.t===e.t)).slice(0,3)];
+  if(!all.length){const nx=PHASES[phaseIdx(cur)+1];return `<ul class="next"><li><span class="k">✓</span><span>The ${esc(PHASES[phaseIdx(cur)].name)} gate is complete.${nx?` Move the phase to ${esc(nx.name)} when the team agrees.`:''}</span><span></span></li></ul>`}
+  return '<ul class="next">'+all.map((x,i)=>`<li><span class="k">${String(i+1).padStart(2,'0')}</span><span>${esc(x.t)}</span><a href="#${x.s}">${sheetNo(x.s)} ${esc(sheetName(x.s))}</a></li>`).join('')+'</ul>';
+}
+function renderPhases(){
+  const G=gates(),cur=phaseIdx(state.meta.phase);
+  $('#phases').innerHTML=PHASES.map((p,i)=>{const g=G[i],ok=g.items.filter(x=>x[1]).length,pct=g.items.length?Math.round(ok/g.items.length*100):0;
+    return `<button type="button" data-phase="${p.id}"${i===cur?' aria-current="step"':''} class="${i<cur?'done':''}" title="${esc(p.desc)}"><span class="pn">${String(i+1).padStart(2,'0')} · ${pct}%</span><span>${esc(p.name)}</span><span class="meter"><i style="width:${pct}%"></i></span></button>`}).join('');
+}
+
+/* ============ drafts: design from flow, standard controls, failure modes, tests ============ */
+function draftDesign(){
+  const R=A,D=R.D,out=[];let n=1;
+  const ids=k=>D.sets.filter(s=>s.nm&&s.kind===k).map(s=>s.key_);
+  const src=ids('Source'),ref=ids('Reference'),stg=ids('Staging'),base=ids('Base'),outs=ids('Output'),hub=base[0]||stg[0]||'';
+  const plat=m=>(R.P[m]||{}).choice||'';
+  out.push({id:'B'+(n++),module:'Trigger',from:'',action:has(state.charter.trigger)?'Start when: '+trunc(tr(state.charter.trigger),60):'Start on schedule',input:'',function:'Scheduler starts the robot; one-copy lock; run folder per business date; config loaded and validated before any item',output:'run id, run folder',platform:plat('Trigger'),tool:'single_instance, run_dir, load_config, get_logger',loop:'Batch',lookup:'None',onerr:'Abort run',check:'start line in the run log'});
+  R.steps.filter(s=>['automate','assist','handoff'].includes(s.rec)&&s.mod!=='Human').forEach(s=>{
+    const m=s.mod;let input='',output='';
+    if(m==='Ingest'){input=src.join(', ');output=stg[0]||hub}
+    else if(m==='Validate'||m==='Transform'||m==='Decide'){input=[hub,...(m==='Transform'?ref:[])].filter(Boolean).join(', ');output=hub}
+    else if(m==='Act'){input=hub;output=outs.filter(o=>!/\bMI\b|report|summary/i.test(D.byId.get(o).nm)).join(', ')||outs.join(', ')}
+    else if(m==='Report'){input=hub;output=outs.join(', ')}
+    out.push({id:'B'+(n++),module:m,from:s.key,action:s.name||s.key,input,function:s.rec==='assist'?'Prepare the case with every field filled and present it to a person for review':s.rec==='handoff'?'Fill the template from the data and send it; record what was sent':'',output,platform:plat(m),tool:'',loop:s.n>1&&m!=='Report'?'Per item':'Batch',lookup:m==='Transform'||m==='Validate'?'Keyed':'None',onerr:m==='Act'||m==='Decide'?'Human queue':m==='Ingest'||m==='Report'||!(s.n>1)?'Abort run':'Skip item',check:''});
+  });
+  if(!out.some(s=>s.module==='Report'))out.push({id:'B'+(n++),module:'Report',from:'',action:'Write the run summary and the exceptions report',input:hub,function:'Counts in, done and exceptions; exceptions with reason codes; sent to the process owner',output:outs.join(', '),platform:plat('Report'),tool:'safe_write_excel, outlook_send',loop:'Batch',lookup:'None',onerr:'Abort run',check:'Summary sheet present'});
+  return out;
+}
+const nextId=(rows,p)=>p+(Math.max(0,...rows.map(r=>{const m=String(r.id||'').match(new RegExp('^'+p+'(\\d+)$','i'));return m?+m[1]:0}))+1);
+function stdControls(){
+  const D=A.D,G=A.G,out=[],all=()=>[...state.controls,...out];
+  const have=(t,ref)=>all().some(c=>c.type===t&&dsRefs(c.scope).includes(ref));
+  D.sets.filter(s=>s.nm&&s.kind==='Source').forEach(s=>{
+    if(!have('Schema',s.key_))out.push({id:nextId(all(),'C'),name:`${s.nm}: layout as expected`,type:'Schema',scope:s.key_,rule:'Required columns present with the expected types; header row found',tol:'',onfail:'Block run',evidence:'run log: schema check'});
+    if(!have('Completeness',s.key_))out.push({id:nextId(all(),'C'),name:`${s.nm}: all rows loaded`,type:'Completeness',scope:s.key_,rule:'Rows loaded = rows in the file; count within the range of recent runs',tol:'',onfail:'Block run',evidence:'summary: input count'})});
+  D.sets.filter(s=>s.nm&&s.kind==='Base').forEach(s=>{if(!have('Duplicate',s.key_))out.push({id:nextId(all(),'C'),name:`${s.nm}: one row per key`,type:'Duplicate',scope:s.key_,rule:`${s.key||'key'} unique`,tol:'',onfail:'Block run',evidence:'assert_unique'})});
+  D.sets.filter(s=>s.nm&&s.kind==='Output').forEach(s=>{if(!have('Control total',s.key_)&&!have('Reconciliation',s.key_)&&!have('Completeness',s.key_))out.push({id:nextId(all(),'C'),name:`${s.nm}: out equals in`,type:'Control total',scope:s.key_,rule:'Rows (and amounts) written = rows in minus exceptions',tol:'',onfail:'Block run',evidence:'summary: control totals'})});
+  if(G.acts.length&&!all().some(c=>c.type==='Idempotency'))out.push({id:nextId(all(),'C'),name:'No repeated action on re-run',type:'Idempotency',scope:G.acts.map(s=>s.key_).join(', '),rule:'Checkpoint keyed by business id; upsert, never insert; a re-run skips done items',tol:'',onfail:'Block run',evidence:'checkpoint.json'});
+  return out;
+}
+function stdFmea(){
+  const D=A.D,G=A.G,out=[],seen=new Set(state.fmea.map(f=>tr(f.mode).toLowerCase()));
+  const add=(f,re)=>{const k=f.mode.toLowerCase();if(seen.has(k)||(re&&[...state.fmea,...out].some(x=>re.test(x.mode+' '+x.cause)&&(f.where==='all'||f.where==='per item'||f.where==='Ingest'||tr(x.where)===f.where))))return;seen.add(k);out.push(Object.assign({id:nextId([...state.fmea,...out],'F')},f))};
+  const ing=G.steps.filter(s=>s.module==='Ingest'),trig=G.steps.find(s=>s.module==='Trigger'),tw=(trig||{}).key_||'Trigger';
+  D.sets.filter(s=>s.nm&&s.kind==='Source').forEach(s=>{const w=(ing.find(b=>b.inRefs.includes(s.key_))||{}).key_||'Ingest';
+    add({mode:`${s.nm} missing or late`,where:w,cause:'Upstream job or person delayed',L:'3',I:'4',detect:'wait_for_file times out at the cut-off',resp:'Abort run',alert:'Teams message; exit 3',prevent:'Agree an SLA with the owner; retry once before the cut-off'},/missing|late|not (arrived|received)/i);
+    add({mode:`${s.nm} layout changed`,where:w,cause:'Upstream release, or a person edits the template',L:'2',I:'4',detect:'check_schema fails before any item is processed',resp:'Abort run',alert:'Teams message; exit 5',prevent:'Schema in config; the owner announces changes'},/layout|schema|column|renamed|changed/i)});
+  G.acts.forEach(s=>{const tgt=s.outRefs.filter(r=>D.byId.has(r)).map(r=>D.byId.get(r).nm).join(', ')||'target system';
+    add({mode:`${tgt} unavailable during ${s.key_}`,where:s.key_,cause:'Outage, maintenance, throttling',L:'2',I:'4',detect:'Exception after retries',resp:'Retry then abort',alert:'Teams message; exit 3',prevent:'Retry with backoff; checkpoint so the re-run resumes'},/unavailable|outage|down|throttl|timeout|fails midway/i);
+    add({mode:`${s.key_} repeated on re-run`,where:s.key_,cause:'Re-run after a crash midway',L:'3',I:'4',detect:'Checkpoint shows the item as done',resp:'Skip item',alert:'Log line',prevent:'Checkpoint keyed by business id; upsert, never insert'},/repeat|twice|duplicate (write|action|send)/i)});
+  add({mode:'Second copy of the run starts',where:tw,cause:'Scheduler fires twice, or a manual start during the run',L:'2',I:'3',detect:'single_instance lock held',resp:'Abort run',alert:'Log line; exit 6',prevent:'One-copy lock in the run folder'},/second copy|already running|fired twice|two copies/i);
+  add({mode:'Run stops midway (crash, VDI reboot)',where:'all',cause:'Infrastructure',L:'2',I:'3',detect:'No end line in the run log; scheduler shows a non-zero exit',resp:'Abort run',alert:'Scheduler history; exit 3',prevent:'Checkpoint per item; the re-run resumes'},/midway|crash|reboot|partial run/i);
+  add({mode:'Config or secret missing',where:tw,cause:'New environment or rotated credential',L:'2',I:'3',detect:'load_config or require fails at start',resp:'Abort run',alert:'Teams message; exit 4',prevent:'Config validated before any item; secrets from the vault'},/config|secret|credential/i);
+  add({mode:'Item fails a business rule',where:'per item',cause:'Bad or unexpected data for one item',L:'4',I:'2',detect:'BusinessError recorded with a reason code',resp:'Skip item',alert:'Exceptions report; exit 2',prevent:'Clear reason codes; the owner fixes the data at source'},/business rule|business error|bad data/i);
+  add({mode:'Volume far above normal',where:'Ingest',cause:'Peak day, or a duplicated feed',L:'3',I:'2',detect:'Count above 200% of the recent average',resp:'Fallback',alert:'Warning in the summary',prevent:'Batch processing; per-item work only where needed'},/volume|spike|peak/i);
+  return out;
+}
+function stdTests(){
+  const G=A.G,out=[],seen=new Set(state.plan.tests.map(t=>tr(t.scenario).toLowerCase()));
+  const add=t=>{if(seen.has(t.scenario.toLowerCase()))return;seen.add(t.scenario.toLowerCase());out.push(Object.assign({id:nextId([...state.plan.tests,...out],'T'),status:'Todo'},t))};
+  add({scenario:'Happy path: a normal day end to end',type:'Integration',input:'Synthetic inputs with the production schema',expected:'All outputs produced; summary counts match; exit 0'});
+  add({scenario:'Empty input',type:'Negative',input:'Input with a header and no rows',expected:'Run ends cleanly with 0 rows; no outputs written; exit 0'});
+  add({scenario:'Input missing at the cut-off',type:'Negative',input:'No file or feed',expected:'Exit 3; alert sent; no partial output'});
+  add({scenario:'Column renamed in an input',type:'Negative',input:'One required column renamed',expected:'Exit 5 before any item is processed'});
+  add({scenario:'Duplicate key in an input',type:'Negative',input:'Two rows with the same key',expected:'The duplicate control blocks the run and lists both rows'});
+  add({scenario:'Re-run after a crash midway',type:'Negative',input:'Stop the run during an action step',expected:'The re-run resumes after the last done item; no repeated action'});
+  G.steps.filter(s=>s.module==='Decide').forEach(s=>add({scenario:`Each rule branch of ${s.key_} ${s.action||''}`.trim(),type:'Unit',input:'One item per rule, plus one that matches no rule',expected:'Reason codes as per the rules table; no match goes to a person'}));
+  add({scenario:'Peak volume (month-end)',type:'Peak / volume',input:'Five times the normal volume',expected:'Run completes inside the work window'});
+  add({scenario:'Analysts work one day with the output',type:'UAT',input:'A UAT day with anonymised data',expected:'Users accept the output; corrections listed'});
+  add({scenario:'Parallel run beside the manual process',type:'Parallel run',input:'Two weeks, bot and people side by side',expected:'Zero mismatches; output ready on time every day'});
+  return out;
+}
+
+/* ============ documents: runbook and SDD ============ */
+function docHTML(title,meta,secs){
+  let h=`<article class="doc"><h1>${esc(title)}</h1><p class="bm">${esc(meta)}</p>`;
+  secs.forEach(x=>{const l=x.lvl||2;h+=`<h${l}>${esc(x.h)}</h${l}>`;(x.p||[]).forEach(t=>h+=`<p>${esc(t)}</p>`);
+    if(x.kv&&x.kv.length)h+=`<dl>${x.kv.map(r=>`<dt>${esc(r[0])}</dt><dd>${esc(r[1])}</dd>`).join('')}</dl>`;
+    if(x.table&&x.table.rows.length)h+=`<div class="tbl-wrap"><table class="ro"><thead><tr>${x.table.head.map(c=>`<th>${esc(c)}</th>`).join('')}</tr></thead><tbody>${x.table.rows.map(r=>`<tr>${r.map(c=>`<td>${esc(c)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
+    if(x.ul&&x.ul.length)h+=`<ul>${x.ul.map(t=>`<li>${esc(t)}</li>`).join('')}</ul>`;
+    if(x.ol&&x.ol.length)h+=`<ol>${x.ol.map(t=>`<li>${esc(t)}</li>`).join('')}</ol>`;
+    if(x.fig&&x.fig.svg)h+=`<div class="fig">${x.fig.svg}</div>`;
+    (x.after||[]).forEach(t=>h+=`<p>${esc(t)}</p>`)});
+  return h+'</article>';
+}
+function docMD(title,meta,secs){
+  const L=[`# ${title}`,`_${meta}_`,''];
+  secs.forEach(x=>{L.push(`${'#'.repeat(x.lvl||2)} ${x.h}`,'');(x.p||[]).forEach(t=>L.push(mdc(t),''));
+    if(x.kv&&x.kv.length){x.kv.forEach(r=>L.push(`- **${mdc(r[0])}:** ${mdc(r[1])}`));L.push('')}
+    if(x.table&&x.table.rows.length){L.push('| '+x.table.head.map(mdc).join(' | ')+' |','|'+x.table.head.map(()=>'---').join('|')+'|',...x.table.rows.map(r=>'| '+r.map(mdc).join(' | ')+' |'),'')}
+    if(x.ul&&x.ul.length){x.ul.forEach(t=>L.push('- '+mdc(t)));L.push('')}
+    if(x.ol&&x.ol.length){x.ol.forEach((t,i)=>L.push(`${i+1}. `+mdc(t)));L.push('')}
+    if(x.fig&&x.fig.mm){L.push('```mermaid',x.fig.mm.trim(),'```','')}
+    (x.after||[]).forEach(t=>L.push(mdc(t),''))});
+  return L.join('\n').replace(/\n{3,}/g,'\n\n').trim()+'\n';
+}
+const docTitle=p=>p+(tr(state.meta.name)||'Untitled process');
+function runbookSections(){
+  const rb=state.runbook,D=A.D,G=A.G,M=A.M,C=A.C,S=[],fill='(fill in on sheet '+sheetNo('runbook')+')';
+  S.push({h:'1. Identity',kv:[['Process',tr(state.meta.name)||'–'],['Ticket',tr(state.meta.ticket)||'–'],['Process owner',tr(state.meta.team)||'–'],['Developer',tr(state.meta.author)||'–'],['Revision',(tr(state.meta.rev)||'A')+' · '+(state.meta.date||today())]]});
+  S.push({h:'2. How to run',kv:[['Command or task',tr(rb.run)||fill],['Schedule',tr(rb.schedule)||fill],['Environment and config',tr(rb.env)||fill]]});
+  const srcRows=D.sets.filter(s=>s.nm&&(s.kind==='Source'||s.kind==='Reference')).map(s=>[s.key_,s.nm,s.system||'',s.format==='?'?'':s.format||'',s.refresh==='?'?'':s.refresh||'',s.owner||'']);
+  S.push({h:'3. Inputs the run expects',p:has(rb.inputs)?[tr(rb.inputs)]:[],table:srcRows.length?{head:['ID','Dataset','System','Format','Refresh','Owner'],rows:srcRows}:null,after:srcRows.length?[]:['No datasets recorded on sheet '+sheetNo('data')+'.']});
+  const outRows=D.sets.filter(s=>s.nm&&s.kind==='Output').map(s=>[s.key_,s.nm,s.system||'',s.format==='?'?'':s.format||'',s.owner||'']);
+  S.push({h:'4. Outputs the run produces',p:has(rb.outputs)?[tr(rb.outputs)]:[],table:outRows.length?{head:['ID','Dataset','System','Format','Consumer'],rows:outRows}:null});
+  S.push({h:'5. What to check after a run',p:[tr(rb.checks)||fill],ul:C.C.filter(c=>has(c.name)).map(c=>`${c.key_} ${c.name}: ${c.rule||''}${has(c.evidence)?' · evidence: '+c.evidence:''}`)});
+  S.push({h:'6. Logs and exit codes',p:[tr(rb.logs)||fill],table:{head:['Exit code','Meaning and action'],rows:EXITCODES}});
+  const errRows=M.F.filter(f=>has(f.mode)).map(f=>[f.key_,f.mode,f.detect||'',f.resp&&f.resp!=='?'?f.resp:'',f.alert||'',f.prevent||'']);
+  S.push({h:'7. When it fails',p:errRows.length?['Sorted by risk. Detection says how you know; response says what the run does; the last column says what prevents it or what to do.']:['No failure modes recorded on sheet '+sheetNo('controls')+'.'],table:errRows.length?{head:['ID','What happened','How you know','Run response','Alert / exit','Prevention or action'],rows:errRows}:null});
+  S.push({h:'8. Re-run procedure',p:[tr(rb.rerun)||fill]});
+  const steps=G.steps.filter(s=>has(s.action)).map(s=>[s.key_,s.module,s.action,s.platform||'',s.onerr&&s.onerr!=='?'?s.onerr:'']);
+  S.push({h:'9. What the run does, step by step',table:steps.length?{head:['Step','Module','Action','Platform','On error'],rows:steps}:null,p:steps.length?[]:['No design steps on sheet '+sheetNo('design')+'.']});
+  S.push({h:'10. Contacts and escalation',p:[tr(rb.contacts)||fill]});
+  S.push({h:'11. Changes',p:[tr(rb.change)||fill]});
+  if(has(rb.notes))S.push({h:'12. Notes',p:[tr(rb.notes)]});
+  return S;
+}
+const runbookMD=()=>docMD(docTitle('Runbook: '),briefMeta(),runbookSections());
+function bottleneckLines(){
+  const R=A,load=R.totLoad,pct=x=>load>0?Math.round(x/load*100):0,bn=[];
+  if(R.hot)bn.push(`Largest manual load: ${R.hot.key} ${R.hot.name}, ${fmtN(R.hot.load)} min per day (${pct(R.hot.load)}% of total).`);
+  if(R.slow)bn.push(`Longest wait: ${R.slow.key} ${R.slow.name}, ${fmtMin(R.slow.w)} per item.`);
+  if(R.cp.len>0)bn.push(`Critical path: ${R.cp.path.join(' → ')}, ${fmtMin(R.cp.len)} end to end, ${Math.round(R.cpWait/R.cp.len*100)}% of it waiting.`);
+  R.T.res.filter(r=>!r.cross&&r.slack<30).forEach(r=>bn.push(`Tight timing: “${r.win.name}” ends ${fmtMin(r.slack)} before “${r.cut.name}”.`));
+  const rl=R.L.loops.find(l=>l.type==='R');if(rl)bn.push(`Reinforcing loop ${rl.label}: ${rl.names.join(' → ')} → ${rl.names[0]}.`);
+  R.F.dead.forEach(s=>bn.push(`State “${s.nm}” has no defined exit.`));
+  return bn;
+}
+function sddSections(){
+  const c=state.charter,p=state.poc,R=A,D=R.D,G=R.G,P=R.P,C=R.C,M=R.M,Q=R.Q,S=[],load=R.totLoad,inc=increments(),rb=state.runbook;
+  const no=id=>'sheet '+sheetNo(id);
+  S.push({h:'1. Document control',kv:[['Process',tr(state.meta.name)||'–'],['Team',tr(state.meta.team)||'–'],['Ticket',tr(state.meta.ticket)||'–'],['Requester',tr(state.meta.requester)||'–'],['Date received',tr(state.meta.received)||'–'],['Priority',state.meta.priority||'–'],['Author',tr(state.meta.author)||'–'],['Revision',(tr(state.meta.rev)||'A')+' · '+(state.meta.date||today())],['Lifecycle phase',(PHASES.find(x=>x.id===state.meta.phase)||PHASES[0]).name]]});
+  S.push({h:'2. Overview'});
+  S.push({h:'2.1 Purpose',lvl:3,p:[has(c.objective)?dot(tr(c.objective)):`Not yet defined (${no('charter')}).`]});
+  S.push({h:'2.2 Background and pain points',lvl:3,p:[has(c.pain)?dot(tr(c.pain)):`Not yet captured (${no('charter')}).`,...(has(c.trigger)?[`Trigger: ${dot(tr(c.trigger))}`]:[]),...(has(c.frequency)?[`Frequency: ${dot(tr(c.frequency))}`]:[])]});
+  S.push({h:'2.3 Scope',lvl:3,kv:[['In scope',tr(p.scope)||'–'],['Out of scope',tr(p.out)||'–'],['Timebox',tr(p.timebox)||'–']]});
+  S.push({h:'2.4 Stakeholders',lvl:3,p:[tr(c.stakeholders)||'–']});
+  S.push({h:'2.5 Success criteria',lvl:3,p:[...(has(c.metric)?[`Metric: ${dot(tr(c.metric))}`]:[]),...(has(p.success)?[`PoC acceptance: ${dot(tr(p.success))}`]:[])].concat(has(c.metric)||has(p.success)?[]:['–'])});
+  S.push({h:'2.6 Constraints and controls',lvl:3,p:[tr(c.constraints)||'–']});
+  S.push({h:'3. Current process (as-is)'});
+  const I=state.icom.filter(x=>has(x.name));
+  S.push({h:'3.1 Boundary',lvl:3,table:I.length?{head:['Kind','Item','Source, consumer or owner','Format'],rows:I.map(x=>[x.kind,x.name,x.party||'',x.format==='?'?'':x.format||''])}:null,p:I.length?[]:[`No boundary items (${no('context')}).`]});
+  S.push({h:'3.2 Process flow',lvl:3,p:R.steps.length?[`${R.steps.length} steps across ${R.lanes.length} roles${load>0?`; about ${hrs(load)} of manual work per day (${(load/FTE_MIN).toFixed(1)} FTE)`:''}.`]:[`No steps (${no('flow')}).`],
+    table:R.steps.length?{head:['ID','Step','Who','Type','System','Min/item','Items/day','Wait','Fit','Recommendation'],rows:R.steps.map(s=>[s.key,s.name||'',s.laneName,s.type,s.system||'',String(s.mins||''),String(s.vol||''),String(s.wait||''),String(s.fit),REC[s.rec].label])}:null,fig:R.steps.length?{svg:svgFlow(R,'sf'),mm:mermaidFlow()}:null});
+  const F=R.F;
+  S.push({h:'3.3 Work item lifecycle',lvl:3,p:F.states.length?[`A ${F.item} passes through ${F.states.length} states; ${F.manual} of ${F.tr.length} transitions are fired by people.`]:[`No state machine (${no('states')}).`],table:F.tr.length?{head:['From','Event','Guard','To','Fired by'],rows:F.tr.map(t=>[t.a,t.ev,t.g,t.b,t.owner||''])}:null,fig:F.states.length?{svg:svgFSM(R,'ss'),mm:mermaidFSM()}:null});
+  const T=R.T;
+  S.push({h:'3.4 Timing and cut-offs',lvl:3,table:state.timing.length?{head:['Event','Kind','Start','End'],rows:state.timing.map(e=>[e.name||'',e.kind||'',e.start||'',e.end||''])}:null,ul:T.res.map(r=>r.cross?`“${r.win.name}” runs ${fmtMin(-r.slack)} past “${r.cut.name}”.`:`“${r.win.name}” ends ${fmtMin(r.slack)} before “${r.cut.name}”.`),p:state.timing.length?[]:[`No timing captured (${no('timing')}).`]});
+  const bn=bottleneckLines();
+  S.push({h:'3.5 Bottleneck analysis',lvl:3,ul:bn.length?bn:[`Not yet identified (${no('flow')}).`]});
+  S.push({h:'4. Proposed solution (to-be)'});
+  const mods=OPT.dmod.map(m=>({m,st:modSteps(m),P:P[m]})).filter(x=>x.st.length);
+  S.push({h:'4.1 Architecture',lvl:3,p:mods.length?['Encapsulated modules with one job and a typed interface each. Exceptions and judgment calls route to a human queue; every run writes an audit log with run id, inputs, row counts, decisions, exceptions and outputs.']:[`Modules appear once steps exist (${no('solution')}).`],table:mods.length?{head:['Module','Job','Interface','Steps','Platform','Why'],rows:mods.map(x=>[x.m,MODINFO[x.m].job,MODINFO[x.m].io,x.st.map(y=>y.s.key).join(', '),x.P.choice,x.P.why||'suggested by the fit score'])}:null,fig:R.steps.length?{svg:svgPipeline(R,'sp')}:null});
+  S.push({h:'4.2 Build increments',lvl:3,ol:inc.map(x=>`Increment ${x.n}${x.n===1?' (PoC)':''}: ${x.label} (${x.mods.join(', ')||'no saving'}), about ${hrs(x.save)} per day.`),p:inc.length?[]:['Computed once steps have times and volumes.']});
+  const kv=[['Name',p.name],['Scope',p.scope],['Out of scope',p.out],['Success criteria',p.success],['Controls during the PoC',p.controls],['Data and environment',p.data],['Timebox',p.timebox],['Asks',p.asks]].filter(x=>has(x[1])).map(x=>[x[0],tr(x[1])]);
+  S.push({h:'4.3 Proof of concept',lvl:3,kv:kv.length?kv:[['Status',`Not yet defined (${no('solution')}).`]]});
+  S.push({h:'4.4 Platform notes',lvl:3,p:[tr(state.platnotes)||'–']});
+  S.push({h:'5. Data'});
+  const DS=D.sets.filter(s=>s.nm);
+  S.push({h:'5.1 Datasets',lvl:3,table:DS.length?{head:['ID','Kind','Dataset','System','Format','Grain','Key','Refresh','Rows','Access','Owner'],rows:DS.map(s=>[s.key_,s.kind,s.nm,s.system||'',s.format==='?'?'':s.format||'',s.grain||'',s.key||'',s.refresh==='?'?'':s.refresh||'',String(s.vol||''),s.access==='?'?'':s.access||'',s.owner||''])}:null,p:DS.length?[]:[`No datasets (${no('data')}).`]});
+  S.push({h:'5.2 Lineage',lvl:3,p:D.links.length?[`${D.depth+1} layer${D.depth?'s':''} from source to output. Base table${D.base.length>1?'s':''}: ${D.base.map(s=>s.key_+' '+s.nm).join(', ')||'none marked'}.`]:[],table:D.links.length?{head:['From','To','Through','How'],rows:D.links.map(l=>[l.a,l.b,l.via||'',l.how==='?'?'':l.how||''])}:null,fig:DS.length?{svg:svgLineage(R,'sl'),mm:mermaidLineage()}:null});
+  S.push({h:'6. Detailed design',p:G.steps.length?['One row per build step. Input and output name datasets by ID (section 5). Complexity: batch work is O(N); a keyed lookup per item is O(N); a scan per item is O(N×M).']:[`No design steps (${no('design')}).`]});
+  OPT.dmod.forEach(m=>{const st=G.byMod.get(m);if(!st.length)return;
+    S.push({h:`6.${OPT.dmod.indexOf(m)+1} ${m}`,lvl:3,p:[MODINFO[m].job+'.'],table:{head:['Step','Action','Input','Function','Output','Platform','toolbank','Loop','Complexity','On error','Check'],rows:st.map(s=>[s.key_,s.action||'',s.input||'',s.function||'',s.output||'',s.platform||'',s.tool||'',s.loop||'',s.cx,s.onerr&&s.onerr!=='?'?s.onerr:'',s.check||''])}})});
+  const rules=[...R.steps.filter(s=>s.type==='Decision').map(s=>[s.key,s.name||'',s.rules,'as-is decision']),...G.steps.filter(s=>s.module==='Decide').map(s=>[s.key_,s.action||'',s.function||'','design step'])];
+  S.push({h:'7. Business rules',table:rules.length?{head:['Step','Decision','Rule, or how well it is known','Source'],rows:rules}:null,p:rules.length?['Rules live in a table the process owner maintains. The robot validates the table at start and routes anything the rules do not cover to a person.']:['No decision steps recorded.']});
+  S.push({h:'8. Controls and accuracy',table:C.C.length?{head:['ID','Control','Type','Applies to','Rule','Tolerance','On fail','Evidence'],rows:C.C.map(x=>[x.key_,x.name||'',x.type,x.scope||'',x.rule||'',x.tol||'',x.onfail||'',x.evidence||''])}:null,p:C.C.length?['Money is compared in cents, never as floats. Where the business expects Excel results, Excel rounding (ROUND half away from zero) is reproduced.']:[`No controls (${no('controls')}).`]});
+  S.push({h:'9. Error handling and failure modes',p:['Errors split into business errors (the data is wrong: record the item, skip it, never retry) and system errors (the environment failed: retry with backoff, abort if persistent). The run returns an exit code the scheduler and the service team can act on.'],table:{head:['Exit code','Meaning'],rows:EXITCODES}});
+  S.push({h:'9.1 Failure modes',lvl:3,table:M.F.length?{head:['ID','Failure mode','Where','Cause','L','I','Risk','Detection','Response','Alert / exit','Prevention'],rows:M.F.map(f=>[f.key_,f.mode||'',f.where||'',f.cause||'',String(f.Ln||''),String(f.In||''),String(f.risk||''),f.detect||'',f.resp&&f.resp!=='?'?f.resp:'',f.alert||'',f.prevent||''])}:null,p:M.F.length?[]:[`No failure modes (${no('controls')}).`]});
+  S.push({h:'10. Testing',table:Q.T.length?{head:['ID','Scenario','Type','Input','Expected','Status'],rows:Q.T.map(t=>[t.id||'',t.scenario||'',t.type||'',t.input||'',t.expected||'',t.status||''])}:null,p:Q.T.length?[`${Q.pass} passed, ${Q.fail.length} failed, ${Q.todo} to do, ${Q.blocked} blocked.`]:[`No test cases (${no('plan')}).`]});
+  S.push({h:'11. Build and deployment',table:Q.It.length?{head:['Iteration','Goal','Scope','Playback','Status','Notes'],rows:Q.It.map(x=>[x.n||'',x.goal||'',x.scope||'',x.demo||'',x.status||'',x.notes||''])}:null,ul:CHECKLIST.map(x=>`[${state.plan.done[x.id]?'x':' '}] ${x.t}`)});
+  S.push({h:'12. Operations and support',p:[`The runbook (${no('runbook')}) is the handover document for the service team. Summary:`],kv:[['How to run',tr(rb.run)||'–'],['Schedule',tr(rb.schedule)||'–'],['Environment',tr(rb.env)||'–'],['Checks after a run',tr(rb.checks)||'–'],['Logs',tr(rb.logs)||'–'],['Re-run',tr(rb.rerun)||'–'],['Contacts',tr(rb.contacts)||'–'],['Changes',tr(rb.change)||'–']]});
+  const be=[];if(R.totSave>0){be.push(`Addressable effort: about ${hrs(R.totSave)} per day, ${fmtN(R.totSave*MONTH_DAYS/60)} h per month at ${MONTH_DAYS} business days.`);if(inc[0])be.push(`First increment: about ${hrs(inc[0].save)} per day.`);be.push('Estimates assume automate steps lose 80% of their manual time, assist steps 45% and templated handoffs 50%. Measured values from the parallel run replace them.')}
+  S.push({h:'13. Expected benefit',p:be.length?be:['Computed once steps have times and volumes.']});
+  const open=R.drc.filter(d=>d.sev!=='info');
+  S.push({h:'14. Risks, assumptions and open items',ul:open.length?open.map(d=>`${sheetNo(d.sheet)} ${sheetName(d.sheet)}: ${d.msg}${d.q?' · '+d.q:''}`):['No open errors or warnings.']});
+  const notes=STAGES.flatMap(st=>meetingItems(st).filter(x=>state.asked[x.id]||has(state.qnotes[x.id])).map(x=>`${st.name}: ${x.t} · ${tr(state.qnotes[x.id])||'(asked, no note)'}`));
+  S.push({h:'15. Appendix: meeting notes',ul:notes.length?notes:[`No meeting notes recorded (${no('meeting')}).`]});
+  return S;
+}
+const sddMD=()=>docMD(docTitle('Solution design: '),briefMeta(),sddSections());
+function download(name,text,type){
+  const b=new Blob([text],{type:type||'text/markdown'}),u=URL.createObjectURL(b),a=document.createElement('a');
+  a.href=u;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),1000);toast(name+' downloaded');
+}
+const fileBase=()=>(tr(state.meta.name)||'process').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'').slice(0,48)||'process';
+
 function renderDerived(){
   const cnt=drcCounts(),comp=completeness(),all=cnt.all,load=A.totLoad;
   setOut('ov-kpis',kpiHTML([
@@ -1412,8 +2226,8 @@ function renderDerived(){
     {l:'Manual load',v:load?hrs(load):'–',s:load?`per day, ${(load/FTE_MIN).toFixed(1)} FTE`:'add times and volumes'},
     {l:'Addressable',v:A.totSave?hrs(A.totSave):'–',s:A.totSave?'per day, estimated':'computed on sheet 07'},
     {l:'Open checks',v:String(all.err+all.warn),s:`${all.err} errors, ${all.warn} warnings, ${all.info} notes`,hot:all.err>0}]));
-  setOut('chain',SHEETS.slice(1).map(s=>{const st=s.meter?Math.round((comp[s.id]||0)*100)+'%':s.id==='meeting'?`${openGapCount()} open`:'auto';
-    return `<a href="#${s.id}"><span class="c-no"><span>${s.no}</span><span>${st}</span></span><span class="c-t">${esc(s.name)}</span><span class="c-d">${esc(s.sum)}</span></a>`}).join(''));
+  setOut('chain',PHASEGROUPS.map(g=>`<div class="ipo-mod">${esc(g.name)}</div><div class="chain">`+SHEETS.filter(s=>s.phase===g.id).map(s=>{const st=s.meter?Math.round((comp[s.id]||0)*100)+'%':s.id==='meeting'?`${openGapCount()} open`:'auto';
+    return `<a href="#${s.id}"><span class="c-no"><span>${s.no}</span><span>${st}</span></span><span class="c-t">${esc(s.name)}</span><span class="c-d">${esc(s.sum)}</span></a>`}).join('')+'</div>').join(''));
   setOut('problem',esc(problemText()));
   setOut('an-kpis',kpiHTML([
     {l:'Manual load',v:load?hrs(load):'–',s:load?`per day, ${(load/FTE_MIN).toFixed(1)} FTE at 7.5 h`:'add times and volumes'},
@@ -1428,11 +2242,30 @@ function renderDerived(){
   setOut('fsm-stats',F.states.length?kpiHTML([{l:'States',v:String(F.states.length),s:`${F.start.length} start, ${F.ends.length} end`},{l:'Transitions',v:String(F.tr.length),s:`${F.tr.length-F.manual} fired by systems`},{l:'Fired by people',v:String(F.manual),s:'automation candidates'},{l:'No exit',v:String(F.dead.length),s:F.dead.length?F.dead.map(s=>s.nm).join(', '):'none',hot:F.dead.length>0}]):'');
   setOut('slack',slackHTML());setOut('loops',loopsHTML());
   setOut('pitch',esc(pitch()));setOut('brief',briefHTML());
+  const Dd=A.D,Q=A.Q,M=A.M;
+  setOut('data-kpis',kpiHTML([
+    {l:'Datasets',v:String(Dd.sets.filter(s=>s.nm).length),s:`${Dd.sources.length} sources, ${Dd.outputs.length} outputs`},
+    {l:'Layers',v:Dd.sets.length?String(Dd.depth+1):'–',s:Dd.base.length?'base: '+Dd.base.map(s=>s.key_).join(', '):'no base table marked'},
+    {l:'Source rows',v:Dd.rows?fmtN(Dd.rows):'–',s:'per run, all sources'},
+    {l:'Without a key',v:String(Dd.keyless.length),s:'datasets that need a key',hot:Dd.keyless.length>0}]));
+  setFig('lineage',svgLineage(A,'ln'));setFig('risk',svgRisk(A));
+  renderPlatfit();setOut('platinfo',platinfoHTML());setOut('ipo',ipoHTML());setOut('risks',risksHTML());
+  setOut('plan-kpis',kpiHTML([
+    {l:'Iterations done',v:`${Q.It.filter(x=>x.status==='Done').length} / ${Q.It.length}`,s:Q.It.some(x=>x.status==='In progress')?'one in progress':''},
+    {l:'Tests passing',v:`${Q.pass} / ${Q.T.length}`,s:`${Q.fail.length} failed, ${Q.todo} to do`,hot:Q.fail.length>0},
+    {l:'Go-live checklist',v:`${Q.done} / ${CHECKLIST.length}`,s:'items done'},
+    {l:'Top risk',v:M.F.length?String(M.F[0].risk):'–',s:M.F.length?trunc(M.F[0].mode,34):'score failure modes on sheet '+sheetNo('controls'),hot:M.F.length>0&&M.F[0].risk>=10}]));
+  renderChecklist();setOut('chk-tag',`${Q.done} of ${CHECKLIST.length} done`);
+  setOut('runbook',docHTML(docTitle('Runbook: '),briefMeta(),runbookSections()));
+  setOut('sdd',docHTML(docTitle('Solution design: '),briefMeta(),sddSections()));
+  setOut('secmap',SECMAP.map(x=>`<div>${esc(x[0])}<span>${esc(x[1])}</span></div>`).join(''));
+  setOut('gates',gatesHTML());setOut('next',nextHTML());setOut('phase-tag','phase: '+(PHASES.find(p=>p.id===state.meta.phase)||PHASES[0]).name);
+  renderPhases();
   $$('[data-drc]').forEach(el=>{const sh=el.dataset.drc,h=drcHTML(sh==='all'?A.drc:A.drc.filter(d=>d.sheet===sh),sh==='all');if(el._h!==h){el.innerHTML=h;el._h=h}});
   SHEETS.forEach(s=>{
     const m=$(`[data-meter="${s.id}"]`);if(m)m.style.width=Math.round((comp[s.id]||0)*100)+'%';
-    const c=cnt[s.id]||{err:0,warn:0,info:0},n=s.id==='analysis'||s.id==='overview'||s.id==='brief'?all.err+all.warn:s.id==='meeting'?openGapCount():c.err+c.warn;
-    const b=$(`[data-badge="${s.id}"]`);if(b){const v=s.id==='overview'||s.id==='brief'?'':n?String(n):'';b.textContent=v;b.title=v?(s.id==='meeting'?v+' gap questions not yet asked':v+' open checks'):''}
+    const c=cnt[s.id]||{err:0,warn:0,info:0},n=s.id==='analysis'||s.id==='overview'||s.id==='brief'||s.id==='sdd'?all.err+all.warn:s.id==='meeting'?openGapCount():c.err+c.warn;
+    const b=$(`[data-badge="${s.id}"]`);if(b){const v=s.id==='overview'||s.id==='brief'||s.id==='sdd'?'':n?String(n):'';b.textContent=v;b.title=v?(s.id==='meeting'?v+' gap questions not yet asked':v+' open checks'):''}
     const tb=$(`[data-tbc="${s.id}"]`);if(tb)tb.textContent=s.id==='meeting'?`${openGapCount()} gaps open`:n?`${n} open`:'clear';
   });
   $$('[data-tb="rev"]').forEach(e=>e.textContent=tr(state.meta.rev)||'A');
@@ -1457,7 +2290,7 @@ function renderMeeting(){
   const li=x=>`<li class="q${state.asked[x.id]?' done':''}"><input type="checkbox" id="q-${x.id}" data-q="${x.id}"${state.asked[x.id]?' checked':''}><label class="qt" for="q-${x.id}">${esc(x.t)}</label><span class="qw">${esc(x.w)}</span><input class="qn" id="qn-${x.id}" data-qn="${x.id}" value="${esc(state.qnotes[x.id]||'')}" placeholder="Answer or note" aria-label="Answer or note"></li>`;
   const core=items.filter(x=>!x.gap),gaps=items.filter(x=>x.gap);
   const host=$('[data-out="questions"]');
-  host.innerHTML=`<ul class="qlist">${core.map(li).join('')}</ul>`+(gaps.length?`<h3 style="margin-top:18px">From the gaps in this model <span class="tag">${gaps.length} for this meeting</span></h3><ul class="qlist">${gaps.map(li).join('')}</ul>`:`<p class="hint" style="margin-top:12px">No open gaps for this meeting. Gap questions appear here when checks on sheets 01 to 08 flag missing information.</p>`);
+  host.innerHTML=`<ul class="qlist">${core.map(li).join('')}</ul>`+(gaps.length?`<h3 style="margin-top:18px">From the gaps in this model <span class="tag">${gaps.length} for this meeting</span></h3><ul class="qlist">${gaps.map(li).join('')}</ul>`:`<p class="hint" style="margin-top:12px">No open gaps for this meeting. Gap questions appear here when checks on sheets 01 to 14 flag missing information.</p>`);
   host._h=null;
 }
 function agendaText(){
@@ -1515,7 +2348,7 @@ function armButton(btn,armedLabel,needs,fn){
 const hasContent=()=>state.steps.length>0||state.icom.length>0||has(state.charter.pain)||has(state.meta.name);
 function replaceState(s,msg){
   state=normalize(s);if(SW.run)swStop();
-  editors.forEach(e=>e.render());fillBinds();qSig='';swSig='';dlSig='';
+  editors.forEach(e=>e.render());fillBinds();qSig='';swSig='';dlSig='';pfSig='';chkSig='';
   $$('[data-out],[data-fig],[data-drc]').forEach(el=>{el._h=null});
   saveLocal();refresh();toast(msg);
 }
@@ -1523,10 +2356,11 @@ function replaceState(s,msg){
 /* ============ datalists, refresh, routing ============ */
 let dlSig='';
 function updateDatalists(){
-  const u=a=>[...new Set(a.map(tr).filter(Boolean))];
-  const L=[u(state.steps.map(s=>s.lane)),u(state.steps.map(s=>s.system)),u(state.fsm.states.map(s=>s.name)),u(state.cld.vars.map(v=>v.name))];
+  const u=a=>[...new Set(a.map(tr).filter(Boolean))].map(x=>[x,'']);
+  const L=[u(state.steps.map(s=>s.lane)),u([...state.steps.map(s=>s.system),...state.data.sets.map(s=>s.system)]),u(state.fsm.states.map(s=>s.name)),u(state.cld.vars.map(v=>v.name)),
+    state.data.sets.filter(s=>tr(s.id)).map(s=>[tr(s.id),tr(s.name)]),state.design.filter(s=>tr(s.id)).map(s=>[tr(s.id),tr(s.action)]),[...new Set(Object.values(TOOLBANK).flat())].sort().map(x=>[x,''])];
   const sig=JSON.stringify(L);if(sig===dlSig)return;dlSig=sig;
-  ['dl-lanes','dl-systems','dl-states','dl-vars'].forEach((id,i)=>{$('#'+id).innerHTML=L[i].map(x=>`<option value="${esc(x)}"></option>`).join('')});
+  ['dl-lanes','dl-systems','dl-states','dl-vars','dl-dsets','dl-design','dl-tools'].forEach((id,i)=>{$('#'+id).innerHTML=L[i].map(x=>`<option value="${esc(x[0])}">${esc(x[1])}</option>`).join('')});
 }
 function refresh(){
   A=analyse();
@@ -1542,7 +2376,7 @@ function show(){
 }
 
 /* ============ editors ============ */
-let stepsEd;
+let stepsEd,designEd,controlsEd,fmeaEd,testsEd;
 function setupEditors(){
   stepsEd=tableEditor($('#ed-steps'),{get:()=>state.steps,addLabel:'Add step',empty:'No steps yet. Add the first thing the team does.',
     groups:[{label:'Step',span:5},{label:'Measure while shadowing',span:5},{label:'Automation fit',span:4},{label:'Wiring',span:2}],
@@ -1575,6 +2409,32 @@ function setupEditors(){
   tableEditor($('#ed-links'),{get:()=>state.cld.links,addLabel:'Add link',empty:'No links yet.',
     cols:[{k:'from',label:'If this rises',w:'20ch',list:'dl-vars'},{k:'pol',label:'Effect',t:'sel',o:OPT.pol,w:'7ch'},{k:'to',label:'This moves',w:'20ch',list:'dl-vars'}],
     blank:()=>({from:'',pol:'+',to:''})});
+  tableEditor($('#ed-dsets'),{get:()=>state.data.sets,addLabel:'Add dataset',empty:'No datasets yet. Start with the inputs on sheet 02 and the base table.',
+    cols:[{k:'id',label:'ID',w:'5ch',key:true},{k:'kind',label:'Kind',t:'sel',o:OPT.dkind,w:'10ch'},{k:'name',label:'Dataset',w:'24ch',ph:'e.g. Unmatched confirmations report'},{k:'system',label:'System',w:'16ch',list:'dl-systems'},{k:'format',label:'Format',t:'sel',o:OPT.dfmt,w:'14ch'},
+      {k:'grain',label:'Grain: one row per',w:'18ch',ph:'trade'},{k:'key',label:'Key fields',w:'16ch',ph:'trade_id'},{k:'refresh',label:'Refresh',t:'sel',o:OPT.refresh,w:'10ch'},{k:'vol',label:'Rows/run',t:'num',w:'8ch'},{k:'access',label:'Access',t:'sel',o:OPT.access,w:'11ch'},{k:'owner',label:'Owner',w:'16ch'},{k:'notes',label:'Notes',w:'20ch'}],
+    blank:R=>({id:nextId(R,'D'),kind:R.length?R[R.length-1].kind:'Source',name:'',system:'',format:'?',grain:'',key:'',refresh:'?',vol:'',access:'?',owner:'',notes:''})});
+  tableEditor($('#ed-dlinks'),{get:()=>state.data.links,addLabel:'Add link',empty:'No lineage yet.',
+    cols:[{k:'from',label:'From',w:'8ch',list:'dl-dsets'},{k:'to',label:'To',w:'8ch',list:'dl-dsets'},{k:'via',label:'Through (design step)',w:'18ch',list:'dl-design',ph:'B2 Ingest'},{k:'how',label:'How',t:'sel',o:OPT.how,w:'16ch'}],
+    blank:R=>({from:R.length?R[R.length-1].to:'',to:'',via:'',how:'?'})});
+  designEd=tableEditor($('#ed-design'),{get:()=>state.design,addLabel:'Add step',empty:'No build steps yet.',
+    groups:[{label:'Step',span:4},{label:'Input → function → output',span:3},{label:'Build',span:4},{label:'Robustness',span:2}],
+    cols:[{k:'id',label:'ID',w:'5ch',key:true},{k:'module',label:'Module',t:'sel',o:OPT.dmod,w:'10ch'},{k:'action',label:'Action',w:'24ch',ph:'Verb + object'},{k:'from',label:'Replaces',w:'7ch',ph:'S3',tip:'Flow step on sheet 03 this step replaces'},
+      {k:'input',label:'Input',w:'14ch',ph:'D1, D2 + fields'},{k:'function',label:'Function',w:'30ch',ph:'What the step does, as rules'},{k:'output',label:'Output',w:'14ch',ph:'D6 + fields'},
+      {k:'platform',label:'Platform',t:'sel',o:['',...PLAT],w:'14ch'},{k:'tool',label:'toolbank',w:'18ch',list:'dl-tools',ph:'read_sheet, lookup'},{k:'loop',label:'Loop',t:'sel',o:OPT.loop,w:'9ch'},{k:'lookup',label:'Lookup',t:'sel',o:OPT.lookup,w:'8ch',tip:'Keyed: dict or merge. Scan: search the whole table per item'},
+      {k:'onerr',label:'On error',t:'sel',o:OPT.onerr,w:'14ch'},{k:'check',label:'Check',w:'22ch',ph:'How you know it worked'}],
+    blank:R=>{const m=R.length?R[R.length-1].module:'Trigger';return{id:nextId(R,'B'),module:m,from:'',action:'',input:'',function:'',output:'',platform:(A&&A.P[m]||{}).choice||'',tool:'',loop:'Batch',lookup:'None',onerr:'?',check:''}}});
+  controlsEd=tableEditor($('#ed-controls'),{get:()=>state.controls,addLabel:'Add control',empty:'No controls yet. Press "Add standard controls" to start from the datasets.',
+    cols:[{k:'id',label:'ID',w:'5ch',key:true},{k:'name',label:'Control',w:'24ch',ph:'What is checked'},{k:'type',label:'Type',t:'sel',o:OPT.ctype,w:'13ch'},{k:'scope',label:'Applies to',w:'12ch',ph:'D1, B5',list:'dl-dsets'},{k:'rule',label:'Rule',w:'30ch',ph:'The comparison, in words'},{k:'tol',label:'Tolerance',w:'9ch',ph:'none'},{k:'onfail',label:'On fail',t:'sel',o:OPT.onfail,w:'11ch'},{k:'evidence',label:'Evidence',w:'18ch',ph:'Where the result lands'}],
+    blank:R=>({id:nextId(R,'C'),name:'',type:'Completeness',scope:'',rule:'',tol:'',onfail:'Block run',evidence:''})});
+  fmeaEd=tableEditor($('#ed-fmea'),{get:()=>state.fmea,addLabel:'Add failure mode',empty:'No failure modes yet.',
+    cols:[{k:'id',label:'ID',w:'5ch',key:true},{k:'mode',label:'What fails',w:'24ch'},{k:'where',label:'Where',w:'8ch',ph:'B2',list:'dl-design'},{k:'cause',label:'Cause',w:'20ch'},{k:'L',label:'L',t:'sel',o:OPT.score,w:'5ch',tip:'Likelihood 1 to 5'},{k:'I',label:'I',t:'sel',o:OPT.score,w:'5ch',tip:'Impact 1 to 5'},{k:'detect',label:'Detection',w:'22ch',ph:'How the run or a person notices'},{k:'resp',label:'Response',t:'sel',o:OPT.resp,w:'14ch'},{k:'alert',label:'Alert / exit',w:'16ch',ph:'Teams message; exit 3'},{k:'prevent',label:'Prevention',w:'24ch'}],
+    blank:R=>({id:nextId(R,'F'),mode:'',where:'',cause:'',L:'3',I:'3',detect:'',resp:'?',alert:'',prevent:''})});
+  tableEditor($('#ed-iters'),{get:()=>state.plan.iters,addLabel:'Add iteration',empty:'No iterations yet.',
+    cols:[{k:'n',label:'No.',w:'5ch',key:true},{k:'goal',label:'Goal: what the playback shows',w:'30ch'},{k:'scope',label:'Design steps',w:'12ch',ph:'B1, B2',list:'dl-design'},{k:'demo',label:'Playback date',w:'11ch',ph:'YYYY-MM-DD'},{k:'status',label:'Status',t:'sel',o:OPT.istatus,w:'11ch'},{k:'notes',label:'Notes',w:'22ch'}],
+    blank:R=>({n:String(R.length+1),goal:'',scope:'',demo:'',status:'Planned',notes:''})});
+  testsEd=tableEditor($('#ed-tests'),{get:()=>state.plan.tests,addLabel:'Add test',empty:'No test cases yet.',
+    cols:[{k:'id',label:'ID',w:'5ch',key:true},{k:'scenario',label:'Scenario',w:'26ch'},{k:'type',label:'Type',t:'sel',o:OPT.ttype,w:'12ch'},{k:'input',label:'Input',w:'22ch'},{k:'expected',label:'Expected',w:'26ch'},{k:'status',label:'Status',t:'sel',o:OPT.tstatus,w:'9ch'}],
+    blank:R=>({id:nextId(R,'T'),scenario:'',type:'Integration',input:'',expected:'',status:'Todo'})});
 }
 
 /* ============ events ============ */
@@ -1613,6 +2473,28 @@ function bindEvents(){
     const f=e.target.closest('[data-fit]');if(f){const on=f.getAttribute('aria-pressed')!=='true';f.setAttribute('aria-pressed',String(on));f.textContent=on?'Actual size':'Fit to width';$$(`.fig[data-fig="${f.dataset.fit}"]`).forEach(el=>el.classList.toggle('fit',on));return}
     const s=e.target.closest('[data-stage]');if(s){state.ui.stage=s.dataset.stage;qSig='';saveLocal();renderMeeting()}
   });
+  armButton($('#b-draftdesign'),'Click again to replace the steps',()=>state.design.length>0,()=>{const d=draftDesign();if(d.length<2){toast('Add steps with fit signals on sheet '+sheetNo('flow')+' first');return}state.design=d;designEd.render();changed();toast(`${d.length} design steps drafted`)});
+  $('#b-stdcontrols').addEventListener('click',()=>{const c=stdControls();if(!c.length){toast(state.data.sets.length?'Standard controls already present':'Add datasets on sheet '+sheetNo('data')+' first');return}state.controls.push(...c);controlsEd.render();changed();toast(`${c.length} controls added`)});
+  $('#b-stdfmea').addEventListener('click',()=>{const f=stdFmea();if(!f.length){toast('Standard failure modes already present');return}state.fmea.push(...f);fmeaEd.render();changed();toast(`${f.length} failure modes added`)});
+  $('#b-stdtests').addEventListener('click',()=>{const t=stdTests();if(!t.length){toast('Standard tests already present');return}state.plan.tests.push(...t);testsEd.render();changed();toast(`${t.length} tests added`)});
+  $('#b-copyrb').addEventListener('click',()=>copyText(runbookMD(),'Runbook'));
+  $('#b-dlrb').addEventListener('click',()=>download(fileBase()+'-runbook.md',runbookMD()));
+  $('#b-copysdd').addEventListener('click',()=>copyText(sddMD(),'SDD'));
+  $('#b-dlsdd').addEventListener('click',()=>download(fileBase()+'-sdd.md',sddMD()));
+  $('#b-print').addEventListener('click',()=>window.print());
+  $('#b-download').addEventListener('click',()=>download(fileBase()+'-rev'+(tr(state.meta.rev)||'A')+'.json',JSON.stringify(state,null,2),'application/json'));
+  $('#p-sel').addEventListener('change',e=>{const id=e.target.value;if(id===projects.cur||!projects.list.some(p=>p.id===id))return;saveLocal();projects.cur=id;replaceState(loadProject(id),'Project opened')});
+  $('#p-new').addEventListener('click',()=>{saveLocal();const id=uid();projects.list.push({id,name:'',team:'',phase:'intake',updated:Date.now()});projects.cur=id;replaceState(blankState(),'New project started');location.hash='#charter';$('#m-name').focus()});
+  $('#p-dup').addEventListener('click',()=>{saveLocal();const id=uid(),s=JSON.parse(JSON.stringify(state));s.meta.name=(tr(s.meta.name)||'Untitled process')+' (copy)';s.meta.sample=false;projects.list.push({id,name:s.meta.name,team:s.meta.team,phase:s.meta.phase,updated:Date.now()});projects.cur=id;replaceState(s,'Project duplicated')});
+  armButton($('#p-del'),'Click again to delete this project',()=>true,()=>{const id=projects.cur;lsDel(PFX+id);projects.list=projects.list.filter(p=>p.id!==id);
+    if(!projects.list.length){const nid=uid();projects.list.push({id:nid,name:'',team:'',phase:'intake',updated:Date.now()});projects.cur=nid;replaceState(blankState(),'Project deleted');return}
+    projects.cur=[...projects.list].sort((a,b)=>(b.updated||0)-(a.updated||0))[0].id;replaceState(loadProject(projects.cur),'Project deleted')});
+  document.addEventListener('click',e=>{const b=e.target.closest('[data-phase]');if(b){state.meta.phase=b.dataset.phase;changed()}});
+  document.addEventListener('change',e=>{const t=e.target,d=t.dataset||{};
+    if(d.plat){(state.platform[d.plat]=state.platform[d.plat]||{}).choice=t.value;changed();return}
+    if(d.chk){if(t.checked)state.plan.done[d.chk]=true;else delete state.plan.done[d.chk];changed();return}
+    if(t.tagName==='SELECT'&&d.bind){setPath(d.bind,t.value);changed()}});
+  document.addEventListener('input',e=>{const t=e.target,d=t.dataset||{};if(!d.platwhy)return;(state.platform[d.platwhy]=state.platform[d.platwhy]||{}).why=t.value;clearTimeout(saveT);saveT=setTimeout(saveLocal,300);clearTimeout(refT);refT=setTimeout(refresh,500)});
   const qs=$('[data-out="questions"]');
   qs.addEventListener('change',e=>{const id=e.target.dataset&&e.target.dataset.q;if(!id)return;
     if(e.target.checked)state.asked[id]=true;else delete state.asked[id];
@@ -1634,7 +2516,7 @@ function bindEvents(){
 
 /* ============ boot ============ */
 function init(){
-  buildViews();setupEditors();fillBinds();bindEvents();refresh();show();
+  buildViews();setupEditors();fillBinds();bindEvents();renderProjectList();refresh();show();
 }
 init();
 </script>
